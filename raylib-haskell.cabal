@@ -19,7 +19,9 @@ library
                         raylib/text.c
                         raylib/textures.c
                         raylib/utils.c
+                        src/wrapper.c
   include-dirs:         raylib
+                        src
   exposed-modules:      Lib
   ghc-options:          -Wall
                         -Werror
