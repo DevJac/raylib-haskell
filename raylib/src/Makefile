@@ -308,7 +308,7 @@ endif
 #  -Wstrict-prototypes      warn if a function is declared or defined without specifying the argument types
 #  -Werror=implicit-function-declaration   catch function calls without prior declaration
 ifeq ($(PLATFORM),PLATFORM_DESKTOP)
-    CFLAGS += -Werror=implicit-function-declaration
+    CFLAGS += -Werror=implicit-function-declaration -fPIC
 endif
 ifeq ($(PLATFORM),PLATFORM_WEB)
     # -O2                        # if used, also set --memory-init-file 0
