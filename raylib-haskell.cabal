@@ -1,6 +1,6 @@
 name:                   raylib-haskell
 version:                0.1.0.0
-build-type:             Simple
+build-type:             Custom
 cabal-version:          >=2.0
 -- synopsis:
 -- description:
@@ -8,6 +8,10 @@ cabal-version:          >=2.0
 -- license:
 -- license-file:
 -- copyright:
+
+custom-setup
+  setup-depends:        base
+                      , Cabal
 
 library
   default-language:     Haskell2010
