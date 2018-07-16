@@ -24,7 +24,7 @@ module Lib where
 {# fun unsafe SetWindowIcon as ^
     {%`Image'} -> `()' #}
 
-{# fun unsafe WrappedLoadImage as ^
+{# fun unsafe WrappedLoadImage as loadImage
     {`String'} -> `Image' #}
 
 {# fun unsafe GetScreenWidth as ^
