@@ -4,7 +4,7 @@ module Lib where
 #include "raylib.h"
 #include "wrapper.h"
 
-{# pointer *Image newtype #}
+{# pointer *Image foreign finalizer WrappedUnloadImage as unloadImage newtype #}
 
 {# fun unsafe InitWindow as ^
     {`Int', `Int', `String'} -> `()' #}

@@ -1,1 +1,3 @@
-Image* WrappedLoadImage(const char *fileName);
+Image *WrappedLoadImage(const char *fileName);
+
+void WrappedUnloadImage(Image *image);

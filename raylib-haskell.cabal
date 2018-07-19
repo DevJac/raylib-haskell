@@ -23,7 +23,7 @@ library
   extra-libraries:      raylib
   exposed-modules:      Lib
   ghc-options:          -Wall
-                        -Werror
+                        --Werror
                         -Wmissing-import-lists
                         -Wcompat
                         -Wnoncanonical-monad-instances
@@ -38,7 +38,7 @@ executable raylib-haskell
   hs-source-dirs:       app
   main-is:              Main.hs
   ghc-options:          -Wall
-                        -Werror
+                        --Werror
                         -Wmissing-import-lists
                         -Wcompat
                         -Wnoncanonical-monad-instances
@@ -54,7 +54,7 @@ test-suite tests
   hs-source-dirs:       test
   main-is:              Spec.hs
   ghc-options:          -Wall
-                        -Werror
+                        --Werror
                         -Wmissing-import-lists
                         -Wcompat
                         -Wnoncanonical-monad-instances
