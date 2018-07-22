@@ -15,21 +15,21 @@
 - [X] int GetScreenWidth(void);                                               // Get current screen width
 - [X] int GetScreenHeight(void);                                              // Get current screen height
 ** Cursor-related functions
-- [ ] void ShowCursor(void);                                                  // Shows cursor
-- [ ] void HideCursor(void);                                                  // Hides cursor
-- [ ] bool IsCursorHidden(void);                                              // Check if cursor is not visible
-- [ ] void EnableCursor(void);                                                // Enables cursor (unlock cursor)
-- [ ] void DisableCursor(void);                                               // Disables cursor (lock cursor)
+- [X] void ShowCursor(void);                                                  // Shows cursor
+- [X] void HideCursor(void);                                                  // Hides cursor
+- [X] bool IsCursorHidden(void);                                              // Check if cursor is not visible
+- [X] void EnableCursor(void);                                                // Enables cursor (unlock cursor)
+- [X] void DisableCursor(void);                                               // Disables cursor (lock cursor)
 ** Drawing-related functions
-- [ ] void ClearBackground(Color color);                                      // Set background color (framebuffer clear color)
-- [ ] void BeginDrawing(void);                                                // Setup canvas (framebuffer) to start drawing
-- [ ] void EndDrawing(void);                                                  // End canvas drawing and swap buffers (double buffering)
-- [ ] void BeginMode2D(Camera2D camera);                                      // Initialize 2D mode with custom camera (2D)
-- [ ] void EndMode2D(void);                                                   // Ends 2D mode with custom camera
-- [ ] void BeginMode3D(Camera3D camera);                                      // Initializes 3D mode with custom camera (3D)
-- [ ] void EndMode3D(void);                                                   // Ends 3D mode and returns to default 2D orthographic mode
-- [ ] void BeginTextureMode(RenderTexture2D target);                          // Initializes render texture for drawing
-- [ ] void EndTextureMode(void);                                              // Ends drawing to render texture
+- [X] void ClearBackground(Color color);                                      // Set background color (framebuffer clear color)
+- [X] void BeginDrawing(void);                                                // Setup canvas (framebuffer) to start drawing
+- [X] void EndDrawing(void);                                                  // End canvas drawing and swap buffers (double buffering)
+- [X] void BeginMode2D(Camera2D camera);                                      // Initialize 2D mode with custom camera (2D)
+- [X] void EndMode2D(void);                                                   // Ends 2D mode with custom camera
+- [X] void BeginMode3D(Camera3D camera);                                      // Initializes 3D mode with custom camera (3D)
+- [X] void EndMode3D(void);                                                   // Ends 3D mode and returns to default 2D orthographic mode
+- [X] void BeginTextureMode(RenderTexture2D target);                          // Initializes render texture for drawing
+- [X] void EndTextureMode(void);                                              // Ends drawing to render texture
 ** Screen-space-related functions
 - [ ] Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
 - [ ] Vector2 GetWorldToScreen(Vector3 position, Camera camera);              // Returns the screen space position for a 3d world space position

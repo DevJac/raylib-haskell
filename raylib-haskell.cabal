@@ -22,8 +22,8 @@ library
   extra-lib-dirs:       /home/buttons/Code/haskell/raylib-haskell/raylib/release/libs/linux
   extra-libraries:      raylib
   exposed-modules:      Core
-                        Internal.Core
                         Internal.Structs
+                        Internal.Core
   ghc-options:          -Wall
                         --Werror
                         -Wmissing-import-lists

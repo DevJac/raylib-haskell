@@ -1,6 +1,11 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Internal.Core where
-{# import Internal.Structs #} (Image, withImage)
+{# import Internal.Structs #} (
+    Color(Color)
+  , Image, withImage
+  , RenderTexture2D, withRenderTexture2D
+  , Camera3D(Camera3D)
+  , Camera2D(Camera2D))
 
 #include "raylib.h"
 
@@ -45,3 +50,45 @@ module Internal.Core where
 
 {# fun unsafe GetScreenHeight as ^
     {} -> `Int' #}
+
+{# fun unsafe ShowCursor as ^
+    {} -> `()' #}
+
+{# fun unsafe HideCursor as ^
+    {} -> `()' #}
+
+{# fun unsafe IsCursorHidden as ^
+    {} -> `Bool' #}
+
+{# fun unsafe EnableCursor as ^
+    {} -> `()' #}
+
+{# fun unsafe DisableCursor as ^
+    {} -> `()' #}
+
+{# fun unsafe ClearBackground as ^
+    {%`Color'} -> `()' #}
+
+{# fun unsafe BeginDrawing as ^
+    {} -> `()' #}
+
+{# fun unsafe EndDrawing as ^
+    {} -> `()' #}
+
+{# fun unsafe BeginMode2D as ^
+    {%`Camera2D'} -> `()' #}
+
+{# fun unsafe EndMode2D as ^
+    {} -> `()' #}
+
+{# fun unsafe BeginMode3D as ^
+    {%`Camera3D'} -> `()' #}
+
+{# fun unsafe EndMode3D as ^
+    {} -> `()' #}
+
+{# fun unsafe BeginTextureMode as ^
+    {%`RenderTexture2D'} -> `()' #}
+
+{# fun unsafe EndTextureMode as ^
+    {} -> `()' #}

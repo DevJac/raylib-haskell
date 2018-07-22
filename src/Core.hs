@@ -13,9 +13,23 @@ module Core (
   , setWindowSize
   , getScreenWidth
   , getScreenHeight
+  , showCursor
+  , hideCursor
+  , isCursorHidden
+  , enableCursor
+  , disableCursor
+  , clearBackground
+  , beginDrawing
+  , endDrawing
+  , beginMode2D
+  , endMode2D
+  , beginMode3D
+  , endMode3D
+  , beginTextureMode
+  , endTextureMode
 ) where
 import qualified Internal.Core
-import           Internal.Structs (Image)
+import           Internal.Structs (Color, Image, RenderTexture2D, Camera3D, Camera2D)
 
 -----------------------------------------
 -- Window-related functions
@@ -62,3 +76,45 @@ getScreenWidth = Internal.Core.getScreenWidth
 
 getScreenHeight :: IO Int
 getScreenHeight = Internal.Core.getScreenHeight
+
+showCursor :: IO ()
+showCursor = Internal.Core.showCursor
+
+hideCursor :: IO ()
+hideCursor = Internal.Core.hideCursor
+
+isCursorHidden :: IO Bool
+isCursorHidden = Internal.Core.isCursorHidden
+
+enableCursor :: IO ()
+enableCursor = Internal.Core.enableCursor
+
+disableCursor :: IO ()
+disableCursor = Internal.Core.disableCursor
+
+clearBackground :: Color -> IO ()
+clearBackground color = Internal.Core.clearBackground color
+
+beginDrawing :: IO ()
+beginDrawing = Internal.Core.beginDrawing
+
+endDrawing :: IO ()
+endDrawing = Internal.Core.endDrawing
+
+beginMode2D :: Camera2D -> IO ()
+beginMode2D camera = Internal.Core.beginMode2D camera
+
+endMode2D :: IO ()
+endMode2D = Internal.Core.endMode2D
+
+beginMode3D :: Camera3D -> IO ()
+beginMode3D camera = Internal.Core.beginMode3D camera
+
+endMode3D :: IO ()
+endMode3D = Internal.Core.endMode3D
+
+beginTextureMode :: RenderTexture2D -> IO ()
+beginTextureMode target = Internal.Core.beginTextureMode target
+
+endTextureMode :: IO ()
+endTextureMode = Internal.Core.endTextureMode
