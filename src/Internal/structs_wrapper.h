@@ -1,0 +1,1 @@
+void WrappedUnloadImage(Image *image);
