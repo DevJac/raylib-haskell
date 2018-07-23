@@ -2,12 +2,18 @@
 module Internal.Core where
 {# import Internal.Structs #} (
     Color(Color)
+  , Vector2(Vector2)
+  , Vector3(Vector3)
+  , Matrix(Matrix)
   , Image, withImage
   , RenderTexture2D, withRenderTexture2D
   , Camera3D(Camera3D)
-  , Camera2D(Camera2D))
+  , Camera2D(Camera2D)
+  , Ray(Ray)
+  )
 
 #include "raylib.h"
+#include "core_wrapper.h"
 
 {# fun unsafe InitWindow as ^
     {`Int', `Int', `String'} -> `()' #}
@@ -92,3 +98,12 @@ module Internal.Core where
 
 {# fun unsafe EndTextureMode as ^
     {} -> `()' #}
+
+{# fun unsafe WrappedGetMouseRay as getMouseRay
+    {%`Vector2', %`Camera3D'} -> `Ray' #}
+
+{# fun unsafe WrappedGetWorldToScreen as getWorldToScreen
+    {%`Vector3', %`Camera3D'} -> `Vector2' #}
+
+{# fun unsafe WrappedGetCameraMatrix as getCameraMatrix
+    {%`Camera3D'} -> `Matrix' #}

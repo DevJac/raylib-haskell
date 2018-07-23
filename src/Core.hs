@@ -27,9 +27,22 @@ module Core (
   , endMode3D
   , beginTextureMode
   , endTextureMode
+  , getMouseRay
+  , getWorldToScreen
+  , getCameraMatrix
 ) where
 import qualified Internal.Core
-import           Internal.Structs (Color, Image, RenderTexture2D, Camera3D, Camera2D)
+import           Internal.Structs (
+    Color
+  , Vector2
+  , Vector3
+  , Matrix
+  , Image
+  , RenderTexture2D
+  , Camera3D
+  , Camera2D
+  , Ray
+  )
 
 -----------------------------------------
 -- Window-related functions
@@ -118,3 +131,12 @@ beginTextureMode target = Internal.Core.beginTextureMode target
 
 endTextureMode :: IO ()
 endTextureMode = Internal.Core.endTextureMode
+
+getMouseRay :: Vector2 -> Camera3D -> IO Ray
+getMouseRay mousePosition camera = Internal.Core.getMouseRay mousePosition camera
+
+getWorldToScreen :: Vector3 -> Camera3D -> IO Vector2
+getWorldToScreen position camera = Internal.Core.getWorldToScreen position camera
+
+getCameraMatrix :: Camera3D -> IO Matrix
+getCameraMatrix camera = Internal.Core.getCameraMatrix camera
