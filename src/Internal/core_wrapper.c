@@ -2,19 +2,43 @@
 #include "raylib.h"
 
 Ray *WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera) {
-    Ray *ray = malloc(sizeof *ray);
-    *ray = GetMouseRay(mousePosition, camera);
-    return ray;
+    Ray *r = malloc(sizeof *r);
+    *r = GetMouseRay(mousePosition, camera);
+    return r;
 }
 
 Vector2 *WrappedGetWorldToScreen(Vector3 position, Camera3D camera) {
-    Vector2 *vector2 = malloc(sizeof *vector2);
-    *vector2 = GetWorldToScreen(position, camera);
-    return vector2;
+    Vector2 *r = malloc(sizeof *r);
+    *r = GetWorldToScreen(position, camera);
+    return r;
 }
 
 Matrix *WrappedGetCameraMatrix(Camera3D camera) {
-    Matrix *matrix = malloc(sizeof *matrix);
-    *matrix = GetCameraMatrix(camera);
-    return matrix;
+    Matrix *r = malloc(sizeof *r);
+    *r = GetCameraMatrix(camera);
+    return r;
+}
+
+Vector4 *WrappedColorNormalize(Color color) {
+    Vector4 *r = malloc(sizeof *r);
+    *r = ColorNormalize(color);
+    return r;
+}
+
+Vector3 *WrappedColorToHSV(Color color) {
+    Vector3 *r = malloc(sizeof *r);
+    *r = ColorToHSV(color);
+    return r;
+}
+
+Color *WrappedGetColor(int hexValue) {
+    Color *r = malloc(sizeof *r);
+    *r = GetColor(hexValue);
+    return r;
+}
+
+Color *WrappedFade(Color color, float alpha) {
+    Color *r = malloc(sizeof *r);
+    *r = Fade(color, alpha);
+    return r;
 }

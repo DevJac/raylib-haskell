@@ -31,14 +31,14 @@
 - [X] void BeginTextureMode(RenderTexture2D target);                          // Initializes render texture for drawing
 - [X] void EndTextureMode(void);                                              // Ends drawing to render texture
 ** Screen-space-related functions
-- [ ] Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
-- [ ] Vector2 GetWorldToScreen(Vector3 position, Camera camera);              // Returns the screen space position for a 3d world space position
-- [ ] Matrix GetCameraMatrix(Camera camera);                                  // Returns camera transform matrix (view matrix)
+- [X] Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
+- [X] Vector2 GetWorldToScreen(Vector3 position, Camera camera);              // Returns the screen space position for a 3d world space position
+- [X] Matrix GetCameraMatrix(Camera camera);                                  // Returns camera transform matrix (view matrix)
 ** Timing-related functions
-- [ ] void SetTargetFPS(int fps);                                             // Set target FPS (maximum)
-- [ ] int GetFPS(void);                                                       // Returns current FPS
-- [ ] float GetFrameTime(void);                                               // Returns time in seconds for last frame drawn
-- [ ] double GetTime(void);                                                   // Returns elapsed time in seconds since InitWindo
+- [X] void SetTargetFPS(int fps);                                             // Set target FPS (maximum)
+- [X] int GetFPS(void);                                                       // Returns current FPS
+- [X] float GetFrameTime(void);                                               // Returns time in seconds for last frame drawn
+- [X] double GetTime(void);                                                   // Returns elapsed time in seconds since InitWindo
 ** Color-related functions
 - [ ] int ColorToInt(Color color);                                            // Returns hexadecimal value for a Color
 - [ ] Vector4 ColorNormalize(Color color);                                    // Returns color normalized as float [0..1]

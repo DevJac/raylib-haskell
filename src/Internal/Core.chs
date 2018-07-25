@@ -4,6 +4,7 @@ module Internal.Core where
     Color(Color)
   , Vector2(Vector2)
   , Vector3(Vector3)
+  , Vector4(Vector4)
   , Matrix(Matrix)
   , Image, withImage
   , RenderTexture2D, withRenderTexture2D
@@ -107,3 +108,30 @@ module Internal.Core where
 
 {# fun unsafe WrappedGetCameraMatrix as getCameraMatrix
     {%`Camera3D'} -> `Matrix' #}
+
+{# fun unsafe SetTargetFPS as ^
+    {`Int'} -> `()' #}
+
+{# fun unsafe GetFPS as ^
+    {} -> `Int' #}
+
+{# fun unsafe GetFrameTime as ^
+    {} -> `Double' #}
+
+{# fun unsafe GetTime as ^
+    {} -> `Double' #}
+
+{# fun unsafe ColorToInt as ^
+    {%`Color'} -> `Int' #}
+
+{# fun unsafe WrappedColorNormalize as colorNormalize
+    {%`Color'} -> `Vector4' #}
+
+{# fun unsafe WrappedColorToHSV as colorToHSV
+    {%`Color'} -> `Vector3' #}
+
+{# fun unsafe WrappedGetColor as getColor
+    {%`Int'} -> `Color' #}
+
+{# fun unsafe WrappedFade as fade
+    {%`Color', %`Double'} -> `Color' #}

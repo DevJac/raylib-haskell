@@ -30,12 +30,22 @@ module Core (
   , getMouseRay
   , getWorldToScreen
   , getCameraMatrix
+  , setTargetFPS
+  , getFPS
+  , getFrameTime
+  , getTime
+  , colorToInt
+  , colorNormalize
+  , colorToHSV
+  , getColor
+  , fade
 ) where
 import qualified Internal.Core
 import           Internal.Structs (
     Color
   , Vector2
   , Vector3
+  , Vector4
   , Matrix
   , Image
   , RenderTexture2D
@@ -140,3 +150,30 @@ getWorldToScreen position camera = Internal.Core.getWorldToScreen position camer
 
 getCameraMatrix :: Camera3D -> IO Matrix
 getCameraMatrix camera = Internal.Core.getCameraMatrix camera
+
+setTargetFPS :: Int -> IO ()
+setTargetFPS fps = Internal.Core.setTargetFPS fps
+
+getFPS :: IO Int
+getFPS = Internal.Core.getFPS
+
+getFrameTime :: IO Double
+getFrameTime = Internal.Core.getFrameTime
+
+getTime :: IO Double
+getTime = Internal.Core.getTime
+
+colorToInt :: Color -> IO Int
+colorToInt color = Internal.Core.colorToInt color
+
+colorNormalize :: Color -> IO Vector4
+colorNormalize color = Internal.Core.colorNormalize color
+
+colorToHSV :: Color -> IO Vector3
+colorToHSV color = Internal.Core.colorToHSV color
+
+getColor :: Int -> IO Color
+getColor hexValue = Internal.Core.getColor hexValue
+
+fade :: Color -> Double -> IO Color
+fade color alpha = Internal.Core.fade color alpha
