@@ -48,7 +48,7 @@ module Core (
 ) where
 import Data.Bits ((.|.))
 import qualified Internal.Core
-import           Internal.Structs (
+import           Internal.Types (
     ConfigFlag
   , LogType
   , Color

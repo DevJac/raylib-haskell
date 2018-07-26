@@ -1,11 +1,11 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
-module Internal.Structs where
+module Internal.Types where
 import Data.Coerce (coerce)
 import Data.Word (Word8)
 import Foreign.ForeignPtr (withForeignPtr)
 
 #include "raylib.h"
-#include "structs_wrapper.h"
+#include "types_wrapper.h"
 
 -----------------------------------------
 -- Config Flags

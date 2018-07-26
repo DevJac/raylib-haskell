@@ -1,7 +1,7 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Internal.Core where
 import Data.Word (Word8)
-{# import Internal.Structs #} (
+{# import Internal.Types #} (
     Color(Color)
   , Vector2(Vector2)
   , Vector3(Vector3)
