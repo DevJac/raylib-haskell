@@ -1,5 +1,6 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Internal.Core where
+import Data.Word (Word8)
 {# import Internal.Structs #} (
     Color(Color)
   , Vector2(Vector2)
@@ -135,3 +136,21 @@ module Internal.Core where
 
 {# fun unsafe WrappedFade as fade
     {%`Color', %`Double'} -> `Color' #}
+
+{# fun unsafe ShowLogo as ^
+    {} -> `()' #}
+
+{# fun unsafe SetConfigFlags as ^
+    {`Word8'} -> `()' #}
+
+{# fun unsafe SetTraceLog as ^
+    {`Word8'} -> `()' #}
+
+{# fun unsafe TraceLog as ^
+    {`Int', `String'} -> `()' #}
+
+{# fun unsafe TakeScreenshot as ^
+    {`String'} -> `()' #}
+
+{# fun unsafe GetRandomValue as ^
+    {`Int', `Int'} -> `Int' #}

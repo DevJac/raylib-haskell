@@ -39,10 +39,19 @@ module Core (
   , colorToHSV
   , getColor
   , fade
+  , showLogo
+  , setConfigFlags
+  , setTraceLog
+  , traceLog
+  , takeScreenshot
+  , getRandomValue
 ) where
+import Data.Bits ((.|.))
 import qualified Internal.Core
 import           Internal.Structs (
-    Color
+    ConfigFlag
+  , LogType
+  , Color
   , Vector2
   , Vector3
   , Vector4
@@ -177,3 +186,21 @@ getColor hexValue = Internal.Core.getColor hexValue
 
 fade :: Color -> Double -> IO Color
 fade color alpha = Internal.Core.fade color alpha
+
+showLogo :: IO ()
+showLogo = Internal.Core.showLogo
+
+setConfigFlags :: [ConfigFlag] -> IO ()
+setConfigFlags flags = Internal.Core.setConfigFlags (foldr (\a b -> fromIntegral (fromEnum a) .|. b) 0 flags)
+
+setTraceLog :: [LogType] -> IO ()
+setTraceLog types = Internal.Core.setTraceLog (foldr (\a b -> fromIntegral (fromEnum a) .|. b) 0 types)
+
+traceLog :: LogType -> String -> IO ()
+traceLog logType text = Internal.Core.traceLog (fromIntegral (fromEnum logType)) text
+
+takeScreenshot :: String -> IO ()
+takeScreenshot fileName = Internal.Core.takeScreenshot fileName
+
+getRandomValue :: Int -> Int -> IO Int
+getRandomValue min' max' = Internal.Core.getRandomValue min' max'

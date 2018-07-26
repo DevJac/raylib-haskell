@@ -8,6 +8,32 @@ import Foreign.ForeignPtr (withForeignPtr)
 #include "structs_wrapper.h"
 
 -----------------------------------------
+-- Config Flags
+-----------------------------------------
+
+{# enum define ConfigFlag
+    { FLAG_SHOW_LOGO as ShowLogo
+    , FLAG_FULLSCREEN_MODE as Fullscreen
+    , FLAG_WINDOW_RESIZABLE as WindowResizable
+    , FLAG_WINDOW_UNDECORATED as WindowUndecorated
+    , FLAG_WINDOW_TRANSPARENT as WindowTransparent
+    , FLAG_MSAA_4X_HINT as Msaa4xHint
+    , FLAG_VSYNC_HINT as VsyncHint
+    } deriving (Show, Eq) #}
+
+-----------------------------------------
+-- LogType
+-----------------------------------------
+
+{# enum LogType
+    { LOG_INFO as Info
+    , LOG_WARNING as Warning
+    , LOG_ERROR as Error
+    , LOG_DEBUG as Debug
+    , LOG_OTHER as Other
+    } deriving (Show, Eq) #}
+
+-----------------------------------------
 -- Color
 -----------------------------------------
 
