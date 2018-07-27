@@ -109,6 +109,10 @@ getScreenWidth = Internal.Core.getScreenWidth
 getScreenHeight :: IO Int
 getScreenHeight = Internal.Core.getScreenHeight
 
+-----------------------------------------
+-- Cursor-related functions
+-----------------------------------------
+
 showCursor :: IO ()
 showCursor = Internal.Core.showCursor
 
@@ -123,6 +127,10 @@ enableCursor = Internal.Core.enableCursor
 
 disableCursor :: IO ()
 disableCursor = Internal.Core.disableCursor
+
+-----------------------------------------
+-- Drawing-related functions
+-----------------------------------------
 
 clearBackground :: Color -> IO ()
 clearBackground color = Internal.Core.clearBackground color
@@ -151,6 +159,10 @@ beginTextureMode target = Internal.Core.beginTextureMode target
 endTextureMode :: IO ()
 endTextureMode = Internal.Core.endTextureMode
 
+-----------------------------------------
+-- Screen-space-related functions
+-----------------------------------------
+
 getMouseRay :: Vector2 -> Camera3D -> IO Ray
 getMouseRay mousePosition camera = Internal.Core.getMouseRay mousePosition camera
 
@@ -159,6 +171,10 @@ getWorldToScreen position camera = Internal.Core.getWorldToScreen position camer
 
 getCameraMatrix :: Camera3D -> IO Matrix
 getCameraMatrix camera = Internal.Core.getCameraMatrix camera
+
+-----------------------------------------
+-- Timing-related functions
+-----------------------------------------
 
 setTargetFPS :: Int -> IO ()
 setTargetFPS fps = Internal.Core.setTargetFPS fps
@@ -171,6 +187,10 @@ getFrameTime = Internal.Core.getFrameTime
 
 getTime :: IO Double
 getTime = Internal.Core.getTime
+
+-----------------------------------------
+-- Color-related functions
+-----------------------------------------
 
 colorToInt :: Color -> IO Int
 colorToInt color = Internal.Core.colorToInt color
@@ -186,6 +206,10 @@ getColor hexValue = Internal.Core.getColor hexValue
 
 fade :: Color -> Double -> IO Color
 fade color alpha = Internal.Core.fade color alpha
+
+-----------------------------------------
+-- Misc. functions
+-----------------------------------------
 
 showLogo :: IO ()
 showLogo = Internal.Core.showLogo
@@ -204,3 +228,15 @@ takeScreenshot fileName = Internal.Core.takeScreenshot fileName
 
 getRandomValue :: Int -> Int -> IO Int
 getRandomValue min' max' = Internal.Core.getRandomValue min' max'
+
+-----------------------------------------
+-- File management functions (TODO)
+-----------------------------------------
+
+-----------------------------------------
+-- Persistend storage management (TODO)
+-----------------------------------------
+
+-----------------------------------------
+-- Input-related functions: keyboard
+-----------------------------------------
