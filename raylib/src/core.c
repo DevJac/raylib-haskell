@@ -95,7 +95,9 @@
 #define RAYMATH_IMPLEMENTATION  // Define external out-of-line implementation of raymath here
 #include "raymath.h"            // Required for: Vector3 and Matrix functions
 
+#define RLGL_IMPLEMENTATION
 #include "rlgl.h"               // raylib OpenGL abstraction layer to OpenGL 1.1, 3.3+ or ES2
+
 #include "utils.h"              // Required for: fopen() Android mapping
 
 #if defined(SUPPORT_GESTURES_SYSTEM)
@@ -139,6 +141,9 @@
 #endif
 
 #if defined(PLATFORM_DESKTOP) || defined(PLATFORM_WEB)
+    #if defined(PLATFORM_WEB)
+        #define GLFW_INCLUDE_ES2
+    #endif
     //#define GLFW_INCLUDE_NONE     // Disable the standard OpenGL header inclusion on GLFW3
     #include <GLFW/glfw3.h>         // GLFW3 library: Windows, OpenGL context and Input management
                                     // NOTE: GLFW3 already includes gl.h (OpenGL) headers
@@ -632,7 +637,17 @@ bool IsWindowReady(void)
 // Check if KEY_ESCAPE pressed or Close icon pressed
 bool WindowShouldClose(void)
 {
-#if defined(PLATFORM_DESKTOP) || defined(PLATFORM_WEB)
+#if defined(PLATFORM_WEB)
+    // Emterpreter-Async required to run sync code
+    // https://github.com/kripken/emscripten/wiki/Emterpreter#emterpreter-async-run-synchronous-code
+    // By default, this function is never called on a web-ready raylib example because we encapsulate
+    // frame code in a UpdateDrawFrame() function, to allow browser manage execution asynchronously
+    // but now emscripten allows sync code to be executed in an interpreted way, using emterpreter!
+    emscripten_sleep(16);
+    return false;
+#endif
+    
+#if defined(PLATFORM_DESKTOP)
     if (windowReady)
     {
         // While window minimized, stop loop execution
