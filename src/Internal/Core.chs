@@ -17,6 +17,10 @@ import Data.Word (Word8)
 #include "raylib.h"
 #include "core_wrapper.h"
 
+-----------------------------------------
+-- Window related functions
+-----------------------------------------
+
 {# fun unsafe InitWindow as ^
     {`Int', `Int', `String'} -> `()' #}
 
@@ -59,6 +63,10 @@ import Data.Word (Word8)
 {# fun unsafe GetScreenHeight as ^
     {} -> `Int' #}
 
+-----------------------------------------
+-- Cursor related functions
+-----------------------------------------
+
 {# fun unsafe ShowCursor as ^
     {} -> `()' #}
 
@@ -73,6 +81,10 @@ import Data.Word (Word8)
 
 {# fun unsafe DisableCursor as ^
     {} -> `()' #}
+
+-----------------------------------------
+-- Drawing related functions
+-----------------------------------------
 
 {# fun unsafe ClearBackground as ^
     {%`Color'} -> `()' #}
@@ -101,6 +113,10 @@ import Data.Word (Word8)
 {# fun unsafe EndTextureMode as ^
     {} -> `()' #}
 
+-----------------------------------------
+-- Screen-space related functions
+-----------------------------------------
+
 {# fun unsafe WrappedGetMouseRay as getMouseRay
     {%`Vector2', %`Camera3D'} -> `Ray' #}
 
@@ -109,6 +125,10 @@ import Data.Word (Word8)
 
 {# fun unsafe WrappedGetCameraMatrix as getCameraMatrix
     {%`Camera3D'} -> `Matrix' #}
+
+-----------------------------------------
+-- Timing related functions
+-----------------------------------------
 
 {# fun unsafe SetTargetFPS as ^
     {`Int'} -> `()' #}
@@ -121,6 +141,10 @@ import Data.Word (Word8)
 
 {# fun unsafe GetTime as ^
     {} -> `Double' #}
+
+-----------------------------------------
+-- Color related functions
+-----------------------------------------
 
 {# fun unsafe ColorToInt as ^
     {%`Color'} -> `Int' #}
@@ -136,6 +160,10 @@ import Data.Word (Word8)
 
 {# fun unsafe WrappedFade as fade
     {%`Color', %`Double'} -> `Color' #}
+
+-----------------------------------------
+-- Misc. functions
+-----------------------------------------
 
 {# fun unsafe ShowLogo as ^
     {} -> `()' #}
@@ -154,3 +182,78 @@ import Data.Word (Word8)
 
 {# fun unsafe GetRandomValue as ^
     {`Int', `Int'} -> `Int' #}
+
+-----------------------------------------
+-- Input related functions: keyboard
+-----------------------------------------
+
+{# fun unsafe IsKeyPressed as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsKeyDown as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsKeyReleased as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsKeyUp as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe GetKeyPressed as ^
+    {} -> `Int' #}
+
+{# fun unsafe SetExitKey as ^
+    {`Int'} -> `()' #}
+
+-----------------------------------------
+-- Input related functions: mouse
+-----------------------------------------
+
+{# fun unsafe IsMouseButtonPressed as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsMouseButtonDown as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsMouseButtonReleased as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe IsMouseButtonUp as ^
+    {`Int'} -> `Bool' #}
+
+{# fun unsafe GetMouseX as ^
+    {} -> `Int' #}
+
+{# fun unsafe GetMouseY as ^
+    {} -> `Int' #}
+
+{# fun unsafe WrappedGetMousePosition as getMousePosition
+    {} -> `Vector2' #}
+
+{# fun unsafe SetMousePosition as ^
+    {%`Vector2'} -> `()' #}
+
+{# fun unsafe GetMouseWheelMove as ^
+    {} -> `Int' #}
+
+-----------------------------------------
+-- Camera related functions
+-----------------------------------------
+
+{# fun unsafe SetCameraMode as ^
+    {%`Camera3D', `Int'} -> `()' #}
+
+{# fun unsafe WrappedUpdateCamera as updateCamera
+    {`Camera3D'} -> `Camera3D' #}
+
+{# fun unsafe SetCameraPanControl as ^
+    {`Int'} -> `()' #}
+
+{# fun unsafe SetCameraAltControl as ^
+    {`Int'} -> `()' #}
+
+{# fun unsafe SetCameraSmoothZoomControl as ^
+    {`Int'} -> `()' #}
+
+{# fun unsafe SetCameraMoveControls as ^
+    {`Int', `Int', `Int', `Int', `Int', `Int'} -> `()' #}

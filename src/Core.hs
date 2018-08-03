@@ -45,12 +45,36 @@ module Core (
   , traceLog
   , takeScreenshot
   , getRandomValue
+  , isKeyPressed
+  , isKeyDown
+  , isKeyReleased
+  , isKeyUp
+  , getKeyPressed
+  , setExitKey
+  , isMouseButtonPressed
+  , isMouseButtonDown
+  , isMouseButtonReleased
+  , isMouseButtonUp
+  , getMouseX
+  , getMouseY
+  , getMousePosition
+  , setMousePosition
+  , getMouseWheelMove
+  , setCameraMode
+  , updateCamera
+  , setCameraPanControl
+  , setCameraAltControl
+  , setCameraSmoothZoomControl
+  , setCameraMoveControls
 ) where
-import Data.Bits ((.|.))
+import Data.Bits (Bits, (.|.))
 import qualified Internal.Core
-import           Internal.Types (
+import           Types (
     ConfigFlag
+  , KeyboardKey
+  , MouseButton
   , LogType
+  , CameraType
   , Color
   , Vector2
   , Vector3
@@ -61,10 +85,14 @@ import           Internal.Types (
   , Camera3D
   , Camera2D
   , Ray
+  , GetKeyPressedError
   )
 
+combineBitflags :: (Enum a, Num b, Data.Bits.Bits b) => [a] -> b
+combineBitflags = foldr (\a b -> fromIntegral (fromEnum a) .|. b) 0
+
 -----------------------------------------
--- Window-related functions
+-- Window related functions
 -----------------------------------------
 
 initWindow :: Int -> Int -> String -> IO ()
@@ -110,7 +138,7 @@ getScreenHeight :: IO Int
 getScreenHeight = Internal.Core.getScreenHeight
 
 -----------------------------------------
--- Cursor-related functions
+-- Cursor related functions
 -----------------------------------------
 
 showCursor :: IO ()
@@ -129,7 +157,7 @@ disableCursor :: IO ()
 disableCursor = Internal.Core.disableCursor
 
 -----------------------------------------
--- Drawing-related functions
+-- Drawing related functions
 -----------------------------------------
 
 clearBackground :: Color -> IO ()
@@ -160,7 +188,7 @@ endTextureMode :: IO ()
 endTextureMode = Internal.Core.endTextureMode
 
 -----------------------------------------
--- Screen-space-related functions
+-- Screen-space related functions
 -----------------------------------------
 
 getMouseRay :: Vector2 -> Camera3D -> IO Ray
@@ -173,7 +201,7 @@ getCameraMatrix :: Camera3D -> IO Matrix
 getCameraMatrix camera = Internal.Core.getCameraMatrix camera
 
 -----------------------------------------
--- Timing-related functions
+-- Timing related functions
 -----------------------------------------
 
 setTargetFPS :: Int -> IO ()
@@ -189,7 +217,7 @@ getTime :: IO Double
 getTime = Internal.Core.getTime
 
 -----------------------------------------
--- Color-related functions
+-- Color related functions
 -----------------------------------------
 
 colorToInt :: Color -> IO Int
@@ -215,10 +243,10 @@ showLogo :: IO ()
 showLogo = Internal.Core.showLogo
 
 setConfigFlags :: [ConfigFlag] -> IO ()
-setConfigFlags flags = Internal.Core.setConfigFlags (foldr (\a b -> fromIntegral (fromEnum a) .|. b) 0 flags)
+setConfigFlags flags = Internal.Core.setConfigFlags (combineBitflags flags)
 
 setTraceLog :: [LogType] -> IO ()
-setTraceLog types = Internal.Core.setTraceLog (foldr (\a b -> fromIntegral (fromEnum a) .|. b) 0 types)
+setTraceLog types = Internal.Core.setTraceLog (combineBitflags types)
 
 traceLog :: LogType -> String -> IO ()
 traceLog logType text = Internal.Core.traceLog (fromIntegral (fromEnum logType)) text
@@ -238,5 +266,95 @@ getRandomValue min' max' = Internal.Core.getRandomValue min' max'
 -----------------------------------------
 
 -----------------------------------------
--- Input-related functions: keyboard
+-- Input related functions: keyboard
 -----------------------------------------
+
+isKeyPressed :: KeyboardKey -> IO Bool
+isKeyPressed key = Internal.Core.isKeyPressed (fromEnum key)
+
+isKeyDown :: KeyboardKey -> IO Bool
+isKeyDown key = Internal.Core.isKeyPressed (fromEnum key)
+
+isKeyReleased :: KeyboardKey -> IO Bool
+isKeyReleased key = Internal.Core.isKeyReleased (fromEnum key)
+
+isKeyUp :: KeyboardKey -> IO Bool
+isKeyUp key = Internal.Core.isKeyUp (fromEnum key)
+
+getKeyPressed :: IO (Either GetKeyPressedError KeyboardKey)
+getKeyPressed = _todo
+
+setExitKey :: KeyboardKey -> IO ()
+setExitKey key = Internal.Core.setExitKey (fromEnum key)
+
+-----------------------------------------
+-- Input related functions: gamepads (TODO)
+-----------------------------------------
+
+-----------------------------------------
+-- Input related functions: mouse
+-----------------------------------------
+
+isMouseButtonPressed :: MouseButton -> IO Bool
+isMouseButtonPressed button = Internal.Core.isMouseButtonPressed (fromEnum button)
+
+isMouseButtonDown :: MouseButton -> IO Bool
+isMouseButtonDown button = Internal.Core.isMouseButtonDown (fromEnum button)
+
+isMouseButtonReleased :: MouseButton -> IO Bool
+isMouseButtonReleased button = Internal.Core.isMouseButtonReleased (fromEnum button)
+
+isMouseButtonUp :: MouseButton -> IO Bool
+isMouseButtonUp button = Internal.Core.isMouseButtonUp (fromEnum button)
+
+getMouseX :: IO Int
+getMouseX = Internal.Core.getMouseX
+
+getMouseY :: IO Int
+getMouseY = Internal.Core.getMouseY
+
+getMousePosition :: IO Vector2
+getMousePosition = Internal.Core.getMousePosition
+
+setMousePosition :: Vector2 -> IO ()
+setMousePosition position = Internal.Core.setMousePosition position
+
+getMouseWheelMove :: IO Int
+getMouseWheelMove = Internal.Core.getMouseWheelMove
+
+-----------------------------------------
+-- Input related functions: touch (TODO)
+-----------------------------------------
+
+-----------------------------------------
+-- Gesture related functions (TODO)
+-----------------------------------------
+
+-----------------------------------------
+-- Camera related functions
+-----------------------------------------
+
+setCameraMode :: Camera3D -> CameraType -> IO ()
+setCameraMode camera mode = Internal.Core.setCameraMode camera (fromEnum mode)
+
+updateCamera :: Camera3D -> IO Camera3D
+updateCamera camera = Internal.Core.updateCamera camera
+
+setCameraPanControl :: KeyboardKey -> IO ()
+setCameraPanControl panKey = Internal.Core.setCameraPanControl (fromEnum panKey)
+
+setCameraAltControl :: KeyboardKey -> IO ()
+setCameraAltControl altKey = Internal.Core.setCameraAltControl (fromEnum altKey)
+
+setCameraSmoothZoomControl :: KeyboardKey -> IO ()
+setCameraSmoothZoomControl szKey = Internal.Core.setCameraSmoothZoomControl (fromEnum szKey)
+
+setCameraMoveControls :: KeyboardKey -> KeyboardKey -> KeyboardKey -> KeyboardKey -> KeyboardKey -> KeyboardKey -> IO ()
+setCameraMoveControls frontKey backKey rightKey leftKey upKey downKey =
+    Internal.Core.setCameraMoveControls
+        (fromEnum frontKey)
+        (fromEnum backKey)
+        (fromEnum rightKey)
+        (fromEnum leftKey)
+        (fromEnum upKey)
+        (fromEnum downKey)

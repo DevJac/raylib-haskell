@@ -42,3 +42,16 @@ Color *WrappedFade(Color color, float alpha) {
     *r = Fade(color, alpha);
     return r;
 }
+
+Vector2 *WrappedGetMousePosition(void) {
+    Vector2 *r = malloc(sizeof *r);
+    *r = GetMousePosition();
+    return r;
+}
+
+Camera3D *WrappedUpdateCamera(Camera *camera) {
+    Camera *r = malloc(sizeof *r);
+    *r = *camera;
+    UpdateCamera(r);
+    return r;
+}

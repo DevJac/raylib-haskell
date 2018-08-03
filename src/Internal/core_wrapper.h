@@ -11,3 +11,7 @@ Vector3 *WrappedColorToHSV(Color color);
 Color *WrappedGetColor(int hexValue);
 
 Color *WrappedFade(Color color, float alpha);
+
+Vector2 *WrappedGetMousePosition(void);
+
+Camera3D *WrappedUpdateCamera(Camera *camera);

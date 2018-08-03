@@ -23,6 +23,7 @@ library
   extra-lib-dirs:       /home/buttons/Code/haskell/raylib-haskell/raylib/release/libs/linux
   extra-libraries:      raylib
   exposed-modules:      Core
+                        Types
                         Internal.Types
                         Internal.Core
   ghc-options:          -Wall
