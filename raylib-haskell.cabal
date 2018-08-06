@@ -1,6 +1,6 @@
 name:                   raylib-haskell
 version:                0.1.0.0
-build-type:             Custom
+build-type:             Simple
 cabal-version:          >=2.0
 -- synopsis:
 -- description:
@@ -9,19 +9,22 @@ cabal-version:          >=2.0
 -- license-file:
 -- copyright:
 
-custom-setup
-  setup-depends:        base
-                      , Cabal
-
 library
   default-language:     Haskell2010
   hs-source-dirs:       src
+  cc-options:           -DPLATFORM_DESKTOP -D_GLFW_X11
   c-sources:            src/Internal/core_wrapper.c
                         src/Internal/types_wrapper.c
-  include-dirs:         raylib/release/include
-                        src/Internal
-  extra-lib-dirs:       /home/buttons/Code/haskell/raylib-haskell/raylib/release/libs/linux
-  extra-libraries:      raylib
+                        raylib/src/rglfw.c
+                        raylib/src/shapes.c
+                        raylib/src/text.c
+                        raylib/src/textures.c
+                        raylib/src/utils.c
+                        raylib/src/core.c
+  include-dirs:         src/Internal
+                        raylib/src
+                        raylib/src/external
+                        raylib/src/external/glfw/include
   exposed-modules:      Core
                         Types
                         Internal.Types
