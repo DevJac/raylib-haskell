@@ -14,7 +14,7 @@ module Types (
   , Camera3D
   , Camera2D
   , Ray
-  , GetKeyPressedError
+  , GetKeyPressedError(NoKeyPressed, UnknownKeyPressed)
 ) where
 import Internal.Types (
     ConfigFlag

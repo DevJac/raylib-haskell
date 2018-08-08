@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 module Core (
     initWindow
   , closeWindow
@@ -67,7 +68,9 @@ module Core (
   , setCameraSmoothZoomControl
   , setCameraMoveControls
 ) where
+import Control.Exception (ErrorCall, displayException, tryJust)
 import Data.Bits (Bits, (.|.))
+import Data.List (isInfixOf)
 import qualified Internal.Core
 import           Types (
     ConfigFlag
@@ -85,7 +88,7 @@ import           Types (
   , Camera3D
   , Camera2D
   , Ray
-  , GetKeyPressedError
+  , GetKeyPressedError(NoKeyPressed, UnknownKeyPressed)
   )
 
 combineBitflags :: (Enum a, Num b, Data.Bits.Bits b) => [a] -> b
@@ -282,7 +285,15 @@ isKeyUp :: KeyboardKey -> IO Bool
 isKeyUp key = Internal.Core.isKeyUp (fromEnum key)
 
 getKeyPressed :: IO (Either GetKeyPressedError KeyboardKey)
-getKeyPressed = _todo
+getKeyPressed = do
+    Internal.Core.getKeyPressed >>= \case
+        -1 -> pure $ Left NoKeyPressed
+        i  -> tryJust toEnumCannotMatch (pure (toEnum i :: KeyboardKey))
+  where
+    toEnumCannotMatch :: ErrorCall -> Maybe GetKeyPressedError
+    toEnumCannotMatch e = if "KeyboardKey.toEnum: Cannot match " `isInfixOf` (displayException e)
+                          then Just UnknownKeyPressed
+                          else Nothing
 
 setExitKey :: KeyboardKey -> IO ()
 setExitKey key = Internal.Core.setExitKey (fromEnum key)
