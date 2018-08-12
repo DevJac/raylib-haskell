@@ -1,3 +1,3 @@
 void WrappedUnloadImage(Image *image);
 
-void WrappedUnloadRenderTexture(RenderTexture *target);
+void WrappedUnloadRenderTexture(RenderTexture2D *target);

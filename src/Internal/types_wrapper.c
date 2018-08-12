@@ -6,7 +6,7 @@ void WrappedUnloadImage(Image *image) {
     free(image);
 }
 
-void WrappedUnloadRenderTexture(RenderTexture *target) {
+void WrappedUnloadRenderTexture(RenderTexture2D *target) {
     UnloadRenderTexture(*target);
     free(target);
 }
