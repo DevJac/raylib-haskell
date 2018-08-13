@@ -66,12 +66,12 @@
 - [ ] void StorageSaveValue(int position, int value);                         // Save integer value to storage file (to defined position)
 - [ ] int StorageLoadValue(int position);                                     // Load integer value from storage file (from defined position)
 ** Input-related functions: keyboard
-- [ ] bool IsKeyPressed(int key);                                             // Detect if a key has been pressed once
-- [ ] bool IsKeyDown(int key);                                                // Detect if a key is being pressed
-- [ ] bool IsKeyReleased(int key);                                            // Detect if a key has been released once
-- [ ] bool IsKeyUp(int key);                                                  // Detect if a key is NOT being pressed
-- [ ] int GetKeyPressed(void);                                                // Get latest key pressed
-- [ ] void SetExitKey(int key);                                               // Set a custom key to exit program (default is ESC)
+- [X] bool IsKeyPressed(int key);                                             // Detect if a key has been pressed once
+- [X] bool IsKeyDown(int key);                                                // Detect if a key is being pressed
+- [X] bool IsKeyReleased(int key);                                            // Detect if a key has been released once
+- [X] bool IsKeyUp(int key);                                                  // Detect if a key is NOT being pressed
+- [X] int GetKeyPressed(void);                                                // Get latest key pressed
+- [X] void SetExitKey(int key);                                               // Set a custom key to exit program (default is ESC)
 ** Input-related functions: gamepads
 - [ ] bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
 - [ ] bool IsGamepadName(int gamepad, const char *name);                      // Check gamepad name (if available)
@@ -84,15 +84,15 @@
 - [ ] int GetGamepadAxisCount(int gamepad);                                   // Return gamepad axis count for a gamepad
 - [ ] float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
 ** Input-related functions: mouse
-- [ ] bool IsMouseButtonPressed(int button);                                  // Detect if a mouse button has been pressed once
-- [ ] bool IsMouseButtonDown(int button);                                     // Detect if a mouse button is being pressed
-- [ ] bool IsMouseButtonReleased(int button);                                 // Detect if a mouse button has been released once
-- [ ] bool IsMouseButtonUp(int button);                                       // Detect if a mouse button is NOT being pressed
-- [ ] int GetMouseX(void);                                                    // Returns mouse position X
-- [ ] int GetMouseY(void);                                                    // Returns mouse position Y
-- [ ] Vector2 GetMousePosition(void);                                         // Returns mouse position XY
-- [ ] void SetMousePosition(Vector2 position);                                // Set mouse position XY
-- [ ] int GetMouseWheelMove(void);                                            // Returns mouse wheel movement Y
+- [X] bool IsMouseButtonPressed(int button);                                  // Detect if a mouse button has been pressed once
+- [X] bool IsMouseButtonDown(int button);                                     // Detect if a mouse button is being pressed
+- [X] bool IsMouseButtonReleased(int button);                                 // Detect if a mouse button has been released once
+- [X] bool IsMouseButtonUp(int button);                                       // Detect if a mouse button is NOT being pressed
+- [X] int GetMouseX(void);                                                    // Returns mouse position X
+- [X] int GetMouseY(void);                                                    // Returns mouse position Y
+- [X] Vector2 GetMousePosition(void);                                         // Returns mouse position XY
+- [X] void SetMousePosition(Vector2 position);                                // Set mouse position XY
+- [X] int GetMouseWheelMove(void);                                            // Returns mouse wheel movement Y
 ** Input-related functions: touch
 - [ ] int GetTouchX(void);                                                    // Get touch position X for touch point 0 (relative to screen size)
 - [ ] int GetTouchY(void);                                                    // Get touch position Y for touch point 0 (relative to screen size)
@@ -108,40 +108,40 @@
 - [ ] Vector2 GetGesturePinchVector(void);                                    // Get gesture pinch delta
 - [ ] float GetGesturePinchAngle(void);                                       // Get gesture pinch angle
 ** Camera-related functions
-- [ ] SetCameraMode(Camera camera, int mode);                                 // Set camera mode (multiple camera modes available)
-- [ ] void UpdateCamera(Camera *camera);                                      // Update camera position for selected mode
-- [ ] void SetCameraPanControl(int panKey);                                   // Set camera pan key to combine with mouse movement (free camera)
-- [ ] void SetCameraAltControl(int altKey);                                   // Set camera alt key to combine with mouse movement (free camera)
-- [ ] void SetCameraSmoothZoomControl(int szKey);                             // Set camera smooth zoom key to combine with mouse (free camera)
-- [ ] void SetCameraMoveControls(int frontKey, int backKey,
+- [X] SetCameraMode(Camera camera, int mode);                                 // Set camera mode (multiple camera modes available)
+- [X] void UpdateCamera(Camera *camera);                                      // Update camera position for selected mode
+- [X] void SetCameraPanControl(int panKey);                                   // Set camera pan key to combine with mouse movement (free camera)
+- [X] void SetCameraAltControl(int altKey);                                   // Set camera alt key to combine with mouse movement (free camera)
+- [X] void SetCameraSmoothZoomControl(int szKey);                             // Set camera smooth zoom key to combine with mouse (free camera)
+- [X] void SetCameraMoveControls(int frontKey, int backKey,
                                  int rightKey, int leftKey,
                                  int upKey, int downKey);                     // Set camera move controls (1st person and 3rd person cameras)
 * Shapes
 ** Basic shapes drawing functions
-- [ ] void DrawPixel(int posX, int posY, Color color);                                                    // Draw a pixel
-- [ ] void DrawPixelV(Vector2 position, Color color);                                                     // Draw a pixel (Vector version)
-- [ ] void DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);                 // Draw a line
-- [ ] void DrawLineV(Vector2 startPos, Vector2 endPos, Color color);                                      // Draw a line (Vector version)
-- [ ] void DrawLineEx(Vector2 startPos, Vector2 endPos, float thick, Color color);                        // Draw a line defining thickness
-- [ ] void DrawLineBezier(Vector2 startPos, Vector2 endPos, float thick, Color color);                    // Draw a line using cubic-bezier curves in-out
-- [ ] void DrawCircle(int centerX, int centerY, float radius, Color color);                               // Draw a color-filled circle
-- [ ] void DrawCircleGradient(int centerX, int centerY, float radius, Color color1, Color color2);        // Draw a gradient-filled circle
-- [ ] void DrawCircleV(Vector2 center, float radius, Color color);                                        // Draw a color-filled circle (Vector version)
-- [ ] void DrawCircleLines(int centerX, int centerY, float radius, Color color);                          // Draw circle outline
-- [ ] void DrawRectangle(int posX, int posY, int width, int height, Color color);                         // Draw a color-filled rectangle
-- [ ] void DrawRectangleV(Vector2 position, Vector2 size, Color color);                                   // Draw a color-filled rectangle (Vector version)
-- [ ] void DrawRectangleRec(Rectangle rec, Color color);                                                  // Draw a color-filled rectangle
-- [ ] void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);                  // Draw a color-filled rectangle with pro parameters
-- [ ] void DrawRectangleGradientV(int posX, int posY, int width, int height, Color color1, Color color2); // Draw a vertical-gradient-filled rectangle
-- [ ] void DrawRectangleGradientH(int posX, int posY, int width, int height, Color color1, Color color2); // Draw a horizontal-gradient-filled rectangle
-- [ ] void DrawRectangleGradientEx(Rectangle rec, Color col1, Color col2, Color col3, Color col4);        // Draw a gradient-filled rectangle with custom vertex colors
-- [ ] void DrawRectangleLines(int posX, int posY, int width, int height, Color color);                    // Draw rectangle outline
-- [ ] void DrawRectangleLinesEx(Rectangle rec, int lineThick, Color color);                               // Draw rectangle outline with extended parameters
-- [ ] void DrawTriangle(Vector2 v1, Vector2 v2, Vector2 v3, Color color);                                 // Draw a color-filled triangle
-- [ ] void DrawTriangleLines(Vector2 v1, Vector2 v2, Vector2 v3, Color color);                            // Draw triangle outline
-- [ ] void DrawPoly(Vector2 center, int sides, float radius, float rotation, Color color);                // Draw a regular polygon (Vector version)
-- [ ] void DrawPolyEx(Vector2 *points, int numPoints, Color color);                                       // Draw a closed polygon defined by points
-- [ ] void DrawPolyExLines(Vector2 *points, int numPoints, Color color);                                  // Draw polygon lines
+- [X] void drawpixel(int posx, int posy, color color);                                                    // draw a pixel
+- [X] void drawpixelv(vector2 position, color color);                                                     // draw a pixel (vector version)
+- [X] void drawline(int startposx, int startposy, int endposx, int endposy, color color);                 // draw a line
+- [X] void drawlinev(vector2 startpos, vector2 endpos, color color);                                      // draw a line (vector version)
+- [X] void drawlineex(vector2 startpos, vector2 endpos, float thick, color color);                        // draw a line defining thickness
+- [X] void drawlinebezier(vector2 startpos, vector2 endpos, float thick, color color);                    // draw a line using cubic-bezier curves in-out
+- [X] void drawcircle(int centerx, int centery, float radius, color color);                               // draw a color-filled circle
+- [X] void drawcirclegradient(int centerx, int centery, float radius, color color1, color color2);        // draw a gradient-filled circle
+- [X] void drawcirclev(vector2 center, float radius, color color);                                        // draw a color-filled circle (vector version)
+- [X] void drawcirclelines(int centerx, int centery, float radius, color color);                          // draw circle outline
+- [X] void drawrectangle(int posx, int posy, int width, int height, color color);                         // draw a color-filled rectangle
+- [X] void drawrectanglev(vector2 position, vector2 size, color color);                                   // draw a color-filled rectangle (vector version)
+- [X] void drawrectanglerec(rectangle rec, color color);                                                  // draw a color-filled rectangle
+- [X] void drawrectanglepro(rectangle rec, vector2 origin, float rotation, color color);                  // draw a color-filled rectangle with pro parameters
+- [X] void drawrectanglegradientv(int posx, int posy, int width, int height, color color1, color color2); // draw a vertical-gradient-filled rectangle
+- [X] void drawrectanglegradienth(int posx, int posy, int width, int height, color color1, color color2); // draw a horizontal-gradient-filled rectangle
+- [X] void drawrectanglegradientex(rectangle rec, color col1, color col2, color col3, color col4);        // draw a gradient-filled rectangle with custom vertex colors
+- [X] void drawrectanglelines(int posx, int posy, int width, int height, color color);                    // draw rectangle outline
+- [X] void drawrectanglelinesex(rectangle rec, int linethick, color color);                               // draw rectangle outline with extended parameters
+- [X] void drawtriangle(vector2 v1, vector2 v2, vector2 v3, color color);                                 // draw a color-filled triangle
+- [X] void drawtrianglelines(vector2 v1, vector2 v2, vector2 v3, color color);                            // draw triangle outline
+- [X] void drawpoly(vector2 center, int sides, float radius, float rotation, color color);                // draw a regular polygon (vector version)
+- [X] void drawpolyex(vector2 *points, int numpoints, color color);                                       // draw a closed polygon defined by points
+- [X] void drawpolyexlines(vector2 *points, int numpoints, color color);                                  // draw polygon lines
 ** Basic shapes collision detection functions
 - [ ] bool CheckCollisionRecs(Rectangle rec1, Rectangle rec2);                                            // Check collision between two rectangles
 - [ ] bool CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, float radius2);         // Check collision between two circles

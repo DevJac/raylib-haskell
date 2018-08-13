@@ -5,6 +5,7 @@ module Types (
   , LogType
   , CameraType
   , Color
+  , Rectangle
   , Vector2
   , Vector3
   , Vector4
@@ -23,6 +24,7 @@ import Internal.Types (
   , LogType
   , CameraType
   , Color
+  , Rectangle
   , Vector2
   , Vector3
   , Vector4

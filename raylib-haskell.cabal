@@ -26,9 +26,11 @@ library
                         raylib/src/external
                         raylib/src/external/glfw/include
   exposed-modules:      Core
+                        Shapes
                         Types
                         Internal.Types
                         Internal.Core
+                        Internal.Shapes
   ghc-options:          -Wall
                         --Werror
                         -Wmissing-import-lists
