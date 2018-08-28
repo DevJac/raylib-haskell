@@ -137,7 +137,7 @@ import Data.Word (Word8)
     {} -> `Int' #}
 
 {# fun unsafe GetFrameTime as ^
-    {} -> `Double' #}
+    {} -> `Float' #}
 
 {# fun unsafe GetTime as ^
     {} -> `Double' #}
@@ -159,7 +159,7 @@ import Data.Word (Word8)
     {%`Int'} -> `Color' #}
 
 {# fun unsafe WrappedFade as fade
-    {%`Color', %`Double'} -> `Color' #}
+    {%`Color', %`Float'} -> `Color' #}
 
 -----------------------------------------
 -- Misc. functions

@@ -18,22 +18,22 @@ drawLine startPosX startPosY endPosX endPosY color = Internal.Shapes.drawLine st
 drawLineV :: Vector2 -> Vector2 -> Color -> IO ()
 drawLineV startPos endPos color = Internal.Shapes.drawLineV startPos endPos color
 
-drawLineEx :: Vector2 -> Vector2 -> Double -> Color -> IO ()
+drawLineEx :: Vector2 -> Vector2 -> Float -> Color -> IO ()
 drawLineEx startPos endPos thick color = Internal.Shapes.drawLineEx startPos endPos thick color
 
-drawLineBezier :: Vector2 -> Vector2 -> Double -> Color -> IO ()
+drawLineBezier :: Vector2 -> Vector2 -> Float -> Color -> IO ()
 drawLineBezier startPos endPos thick color = Internal.Shapes.drawLineBezier startPos endPos thick color
 
-drawCircle :: Int -> Int -> Double -> Color -> IO ()
+drawCircle :: Int -> Int -> Float -> Color -> IO ()
 drawCircle centerX centerY radius color = Internal.Shapes.drawCircle centerX centerY radius color
 
-drawCircleGradient :: Int -> Int -> Double -> Color -> Color -> IO ()
+drawCircleGradient :: Int -> Int -> Float -> Color -> Color -> IO ()
 drawCircleGradient centerX centerY radius color1 color2 = Internal.Shapes.drawCircleGradient centerX centerY radius color1 color2
 
-drawCircleV :: Vector2 -> Double -> Color -> IO ()
+drawCircleV :: Vector2 -> Float -> Color -> IO ()
 drawCircleV center radius color = Internal.Shapes.drawCircleV center radius color
 
-drawCircleLines :: Int -> Int -> Double -> Color -> IO ()
+drawCircleLines :: Int -> Int -> Float -> Color -> IO ()
 drawCircleLines centerX centerY radius color = Internal.Shapes.drawCircleLines centerX centerY radius color
 
 drawRectangle :: Int -> Int -> Int -> Int -> Color -> IO ()
@@ -45,7 +45,7 @@ drawRectangleV position size color = Internal.Shapes.drawRectangleV position siz
 drawRectangleRec :: Rectangle -> Color -> IO ()
 drawRectangleRec rec color = Internal.Shapes.drawRectangleRec rec color
 
-drawRectanglePro :: Rectangle -> Vector2 -> Double -> Color -> IO ()
+drawRectanglePro :: Rectangle -> Vector2 -> Float -> Color -> IO ()
 drawRectanglePro rec origin rotation color = Internal.Shapes.drawRectanglePro rec origin rotation color
 
 drawRectangleGradientV :: Int -> Int -> Int -> Int -> Color -> Color -> IO ()
@@ -69,7 +69,7 @@ drawTriangle v1 v2 v3 color = Internal.Shapes.drawTriangle v1 v2 v3 color
 drawTriangleLines :: Vector2 -> Vector2 -> Vector2 -> Color -> IO ()
 drawTriangleLines v1 v2 v3 color = Internal.Shapes.drawTriangleLines v1 v2 v3 color
 
-drawPoly :: Vector2 -> Int -> Double -> Double -> Color -> IO ()
+drawPoly :: Vector2 -> Int -> Float -> Float -> Color -> IO ()
 drawPoly center sides radius rotation color = Internal.Shapes.drawPoly center sides radius rotation color
 
 drawPolyEx :: [Vector2] -> Color -> IO ()

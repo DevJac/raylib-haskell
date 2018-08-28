@@ -213,7 +213,7 @@ setTargetFPS fps = Internal.Core.setTargetFPS fps
 getFPS :: IO Int
 getFPS = Internal.Core.getFPS
 
-getFrameTime :: IO Double
+getFrameTime :: IO Float
 getFrameTime = Internal.Core.getFrameTime
 
 getTime :: IO Double
@@ -235,7 +235,7 @@ colorToHSV color = Internal.Core.colorToHSV color
 getColor :: Int -> IO Color
 getColor hexValue = Internal.Core.getColor hexValue
 
-fade :: Color -> Double -> IO Color
+fade :: Color -> Float -> IO Color
 fade color alpha = Internal.Core.fade color alpha
 
 -----------------------------------------

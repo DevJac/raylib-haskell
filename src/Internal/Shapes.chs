@@ -21,22 +21,22 @@ module Internal.Shapes where
     {%`Vector2', %`Vector2', %`Color'} -> `()' #}
 
 {# fun unsafe DrawLineEx as ^
-    {%`Vector2', %`Vector2', `Double', %`Color'} -> `()' #}
+    {%`Vector2', %`Vector2', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawLineBezier as ^
-    {%`Vector2', %`Vector2', `Double', %`Color'} -> `()' #}
+    {%`Vector2', %`Vector2', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircle as ^
-    {`Int', `Int', `Double', %`Color'} -> `()' #}
+    {`Int', `Int', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleGradient as ^
-    {`Int', `Int', `Double', %`Color', %`Color'} -> `()' #}
+    {`Int', `Int', `Float', %`Color', %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleV as ^
-    {%`Vector2', `Double', %`Color'} -> `()' #}
+    {%`Vector2', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleLines as ^
-    {`Int', `Int', `Double', %`Color'} -> `()' #}
+    {`Int', `Int', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangle as ^
     {`Int', `Int', `Int', `Int', %`Color'} -> `()' #}
@@ -48,7 +48,7 @@ module Internal.Shapes where
     {%`Rectangle', %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectanglePro as ^
-    {%`Rectangle', %`Vector2', `Double', %`Color'} -> `()' #}
+    {%`Rectangle', %`Vector2', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleGradientV as ^
     {`Int', `Int', `Int', `Int', %`Color', %`Color'} -> `()' #}
@@ -72,7 +72,7 @@ module Internal.Shapes where
     {%`Vector2', %`Vector2', %`Vector2', %`Color'} -> `()' #}
 
 {# fun unsafe DrawPoly as ^
-    {%`Vector2', `Int', `Double', `Double', %`Color'} -> `()' #}
+    {%`Vector2', `Int', `Float', `Float', %`Color'} -> `()' #}
 
 {# fun unsafe DrawPolyEx as ^
     {`Vector2', `Int', %`Color'} -> `()' #}
