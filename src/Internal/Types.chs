@@ -3,6 +3,7 @@ module Internal.Types where
 import Data.Coerce (coerce)
 import Data.Word (Word8)
 import Foreign.ForeignPtr (withForeignPtr)
+import Foreign.Storable (Storable)
 
 #include "raylib.h"
 #include "types_wrapper.h"
@@ -163,7 +164,18 @@ colorA color = fromIntegral <$> a color
 -- Vector2
 -----------------------------------------
 
-{# pointer *Vector2 newtype #}
+data Vector2 = Vector2 Float Float
+
+instance Storable Vector2 where
+    sizeOf = const {# sizeof Vector2 #}
+    alignment = const {# alignof Vector2 #}
+    peek p = do
+        x <- realToFrac <$> {# get Vector2.x #} p
+        y <- realToFrac <$> {# get Vector2.y #} p
+        pure $ Vector2 x y
+    poke p (Vector2 x y) = do
+        {# set Vector2.x #} p (realToFrac x)
+        {# set Vector2.y #} p (realToFrac y)
 
 -----------------------------------------
 -- Vector3
