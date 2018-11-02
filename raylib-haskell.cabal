@@ -33,8 +33,10 @@ library
                         Internal.Shapes
   ghc-options:          -Wall
                         --Werror
-                        -Wmissing-import-lists
                         -Wcompat
+                        -Wmissing-import-lists
+                        -Wincomplete-uni-patterns
+                        -Wincomplete-record-updates
                         -Wnoncanonical-monad-instances
                         -Wnoncanonical-monadfail-instances
                         -fdefer-typed-holes
@@ -48,8 +50,10 @@ executable raylib-haskell
   main-is:              Main.hs
   ghc-options:          -Wall
                         --Werror
-                        -Wmissing-import-lists
                         -Wcompat
+                        -Wmissing-import-lists
+                        -Wincomplete-uni-patterns
+                        -Wincomplete-record-updates
                         -Wnoncanonical-monad-instances
                         -Wnoncanonical-monadfail-instances
                         -threaded
@@ -64,8 +68,10 @@ test-suite tests
   main-is:              Spec.hs
   ghc-options:          -Wall
                         --Werror
-                        -Wmissing-import-lists
                         -Wcompat
+                        -Wmissing-import-lists
+                        -Wincomplete-uni-patterns
+                        -Wincomplete-record-updates
                         -Wnoncanonical-monad-instances
                         -Wnoncanonical-monadfail-instances
                         -threaded
