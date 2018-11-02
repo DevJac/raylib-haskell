@@ -1,5 +1,5 @@
 import Control.Concurrent (threadDelay)
-import Core (initWindow, closeWindow)
+import Mvp (initWindow, closeWindow)
 
 main :: IO ()
 main = do
