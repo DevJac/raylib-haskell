@@ -1,0 +1,45 @@
+* TODOs
+** DONE Check latest raylib version
+CLOSED: [2018-11-02 Fri 15:14]
+2.0.0 is the latest version, this is the version we already have in the repo.
+** TODO Review c2hs docs
+** TODO Review Storable typeclass
+** TODO Review haddock format
+** TODO Should haddocks go in the Internal files or the higher level?
+Ideally the haddocks could go into the Internal chs file and then be used for higher level docs. This way the haddocks are closer to the relevant code.
+** DONE Come up with testing plan
+CLOSED: [2018-11-02 Fri 15:22]
+We need a MVP test case. Something that will test a few of the more complex function calls in raylib.
+* Test case
+** Plan
+Setup window.
+
+Draw a rectangle with DrawRectangleRec which will require creating a Rectangle and Color struct.
+
+Load an image and draw it.
+
+Repeat the above steps many times and watch for memory leaks.
+** Bindings we need
+- [X] InitWindow
+- [ ] Color struct
+- [ ] Rectangle struct
+- [ ] DrawRectangleRec
+
+- [X] CloseWindow
+- [ ] LoadImage or variant
+- [ ] Image struct
+* Storable example
+Remember: there is a Vector2 struct in raylib.h
+
+data Vector2 = Vector2 Float Float
+
+instance Storable Vector2 where
+    sizeOf = const {# sizeof Vector2 #}
+    alignment = const {# alignof Vector2 #}
+    peek p = do
+        x <- realToFrac <$> {# get Vector2.x #} p
+        y <- realToFrac <$> {# get Vector2.y #} p
+        pure $ Vector2 x y
+    poke p (Vector2 x y) = do
+        {# set Vector2.x #} p (realToFrac x)
+        {# set Vector2.y #} p (realToFrac y)
