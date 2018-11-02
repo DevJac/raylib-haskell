@@ -1,0 +1,5 @@
+:set +m
+:set -Wno-type-defaults
+:set editor vim
+:set prompt "λ %l > "
+:set prompt-cont "  %l | "
