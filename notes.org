@@ -2,8 +2,6 @@
 ** DONE Check latest raylib version
 CLOSED: [2018-11-02 Fri 15:14]
 2.0.0 is the latest version, this is the version we already have in the repo.
-** TODO Review c2hs docs
-** TODO Review Storable typeclass
 ** TODO Review haddock format
 ** TODO Should haddocks go in the Internal files or the higher level?
 Ideally the haddocks could go into the Internal chs file and then be used for higher level docs. This way the haddocks are closer to the relevant code.
@@ -21,13 +19,44 @@ Load an image and draw it.
 Repeat the above steps many times and watch for memory leaks.
 ** Bindings we need
 - [X] InitWindow
-- [ ] Color struct
-- [ ] Rectangle struct
-- [ ] DrawRectangleRec
+- [X] Color struct
+- [X] Rectangle struct
+- [X] DrawRectangleRec
 
 - [X] CloseWindow
-- [ ] LoadImage or variant
-- [ ] Image struct
+
+- [ ] Load a font
+- [ ] Write something with the font
+- [ ] Unload the font
+** Structs
+*** complex - need unloading
+- Music
+- Sound
+- Wave
+- Shader
+- Material
+- Mesh
+- Model
+- Font
+- Image
+- Texture2D / Texture
+- RenderTexture2D / RenderTexture
+*** complex - other
+- AudioStream (see CloseAudioStream)
+- MaterialMap
+- CharInfo
+*** simple
+- Color
+- Rectangle
+- Vector2
+- Vector3
+- Vector4
+- Quaternion
+- Matrix
+- Camera
+- Camer2D
+- Ray
+- RayHitInfo
 * Storable example
 Remember: there is a Vector2 struct in raylib.h
 
