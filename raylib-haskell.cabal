@@ -53,6 +53,7 @@ executable raylib-haskell
                         -threaded
                         -fdefer-typed-holes
   build-depends:        base
+                      , random
                       , raylib-haskell
 
 test-suite tests

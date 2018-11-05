@@ -23,7 +23,7 @@ instance Storable Vector2 where
 
 data Color = Color Word8 Word8 Word8 Word8
 
-{# pointer *Color as ColorPtr -> Color #} 
+{# pointer *Color as ColorPtr -> Color #}
 
 instance Storable Color where
   sizeOf = const {# sizeof Color #}
@@ -67,3 +67,12 @@ instance Storable Rectangle where
 
 {# fun unsafe DrawRectangleRec as ^
   {with* %`Rectangle', with* %`Color'} -> `()' #}
+
+{# fun unsafe BeginDrawing as ^
+  {} -> `()' #}
+
+{# fun unsafe EndDrawing as ^
+  {} -> `()' #}
+
+{# fun unsafe ClearBackground as ^
+  {with* %`Color'} -> `()' #}

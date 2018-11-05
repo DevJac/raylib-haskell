@@ -1,8 +1,4 @@
 module Mvp (
-    initWindow
-  , closeWindow
+  module Internal.Mvp
   ) where
-import Internal.Mvp (
-    initWindow
-  , closeWindow
-  )
+import Internal.Mvp
