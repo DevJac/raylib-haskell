@@ -59,6 +59,8 @@ instance Storable Rectangle where
     {# set Rectangle.width #}  p (realToFrac width)
     {# set Rectangle.height #} p (realToFrac height)
 
+{# pointer *Font foreign finalizer WrappedUnloadFont as unloadFont newtype #}
+
 {# fun unsafe InitWindow as ^
   {`Int', `Int', `String'} -> `()' #}
 
