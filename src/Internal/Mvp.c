@@ -18,3 +18,8 @@ void WrappedUnloadFont(Font *font) {
   UnloadFont(*font);
   free(font);
 }
+
+Vector2 *WrappedGetMousePosition(Vector2 *p) {
+  *p = GetMousePosition();
+  return p;
+}

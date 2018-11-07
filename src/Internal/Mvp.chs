@@ -3,13 +3,14 @@ module Internal.Mvp where
 import Data.Coerce
 import Data.Word
 import Foreign.ForeignPtr
+import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.Storable
 
 #include "raylib.h"
 #include "Mvp.h"
 
-data Vector2 = Vector2 Float Float
+data Vector2 = Vector2 Float Float deriving Show
 
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
 
@@ -93,3 +94,6 @@ fontBaseSize f = fromIntegral <$> withForeignPtr (coerce f) {# get Font.baseSize
 
 {# fun unsafe DrawFPS as ^
   {`Int', `Int'} -> `()' #}
+
+{# fun unsafe WrappedGetMousePosition as getMousePosition
+  {alloca- `Vector2Ptr'} -> `Vector2' peek* #}

@@ -1,5 +1,6 @@
 import Control.Concurrent (threadDelay)
 import Control.Monad
+import Foreign.Storable (Storable(peek))
 import System.Random
 import Mvp
 
@@ -19,6 +20,8 @@ loop n = do
   drawFPS 50 50
   drawTextEx defaultFont (show bs) (Vector2 200 50) 50 5 (Color 255 255 0 255)
   drawTextEx defaultFont "Text is Test" (Vector2 100 100) (fromIntegral n  / 1000) 5 (Color 255 0 0 255)
+  mousePos <- getMousePosition
+  drawTextEx defaultFont (show mousePos) (Vector2 50 20) 25 5 (Color 255 255 255 255)
   x <- randomRIO (0, 400)
   y <- randomRIO (0, 400)
   drawRectangleRec (Rectangle x y (x + 100) (y + 100)) (Color 120 120 255 255)

@@ -28,6 +28,8 @@ Repeat the above steps many times and watch for memory leaks.
 - [X] Load a font
 - [X] Write something with the font
 - [X] Unload the font
+
+- [X] GetMousePosition, to test simple struct returns
 ** Structs
 *** complex - need unloading
 - Music
