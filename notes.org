@@ -25,9 +25,9 @@ Repeat the above steps many times and watch for memory leaks.
 
 - [X] CloseWindow
 
-- [ ] Load a font
-- [ ] Write something with the font
-- [ ] Unload the font
+- [X] Load a font
+- [X] Write something with the font
+- [X] Unload the font
 ** Structs
 *** complex - need unloading
 - Music
@@ -72,3 +72,13 @@ instance Storable Vector2 where
     poke p (Vector2 x y) = do
         {# set Vector2.x #} p (realToFrac x)
         {# set Vector2.y #} p (realToFrac y)
+* Image pointer example
+{# pointer *Image foreign finalizer WrappedUnloadImage as unloadImage newtype #}
+
+imageWidth :: Image -> IO Int
+imageWidth image = fromIntegral <$> withForeignPtr (coerce image) width
+  where width = {# get Image.width #}
+
+imageHeight :: Image -> IO Int
+imageHeight image = fromIntegral <$> withForeignPtr (coerce image) height
+  where height = {# get Image.height #}

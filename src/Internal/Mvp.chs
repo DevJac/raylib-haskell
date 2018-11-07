@@ -1,10 +1,13 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Internal.Mvp where
+import Data.Coerce
 import Data.Word
+import Foreign.ForeignPtr
 import Foreign.Marshal.Utils
 import Foreign.Storable
 
 #include "raylib.h"
+#include "Mvp.h"
 
 data Vector2 = Vector2 Float Float
 
@@ -61,6 +64,9 @@ instance Storable Rectangle where
 
 {# pointer *Font foreign finalizer WrappedUnloadFont as unloadFont newtype #}
 
+fontBaseSize :: Font -> IO Int
+fontBaseSize f = fromIntegral <$> withForeignPtr (coerce f) {# get Font.baseSize #}
+
 {# fun unsafe InitWindow as ^
   {`Int', `Int', `String'} -> `()' #}
 
@@ -78,3 +84,12 @@ instance Storable Rectangle where
 
 {# fun unsafe ClearBackground as ^
   {with* %`Color'} -> `()' #}
+
+{# fun unsafe WrappedGetFontDefault as getFontDefault
+  {} -> `Font' #}
+
+{# fun unsafe DrawTextEx as ^
+  {%`Font', `String', with* %`Vector2', `Float', `Float', with* %`Color'} -> `()' #}
+
+{# fun unsafe DrawFPS as ^
+  {`Int', `Int'} -> `()' #}
