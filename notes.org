@@ -1,37 +1,5 @@
-* TODOs
-** DONE Check latest raylib version
-CLOSED: [2018-11-02 Fri 15:14]
-2.0.0 is the latest version, this is the version we already have in the repo.
-** TODO Review haddock format
-** TODO Should haddocks go in the Internal files or the higher level?
-Ideally the haddocks could go into the Internal chs file and then be used for higher level docs. This way the haddocks are closer to the relevant code.
-** DONE Come up with testing plan
-CLOSED: [2018-11-02 Fri 15:22]
-We need a MVP test case. Something that will test a few of the more complex function calls in raylib.
-* Test case
-** Plan
-Setup window.
-
-Draw a rectangle with DrawRectangleRec which will require creating a Rectangle and Color struct.
-
-Load an image and draw it.
-
-Repeat the above steps many times and watch for memory leaks.
-** Bindings we need
-- [X] InitWindow
-- [X] Color struct
-- [X] Rectangle struct
-- [X] DrawRectangleRec
-
-- [X] CloseWindow
-
-- [X] Load a font
-- [X] Write something with the font
-- [X] Unload the font
-
-- [X] GetMousePosition, to test simple struct returns
-** Structs
-*** complex - need unloading
+* Structs
+** complex - need unloading
 - Music
 - Sound
 - Wave
@@ -43,11 +11,11 @@ Repeat the above steps many times and watch for memory leaks.
 - Image
 - Texture2D / Texture
 - RenderTexture2D / RenderTexture
-*** complex - other
+** complex - other
 - AudioStream (see CloseAudioStream)
 - MaterialMap
 - CharInfo
-*** simple
+** simple
 - Color
 - Rectangle
 - Vector2
@@ -84,3 +52,34 @@ imageWidth image = fromIntegral <$> withForeignPtr (coerce image) width
 imageHeight :: Image -> IO Int
 imageHeight image = fromIntegral <$> withForeignPtr (coerce image) height
   where height = {# get Image.height #}
+* Bind plan
+** Plan
+- [ ] Review Haddock format.
+
+- [X] Identify all the structs used in the public raylib API.
+
+- [ ] Classify those structs as simple, or complex. Complex structs are either unloadable or in a special category. Most of this work has been done, and just needs review.
+
+- [ ] Create Storable bindings for simple structs.
+
+- [ ] Create pointer newtype bindings for complex unloadable structs.
+
+- [ ] Bind Core, and Shapes.
+
+- [ ] Release. Seek feedback.
+
+- [ ] Bind the remaining modules.
+
+- [ ] Improve inspectability of complex structs.
+** Project layout
+Modules:
+- Structs / Types
+- Core
+- Shapes
+- Textures
+- Text
+- Models
+- Shaders
+- Audio
+
+Each module will have a "public" version with some Haskell cleanups, and an "Internal" version with c2hs binding code.
