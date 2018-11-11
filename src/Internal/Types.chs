@@ -170,12 +170,68 @@ instance Storable Camera3D where
     position <- peek $ p `plusPtr` {# offsetof Camera3D.position #}
     target   <- peek $ p `plusPtr` {# offsetof Camera3D.target #}
     up       <- peek $ p `plusPtr` {# offsetof Camera3D.up #}
-    fovy     <- {# get Camera3D.fovy #} p
-    type_    <- {# get Camera3D.type #} p
-    pure $ Camera3D position target up (realToFrac fovy) (fromIntegral type_)
+    fovy     <- realToFrac   <$> {# get Camera3D.fovy #} p
+    type_    <- fromIntegral <$> {# get Camera3D.type #} p
+    pure $ Camera3D position target up fovy type_
   poke p (Camera3D position target up fovy type_) = do
     poke (p `plusPtr` {# offsetof Camera3D.position #}) position
     poke (p `plusPtr` {# offsetof Camera3D.target #})   target
     poke (p `plusPtr` {# offsetof Camera3D.up #})       up
     {# set Camera3D.fovy #} p (realToFrac fovy)
     {# set Camera3D.type #} p (fromIntegral type_)
+
+-- | Camera2D offset target rotation zoom
+data Camera2D = Camera2D Vector2 Vector2 Float Float
+
+{# pointer *Camera2D as Camera2DPtr -> Camera2D #}
+
+instance Storable Camera2D where
+  sizeOf = const {# sizeof Camera2D #}
+  alignment = const {# alignof Camera2D #}
+  peek p = do
+    offset   <- peek $ p `plusPtr` {# offsetof Camera2D.offset #}
+    target   <- peek $ p `plusPtr` {# offsetof Camera2D.target #}
+    rotation <- realToFrac <$> {# get Camera2D.rotation #} p
+    zoom     <- realToFrac <$> {# get Camera2D.zoom #}     p
+    pure $ Camera2D offset target rotation zoom
+  poke p (Camera2D offset target rotation zoom) = do
+    poke (p `plusPtr` {# offsetof Camera2D.offset #}) offset
+    poke (p `plusPtr` {# offsetof Camera2D.target #}) target
+    {# set Camera2D.rotation #} p (realToFrac rotation)
+    {# set Camera2D.zoom #}     p (realToFrac zoom)
+
+-- | Ray position direction
+data Ray = Ray Vector3 Vector3
+
+{# pointer *Ray as RayPtr -> Ray #}
+
+instance Storable Ray where
+  sizeOf = const {# sizeof Ray #}
+  alignment = const {# alignof Ray #}
+  peek p = do
+    position  <- peek $ p `plusPtr` {# offsetof Ray.position #}
+    direction <- peek $ p `plusPtr` {# offsetof Ray.direction #}
+    pure $ Ray position direction
+  poke p (Ray position direction) = do
+    poke (p `plusPtr` {# offsetof Ray.position #})  position
+    poke (p `plusPtr` {# offsetof Ray.direction #}) direction
+
+-- | RayHitInfo hit distance position normal
+data RayHitInfo = RayHitInfo Bool Float Vector3 Vector3
+
+{# pointer *RayHitInfo as RayHitInfoPtr -> RayHitInfo #}
+
+instance Storable RayHitInfo where
+  sizeOf = const {# sizeof RayHitInfo #}
+  alignment = const {# sizeof RayHitInfo #}
+  peek p = do
+    hit      <- toBool     <$> {# get RayHitInfo.hit #}      p
+    distance <- realToFrac <$> {# get RayHitInfo.distance #} p
+    position <- peek $ p `plusPtr` {# offsetof RayHitInfo.position #}
+    normal   <- peek $ p `plusPtr` {# offsetof RayHitInfo.normal #}
+    pure $ RayHitInfo hit distance position normal
+  poke p (RayHitInfo hit distance position normal) = do
+    {# set RayHitInfo.hit #}      p (fromBool hit)
+    {# set RayHitInfo.distance #} p (realToFrac distance)
+    poke (p `plusPtr` {# offsetof RayHitInfo.position #}) position
+    poke (p `plusPtr` {# offsetof RayHitInfo.normal #})   normal
