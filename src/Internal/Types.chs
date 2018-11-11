@@ -1,5 +1,4 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE InstanceSigs #-}
 module Internal.Types where
 import Data.Coerce
 import Data.Word
@@ -11,12 +10,6 @@ import Foreign.Storable
 
 #include "raylib.h"
 #include "Types.h"
-
-withWrapper :: Storable b => (Ptr a -> Ptr b -> IO ()) -> Ptr a -> (Ptr b -> IO c) -> IO c
-withWrapper wf p f = do
-  alloca $ \wrp -> do
-    wf p wrp
-    f wrp
 
 -- | Color r g b a
 data Color = Color Word8 Word8 Word8 Word8
@@ -165,55 +158,24 @@ instance Storable Matrix where
     {# set Matrix.m14 #} p (realToFrac m14)
     {# set Matrix.m15 #} p (realToFrac m15)
 
-data WrCamera3D = WrCamera3D Vector3Ptr Vector3Ptr Vector3Ptr Float Int
-
-{# pointer *WrCamera3D as WrCamera3DPtr -> WrCamera3D #}
-
-instance Storable WrCamera3D where
-  sizeOf = const {# sizeof WrCamera3D #}
-  alignment = const {# alignof WrCamera3D #}
-  peek p = do
-    position <- {# get WrCamera3D.position #} p
-    target   <- {# get WrCamera3D.target #}   p
-    up       <- {# get WrCamera3D.up #}       p
-    fovy     <- realToFrac   <$> {# get WrCamera3D.fovy #} p
-    type_    <- fromIntegral <$> {# get WrCamera3D.type #} p
-    pure $ WrCamera3D position target up fovy type_
-  poke p (WrCamera3D position target up fovy type_) = do
-    {# set WrCamera3D.position #} p position
-    {# set WrCamera3D.target #}   p target
-    {# set WrCamera3D.up #}       p up
-    {# set WrCamera3D.fovy #}     p (realToFrac fovy)
-    {# set WrCamera3D.type #}     p (fromIntegral type_)
-
 -- | Camera3D position target up fovy type
 data Camera3D = Camera3D Vector3 Vector3 Vector3 Float Int deriving Show
 
 {# pointer *Camera3D as Camera3DPtr -> Camera3D #}
 
-{# fun unsafe WrapCamera3D as ^
-  {%`Camera3DPtr', `WrCamera3DPtr'} -> `()' #}
-
-{# fun unsafe UnwrapToCamera3D as ^
-  {%`WrCamera3DPtr', `Camera3DPtr'} -> `()' #}
-
 instance Storable Camera3D where
   sizeOf = const {# sizeof Camera3D #}
   alignment = const {# alignof Camera3D #}
-  peek :: Camera3DPtr -> IO Camera3D
-  peek p =
-    withWrapper wrapCamera3D p $ \wrp -> peek wrp >>= \(WrCamera3D wrPosition wrTarget wrUp wrFovy wrType) -> do
-      position <- peek wrPosition
-      target   <- peek wrTarget
-      up       <- peek wrUp
-      pure $ Camera3D position target up wrFovy wrType
-  poke :: Camera3DPtr -> Camera3D -> IO ()
-  poke p (Camera3D position target up fovy type_) =
-    withWrapper wrapCamera3D p $ \wrp -> do
-      peek wrp >>= \(WrCamera3D wrPosition wrTarget wrUp _wrFovy _wrType) -> do
-        poke wrPosition position
-        poke wrTarget   target
-        poke wrUp       up
-      unwrapToCamera3D wrp p
-      {# set Camera3D.fovy #} p (realToFrac fovy)
-      {# set Camera3D.type #} p (fromIntegral type_)
+  peek p = do
+    position <- peek $ p `plusPtr` {# offsetof Camera3D.position #}
+    target   <- peek $ p `plusPtr` {# offsetof Camera3D.target #}
+    up       <- peek $ p `plusPtr` {# offsetof Camera3D.up #}
+    fovy     <- {# get Camera3D.fovy #} p
+    type_    <- {# get Camera3D.type #} p
+    pure $ Camera3D position target up (realToFrac fovy) (fromIntegral type_)
+  poke p (Camera3D position target up fovy type_) = do
+    poke (p `plusPtr` {# offsetof Camera3D.position #}) position
+    poke (p `plusPtr` {# offsetof Camera3D.target #})   target
+    poke (p `plusPtr` {# offsetof Camera3D.up #})       up
+    {# set Camera3D.fovy #} p (realToFrac fovy)
+    {# set Camera3D.type #} p (fromIntegral type_)
