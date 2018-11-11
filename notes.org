@@ -54,13 +54,13 @@ imageHeight image = fromIntegral <$> withForeignPtr (coerce image) height
   where height = {# get Image.height #}
 * Bind plan
 ** Plan
-- [ ] Review Haddock format.
+- [X] Review Haddock format.
 
 - [X] Identify all the structs used in the public raylib API.
 
-- [ ] Classify those structs as simple, or complex. Complex structs are either unloadable or in a special category. Most of this work has been done, and just needs review.
+- [X] Classify those structs as simple, or complex. Complex structs are either unloadable or in a special category. Most of this work has been done, and just needs review.
 
-- [ ] Create Storable bindings for simple structs.
+- [X] Create Storable bindings for simple structs.
 
 - [ ] Create pointer newtype bindings for complex unloadable structs.
 
@@ -87,3 +87,5 @@ Each module will have a "public" version with some Haskell cleanups, and an "Int
 - [X] sizeOf _ = {# sizeof X #} is more clear than sizeOf = const {# sizeof X #}; replace the definitions.
 - [X] Put strict annotations on all the data fields.
 - [X] Double check derived instances on data types. We should probably have Show and Eq on all datatypes.
+- [ ] Finish creating field accessors for basic data types.
+- [ ] Review and improve documentation

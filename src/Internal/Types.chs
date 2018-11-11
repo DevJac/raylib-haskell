@@ -11,8 +11,12 @@ import Foreign.Storable
 #include "raylib.h"
 #include "Types.h"
 
--- | Color r g b a
-data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
+-- | @Color r g b a@
+data Color = Color { colorR :: !Word8 -- ^ red channel
+                   , colorG :: !Word8 -- ^ blue channel
+                   , colorB :: !Word8 -- ^ green channel
+                   , colorA :: !Word8 -- ^ alpha channel
+                   } deriving (Show, Eq)
 
 {# pointer *Color as ColorPtr -> Color #}
 
@@ -31,8 +35,12 @@ instance Storable Color where
     {# set Color.b #} p (fromIntegral b)
     {# set Color.a #} p (fromIntegral a)
 
--- | Rectangle x y width height
-data Rectangle = Rectangle !Float !Float !Float !Float deriving (Show, Eq)
+-- | @Rectangle x y width height@
+data Rectangle = Rectangle { rectangleX :: !Float -- ^ X coordinate
+                           , rectangleY :: !Float -- ^ Y coordinate
+                           , rectangleWidth :: !Float -- ^ width
+                           , rectangleHeight :: !Float -- ^ height
+                           } deriving (Show, Eq)
 
 {# pointer *Rectangle as RectanglePtr -> Rectangle #}
 
@@ -51,8 +59,10 @@ instance Storable Rectangle where
     {# set Rectangle.width #}  p (realToFrac width)
     {# set Rectangle.height #} p (realToFrac height)
 
--- | Vector2 x y
-data Vector2 = Vector2 !Float !Float deriving (Show, Eq)
+-- | @Vector2 x y@
+data Vector2 = Vector2 { vector2X :: !Float -- ^ X coordinate
+                       , vector2Y :: !Float -- ^ Y coordinate
+                       } deriving (Show, Eq)
 
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
 
@@ -67,8 +77,11 @@ instance Storable Vector2 where
     {# set Vector2.x #} p (realToFrac x)
     {# set Vector2.y #} p (realToFrac y)
 
--- | Vector3 x y z
-data Vector3 = Vector3 !Float !Float !Float deriving (Show, Eq)
+-- | @Vector3 x y z@
+data Vector3 = Vector3 { vector3X :: !Float -- ^ X coordinate
+                       , vector3Y :: !Float -- ^ Y coordinate
+                       , vector3Z :: !Float -- ^ Z coordinate
+                       } deriving (Show, Eq)
 
 {# pointer *Vector3 as Vector3Ptr -> Vector3 #}
 
@@ -85,8 +98,16 @@ instance Storable Vector3 where
     {# set Vector3.y #} p (realToFrac y)
     {# set Vector3.z #} p (realToFrac z)
 
--- | Vector4 x y z w
-data Vector4 = Vector4 !Float !Float !Float !Float deriving (Show, Eq)
+-- | @Vector4 x y z w@
+--
+--   This is also known as a 'Quaternion' in Raylib.
+data Vector4 = Vector4 { vector4X :: !Float -- ^ X coordinate
+                       , vector4Y :: !Float -- ^ Y coordinate
+                       , vector4Z :: !Float -- ^ Z coordinate
+                       , vector4W :: !Float -- ^ W coordinate
+                       } deriving (Show, Eq)
+
+type Quaternion = Vector4
 
 {# pointer *Vector4 as Vector4Ptr -> Vector4 #}
 
@@ -105,11 +126,26 @@ instance Storable Vector4 where
     {# set Vector4.z #} p (realToFrac z)
     {# set Vector4.w #} p (realToFrac w)
 
--- | Matrix m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15
-data Matrix = Matrix !Float !Float !Float !Float
-                     !Float !Float !Float !Float
-                     !Float !Float !Float !Float
-                     !Float !Float !Float !Float deriving (Show, Eq)
+-- | @Matrix m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15@
+--
+--   Note the field accessors follow a naming scheme inspired by __zero-based__ indexing. @matrix01@ accesses the value on the \"zeroth\" row and first column.
+data Matrix = Matrix { matrix00 :: !Float -- ^ \"zeroth\" row, \"zeroth\" column
+                     , matrix01 :: !Float
+                     , matrix02 :: !Float
+                     , matrix03 :: !Float
+                     , matrix10 :: !Float
+                     , matrix11 :: !Float
+                     , matrix12 :: !Float -- ^ first row, second column
+                     , matrix13 :: !Float
+                     , matrix20 :: !Float
+                     , matrix21 :: !Float
+                     , matrix22 :: !Float
+                     , matrix23 :: !Float
+                     , matrix30 :: !Float
+                     , matrix31 :: !Float -- ^ third row, first column
+                     , matrix32 :: !Float
+                     , matrix33 :: !Float
+                     } deriving (Show, Eq)
 
 {# pointer *Matrix as MatrixPtr -> Matrix #}
 
