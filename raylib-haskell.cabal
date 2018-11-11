@@ -52,6 +52,7 @@ executable raylib-haskell
                         -Wnoncanonical-monad-instances
                         -Wnoncanonical-monadfail-instances
                         -threaded
+                        -rtsopts
                         -fdefer-typed-holes
   build-depends:        base
                       , raylib-haskell
@@ -70,6 +71,7 @@ test-suite tests
                         -Wnoncanonical-monad-instances
                         -Wnoncanonical-monadfail-instances
                         -threaded
+                        -rtsopts
                         -fdefer-typed-holes
   build-depends:        base
                       , raylib-haskell
