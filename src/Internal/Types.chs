@@ -17,8 +17,8 @@ data Color = Color Word8 Word8 Word8 Word8
 {# pointer *Color as ColorPtr -> Color #}
 
 instance Storable Color where
-  sizeOf = const {# sizeof Color #}
-  alignment = const {# alignof Color #}
+  sizeOf _ = {# sizeof Color #}
+  alignment _ = {# alignof Color #}
   peek p = do
     r <- fromIntegral <$> {# get Color.r #} p
     g <- fromIntegral <$> {# get Color.g #} p
@@ -37,8 +37,8 @@ data Rectangle = Rectangle Float Float Float Float
 {# pointer *Rectangle as RectanglePtr -> Rectangle #}
 
 instance Storable Rectangle where
-  sizeOf = const {# sizeof Rectangle #}
-  alignment = const {# alignof Rectangle #}
+  sizeOf _ = {# sizeof Rectangle #}
+  alignment _ = {# alignof Rectangle #}
   peek p = do
     x      <- realToFrac <$> {# get Rectangle.x #}      p
     y      <- realToFrac <$> {# get Rectangle.y #}      p
@@ -57,8 +57,8 @@ data Vector2 = Vector2 Float Float
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
 
 instance Storable Vector2 where
-  sizeOf = const {# sizeof Vector2 #}
-  alignment = const {# alignof Vector2 #}
+  sizeOf _ = {# sizeof Vector2 #}
+  alignment _ = {# alignof Vector2 #}
   peek p = do
     x <- realToFrac <$> {# get Vector2.x #} p
     y <- realToFrac <$> {# get Vector2.y #} p
@@ -73,8 +73,8 @@ data Vector3 = Vector3 Float Float Float deriving Show
 {# pointer *Vector3 as Vector3Ptr -> Vector3 #}
 
 instance Storable Vector3 where
-  sizeOf = const {# sizeof Vector3 #}
-  alignment = const {# alignof Vector3 #}
+  sizeOf _ = {# sizeof Vector3 #}
+  alignment _ = {# alignof Vector3 #}
   peek p = do
     x <- realToFrac <$> {# get Vector3.x #} p
     y <- realToFrac <$> {# get Vector3.y #} p
@@ -91,8 +91,8 @@ data Vector4 = Vector4 Float Float Float Float
 {# pointer *Vector4 as Vector4Ptr -> Vector4 #}
 
 instance Storable Vector4 where
-  sizeOf = const {# sizeof Vector4 #}
-  alignment = const {# alignof Vector4 #}
+  sizeOf _ = {# sizeof Vector4 #}
+  alignment _ = {# alignof Vector4 #}
   peek p = do
     x <- realToFrac <$> {# get Vector4.x #} p
     y <- realToFrac <$> {# get Vector4.y #} p
@@ -114,8 +114,8 @@ data Matrix = Matrix Float Float Float Float
 {# pointer *Matrix as MatrixPtr -> Matrix #}
 
 instance Storable Matrix where
-  sizeOf = const {# sizeof Matrix #}
-  alignment = const {# alignof Matrix #}
+  sizeOf _ = {# sizeof Matrix #}
+  alignment _ = {# alignof Matrix #}
   peek p = do
     m0  <- realToFrac <$> {# get Matrix.m0  #} p
     m1  <- realToFrac <$> {# get Matrix.m1  #} p
@@ -164,8 +164,8 @@ data Camera3D = Camera3D Vector3 Vector3 Vector3 Float Int deriving Show
 {# pointer *Camera3D as Camera3DPtr -> Camera3D #}
 
 instance Storable Camera3D where
-  sizeOf = const {# sizeof Camera3D #}
-  alignment = const {# alignof Camera3D #}
+  sizeOf _ = {# sizeof Camera3D #}
+  alignment _ = {# alignof Camera3D #}
   peek p = do
     position <- peek $ p `plusPtr` {# offsetof Camera3D.position #}
     target   <- peek $ p `plusPtr` {# offsetof Camera3D.target #}
@@ -186,8 +186,8 @@ data Camera2D = Camera2D Vector2 Vector2 Float Float
 {# pointer *Camera2D as Camera2DPtr -> Camera2D #}
 
 instance Storable Camera2D where
-  sizeOf = const {# sizeof Camera2D #}
-  alignment = const {# alignof Camera2D #}
+  sizeOf _ = {# sizeof Camera2D #}
+  alignment _ = {# alignof Camera2D #}
   peek p = do
     offset   <- peek $ p `plusPtr` {# offsetof Camera2D.offset #}
     target   <- peek $ p `plusPtr` {# offsetof Camera2D.target #}
@@ -206,8 +206,8 @@ data Ray = Ray Vector3 Vector3
 {# pointer *Ray as RayPtr -> Ray #}
 
 instance Storable Ray where
-  sizeOf = const {# sizeof Ray #}
-  alignment = const {# alignof Ray #}
+  sizeOf _ = {# sizeof Ray #}
+  alignment _ = {# alignof Ray #}
   peek p = do
     position  <- peek $ p `plusPtr` {# offsetof Ray.position #}
     direction <- peek $ p `plusPtr` {# offsetof Ray.direction #}
@@ -222,8 +222,8 @@ data RayHitInfo = RayHitInfo Bool Float Vector3 Vector3
 {# pointer *RayHitInfo as RayHitInfoPtr -> RayHitInfo #}
 
 instance Storable RayHitInfo where
-  sizeOf = const {# sizeof RayHitInfo #}
-  alignment = const {# sizeof RayHitInfo #}
+  sizeOf _ = {# sizeof RayHitInfo #}
+  alignment _ = {# sizeof RayHitInfo #}
   peek p = do
     hit      <- toBool     <$> {# get RayHitInfo.hit #}      p
     distance <- realToFrac <$> {# get RayHitInfo.distance #} p
