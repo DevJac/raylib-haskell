@@ -5,4 +5,3 @@
 
 cd src
 c2hs Internal/Types.chs -C "-I../raylib/src"
-c2hs Internal/Core.chs -C "-I../raylib/src"

@@ -23,10 +23,10 @@
 - Vector4
 - Quaternion
 - Matrix
-- Camera
-- Camer2D
-- Ray
-- RayHitInfo
+- Camera (Vector3)
+- Camera2D (Vector2)
+- Ray (Vector3)
+- RayHitInfo (Vector3)
 * Storable example
 Remember: there is a Vector2 struct in raylib.h
 
@@ -83,3 +83,7 @@ Modules:
 - Audio
 
 Each module will have a "public" version with some Haskell cleanups, and an "Internal" version with c2hs binding code.
+** Cleanups
+- [ ] sizeOf _ = {# sizeof X #} is more clear than sizeOf = const {# sizeof X #}; replace the definitions.
+- [ ] Put strict annotations on all the data fields.
+- [ ] Double check derived instances on data types. We should probably have Show and Eq on all datatypes.
