@@ -84,6 +84,6 @@ Modules:
 
 Each module will have a "public" version with some Haskell cleanups, and an "Internal" version with c2hs binding code.
 ** Cleanups
-- [ ] sizeOf _ = {# sizeof X #} is more clear than sizeOf = const {# sizeof X #}; replace the definitions.
-- [ ] Put strict annotations on all the data fields.
-- [ ] Double check derived instances on data types. We should probably have Show and Eq on all datatypes.
+- [X] sizeOf _ = {# sizeof X #} is more clear than sizeOf = const {# sizeof X #}; replace the definitions.
+- [X] Put strict annotations on all the data fields.
+- [X] Double check derived instances on data types. We should probably have Show and Eq on all datatypes.

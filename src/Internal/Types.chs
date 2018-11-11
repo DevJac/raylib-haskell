@@ -12,7 +12,7 @@ import Foreign.Storable
 #include "Types.h"
 
 -- | Color r g b a
-data Color = Color !Word8 !Word8 !Word8 !Word8
+data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
 
 {# pointer *Color as ColorPtr -> Color #}
 
@@ -32,7 +32,7 @@ instance Storable Color where
     {# set Color.a #} p (fromIntegral a)
 
 -- | Rectangle x y width height
-data Rectangle = Rectangle !Float !Float !Float !Float
+data Rectangle = Rectangle !Float !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Rectangle as RectanglePtr -> Rectangle #}
 
@@ -52,7 +52,7 @@ instance Storable Rectangle where
     {# set Rectangle.height #} p (realToFrac height)
 
 -- | Vector2 x y
-data Vector2 = Vector2 !Float !Float
+data Vector2 = Vector2 !Float !Float deriving (Show, Eq)
 
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
 
@@ -68,7 +68,7 @@ instance Storable Vector2 where
     {# set Vector2.y #} p (realToFrac y)
 
 -- | Vector3 x y z
-data Vector3 = Vector3 !Float !Float !Float deriving Show
+data Vector3 = Vector3 !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Vector3 as Vector3Ptr -> Vector3 #}
 
@@ -86,7 +86,7 @@ instance Storable Vector3 where
     {# set Vector3.z #} p (realToFrac z)
 
 -- | Vector4 x y z w
-data Vector4 = Vector4 !Float !Float !Float !Float
+data Vector4 = Vector4 !Float !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Vector4 as Vector4Ptr -> Vector4 #}
 
@@ -109,7 +109,7 @@ instance Storable Vector4 where
 data Matrix = Matrix !Float !Float !Float !Float
                      !Float !Float !Float !Float
                      !Float !Float !Float !Float
-                     !Float !Float !Float !Float
+                     !Float !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Matrix as MatrixPtr -> Matrix #}
 
@@ -159,7 +159,7 @@ instance Storable Matrix where
     {# set Matrix.m15 #} p (realToFrac m15)
 
 -- | Camera3D position target up fovy type
-data Camera3D = Camera3D !Vector3 !Vector3 !Vector3 !Float !Int deriving Show
+data Camera3D = Camera3D !Vector3 !Vector3 !Vector3 !Float !Int deriving (Show, Eq)
 
 {# pointer *Camera3D as Camera3DPtr -> Camera3D #}
 
@@ -181,7 +181,7 @@ instance Storable Camera3D where
     {# set Camera3D.type #} p (fromIntegral type_)
 
 -- | Camera2D offset target rotation zoom
-data Camera2D = Camera2D !Vector2 !Vector2 !Float !Float
+data Camera2D = Camera2D !Vector2 !Vector2 !Float !Float deriving (Show, Eq)
 
 {# pointer *Camera2D as Camera2DPtr -> Camera2D #}
 
@@ -201,7 +201,7 @@ instance Storable Camera2D where
     {# set Camera2D.zoom #}     p (realToFrac zoom)
 
 -- | Ray position direction
-data Ray = Ray !Vector3 !Vector3
+data Ray = Ray !Vector3 !Vector3 deriving (Show, Eq)
 
 {# pointer *Ray as RayPtr -> Ray #}
 
@@ -217,7 +217,7 @@ instance Storable Ray where
     poke (p `plusPtr` {# offsetof Ray.direction #}) direction
 
 -- | RayHitInfo hit distance position normal
-data RayHitInfo = RayHitInfo !Bool !Float !Vector3 !Vector3
+data RayHitInfo = RayHitInfo !Bool !Float !Vector3 !Vector3 deriving (Show, Eq)
 
 {# pointer *RayHitInfo as RayHitInfoPtr -> RayHitInfo #}
 
