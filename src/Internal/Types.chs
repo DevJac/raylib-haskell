@@ -12,7 +12,7 @@ import Foreign.Storable
 #include "Types.h"
 
 -- | Color r g b a
-data Color = Color Word8 Word8 Word8 Word8
+data Color = Color !Word8 !Word8 !Word8 !Word8
 
 {# pointer *Color as ColorPtr -> Color #}
 
@@ -32,7 +32,7 @@ instance Storable Color where
     {# set Color.a #} p (fromIntegral a)
 
 -- | Rectangle x y width height
-data Rectangle = Rectangle Float Float Float Float
+data Rectangle = Rectangle !Float !Float !Float !Float
 
 {# pointer *Rectangle as RectanglePtr -> Rectangle #}
 
@@ -52,7 +52,7 @@ instance Storable Rectangle where
     {# set Rectangle.height #} p (realToFrac height)
 
 -- | Vector2 x y
-data Vector2 = Vector2 Float Float
+data Vector2 = Vector2 !Float !Float
 
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
 
@@ -68,7 +68,7 @@ instance Storable Vector2 where
     {# set Vector2.y #} p (realToFrac y)
 
 -- | Vector3 x y z
-data Vector3 = Vector3 Float Float Float deriving Show
+data Vector3 = Vector3 !Float !Float !Float deriving Show
 
 {# pointer *Vector3 as Vector3Ptr -> Vector3 #}
 
@@ -86,7 +86,7 @@ instance Storable Vector3 where
     {# set Vector3.z #} p (realToFrac z)
 
 -- | Vector4 x y z w
-data Vector4 = Vector4 Float Float Float Float
+data Vector4 = Vector4 !Float !Float !Float !Float
 
 {# pointer *Vector4 as Vector4Ptr -> Vector4 #}
 
@@ -106,10 +106,10 @@ instance Storable Vector4 where
     {# set Vector4.w #} p (realToFrac w)
 
 -- | Matrix m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15
-data Matrix = Matrix Float Float Float Float
-                     Float Float Float Float
-                     Float Float Float Float
-                     Float Float Float Float
+data Matrix = Matrix !Float !Float !Float !Float
+                     !Float !Float !Float !Float
+                     !Float !Float !Float !Float
+                     !Float !Float !Float !Float
 
 {# pointer *Matrix as MatrixPtr -> Matrix #}
 
@@ -159,7 +159,7 @@ instance Storable Matrix where
     {# set Matrix.m15 #} p (realToFrac m15)
 
 -- | Camera3D position target up fovy type
-data Camera3D = Camera3D Vector3 Vector3 Vector3 Float Int deriving Show
+data Camera3D = Camera3D !Vector3 !Vector3 !Vector3 !Float !Int deriving Show
 
 {# pointer *Camera3D as Camera3DPtr -> Camera3D #}
 
@@ -181,7 +181,7 @@ instance Storable Camera3D where
     {# set Camera3D.type #} p (fromIntegral type_)
 
 -- | Camera2D offset target rotation zoom
-data Camera2D = Camera2D Vector2 Vector2 Float Float
+data Camera2D = Camera2D !Vector2 !Vector2 !Float !Float
 
 {# pointer *Camera2D as Camera2DPtr -> Camera2D #}
 
@@ -201,7 +201,7 @@ instance Storable Camera2D where
     {# set Camera2D.zoom #}     p (realToFrac zoom)
 
 -- | Ray position direction
-data Ray = Ray Vector3 Vector3
+data Ray = Ray !Vector3 !Vector3
 
 {# pointer *Ray as RayPtr -> Ray #}
 
@@ -217,7 +217,7 @@ instance Storable Ray where
     poke (p `plusPtr` {# offsetof Ray.direction #}) direction
 
 -- | RayHitInfo hit distance position normal
-data RayHitInfo = RayHitInfo Bool Float Vector3 Vector3
+data RayHitInfo = RayHitInfo !Bool !Float !Vector3 !Vector3
 
 {# pointer *RayHitInfo as RayHitInfoPtr -> RayHitInfo #}
 
