@@ -1,4 +1,4 @@
-import Internal.Types
+import Internal.Bindings
 import Foreign.Storable
 import Foreign.Marshal.Utils
 import Foreign.Marshal.Alloc

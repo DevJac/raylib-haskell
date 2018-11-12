@@ -1,5 +1,13 @@
+{- We will use a single c2hs file for this entire project. This is due to a couple of c2hs bugs:
+
+   - {# import ... #} breaks implicit c2hs imports, which makes using multiple c2hs modules hard.
+     See: https://github.com/haskell/c2hs/issues/189
+
+   - The finalizers defined by {# pointer ... finalizer ... #} do not work across modules.
+     See: https://github.com/haskell/c2hs/issues/174
+-}
 {-# LANGUAGE ForeignFunctionInterface #-}
-module Internal.Types where
+module Internal.Bindings where
 import Data.Coerce
 import Data.Word
 import Foreign.ForeignPtr
