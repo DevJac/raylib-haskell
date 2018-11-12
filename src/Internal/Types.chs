@@ -303,3 +303,6 @@ instance Storable RayHitInfo where
 
 -- | Music
 {# pointer *Music foreign finalizer UnloadMusicStream as unloadMusicStream newtype #}
+
+-- | AudioStream
+{# pointer *AudioStream foreign finalizer CloseAudioStream as closeAudioStream newtype #}

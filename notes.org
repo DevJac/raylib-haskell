@@ -1,8 +1,8 @@
 * Structs
 ** complex - need unloading
-- [ ] Music
-- [ ] Sound
-- [ ] Wave
+- [X] Music
+- [X] Sound
+- [X] Wave
 - [X] Shader
 - [X] Material
 - [X] Mesh
@@ -12,21 +12,21 @@
 - [X] Texture2D / Texture
 - [X] RenderTexture2D / RenderTexture
 ** complex - other
-- AudioStream (see CloseAudioStream)
-- MaterialMap
-- CharInfo
+- [X] AudioStream (see CloseAudioStream)
+- [ ] MaterialMap -- This is an internal type of Material
+- [ ] CharInfo -- This is an internal type of Font
 ** simple
-- Color
-- Rectangle
-- Vector2
-- Vector3
-- Vector4
-- Quaternion
-- Matrix
-- Camera (Vector3)
-- Camera2D (Vector2)
-- Ray (Vector3)
-- RayHitInfo (Vector3)
+- [X] Color
+- [X] Rectangle
+- [X] Vector2
+- [X] Vector3
+- [X] Vector4
+- [X] Quaternion
+- [X] Matrix
+- [X] Camera (Vector3)
+- [X] Camera2D (Vector2)
+- [X] Ray (Vector3)
+- [X] RayHitInfo (Vector3)
 * Storable example
 Remember: there is a Vector2 struct in raylib.h
 
@@ -62,7 +62,7 @@ imageHeight image = fromIntegral <$> withForeignPtr (coerce image) height
 
 - [X] Create Storable bindings for simple structs.
 
-- [ ] Create pointer newtype bindings for complex unloadable structs.
+- [X] Create pointer newtype bindings for complex unloadable structs.
 
 - [ ] Bind Core, and Shapes.
 
