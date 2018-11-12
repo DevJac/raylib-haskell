@@ -91,4 +91,4 @@ Each module will have a "public" version with some Haskell cleanups, and an "Int
 - [ ] Review and improve documentation
 - [ ] Create a data type for the type value in Camera3D.
 - [ ] Create accessors for complex types
-- [ ] Bind complex sound types
+- [X] Bind complex sound types
