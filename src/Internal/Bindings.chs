@@ -640,3 +640,83 @@ instance Storable RayHitInfo where
 
 {# fun unsafe CheckCollisionPointTriangle as ^
   {%`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr'} -> `Bool' #}
+
+---------------------------------------------------------------------------------
+-- Textures
+---------------------------------------------------------------------------------
+
+{# fun unsafe WrappedLoadImage as loadImage
+  {`String'} -> `Image' #}
+
+-- TODO // Image/Texture2D data loading/unloading/saving functions
+-- TODO Image LoadImageEx(Color *pixels, int width, int height);                                            // Load image from Color array data (RGBA - 32bit)
+-- TODO Image LoadImagePro(void *data, int width, int height, int format);                                  // Load image from raw data with parameters
+-- TODO Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);        // Load image from RAW file data
+-- TODO void ExportImage(const char *fileName, Image image);                                                // Export image as a PNG file
+-- TODO Texture2D LoadTexture(const char *fileName);                                                        // Load texture from file into GPU memory (VRAM)
+-- TODO Texture2D LoadTextureFromImage(Image image);                                                        // Load texture from image data
+-- TODO RenderTexture2D LoadRenderTexture(int width, int height);                                           // Load texture for rendering (framebuffer)
+-- TODO void UnloadImage(Image image);                                                                      // Unload image from CPU memory (RAM)
+-- TODO void UnloadTexture(Texture2D texture);                                                              // Unload texture from GPU memory (VRAM)
+-- TODO void UnloadRenderTexture(RenderTexture2D target);                                                   // Unload render texture from GPU memory (VRAM)
+-- TODO Color *GetImageData(Image image);                                                                   // Get pixel data from image as a Color struct array
+-- TODO Vector4 *GetImageDataNormalized(Image image);                                                       // Get pixel data from image as Vector4 array (float normalized)
+-- TODO int GetPixelDataSize(int width, int height, int format);                                            // Get pixel data size in bytes (image or texture)
+-- TODO Image GetTextureData(Texture2D texture);                                                            // Get pixel data from GPU texture and return an Image
+-- TODO void UpdateTexture(Texture2D texture, const void *pixels);                                          // Update GPU texture with new data
+
+-- TODO // Image manipulation functions
+-- TODO Image ImageCopy(Image image);                                                                       // Create an image duplicate (useful for transformations)
+-- TODO void ImageToPOT(Image *image, Color fillColor);                                                     // Convert image to POT (power-of-two)
+-- TODO void ImageFormat(Image *image, int newFormat);                                                      // Convert image data to desired format
+-- TODO void ImageAlphaMask(Image *image, Image alphaMask);                                                 // Apply alpha mask to image
+-- TODO void ImageAlphaClear(Image *image, Color color, float threshold);                                   // Clear alpha channel to desired color
+-- TODO void ImageAlphaCrop(Image *image, float threshold);                                                 // Crop image depending on alpha value
+-- TODO void ImageAlphaPremultiply(Image *image);                                                           // Premultiply alpha channel
+-- TODO void ImageCrop(Image *image, Rectangle crop);                                                       // Crop an image to a defined rectangle
+-- TODO void ImageResize(Image *image, int newWidth, int newHeight);                                        // Resize image (bilinear filtering)
+-- TODO void ImageResizeNN(Image *image, int newWidth,int newHeight);                                       // Resize image (Nearest-Neighbor scaling algorithm)
+-- TODO void ImageResizeCanvas(Image *image, int newWidth, int newHeight, 
+-- TODO                        int offsetX, int offsetY, Color color);                                      // Resize canvas and fill with color
+-- TODO void ImageMipmaps(Image *image);                                                                    // Generate all mipmap levels for a provided image
+-- TODO void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                             // Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+-- TODO Image ImageText(const char *text, int fontSize, Color color);                                       // Create an image from text (default font)
+-- TODO Image ImageTextEx(Font font, const char *text, float fontSize, float spacing, Color tint);          // Create an image from text (custom sprite font)
+-- TODO void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec);                          // Draw a source image within a destination image
+-- TODO void ImageDrawRectangle(Image *dst, Vector2 position, Rectangle rec, Color color);                  // Draw rectangle within an image
+-- TODO void ImageDrawText(Image *dst, Vector2 position, const char *text, int fontSize, Color color);      // Draw text (default font) within an image (destination)
+-- TODO void ImageDrawTextEx(Image *dst, Vector2 position, Font font, const char *text, 
+-- TODO                      float fontSize, float spacing, Color color);                                   // Draw text (custom sprite font) within an image (destination)
+-- TODO void ImageFlipVertical(Image *image);                                                               // Flip image vertically
+-- TODO void ImageFlipHorizontal(Image *image);                                                             // Flip image horizontally
+-- TODO void ImageRotateCW(Image *image);                                                                   // Rotate image clockwise 90deg
+-- TODO void ImageRotateCCW(Image *image);                                                                  // Rotate image counter-clockwise 90deg
+-- TODO void ImageColorTint(Image *image, Color color);                                                     // Modify image color: tint
+-- TODO void ImageColorInvert(Image *image);                                                                // Modify image color: invert
+-- TODO void ImageColorGrayscale(Image *image);                                                             // Modify image color: grayscale
+-- TODO void ImageColorContrast(Image *image, float contrast);                                              // Modify image color: contrast (-100 to 100)
+-- TODO void ImageColorBrightness(Image *image, int brightness);                                            // Modify image color: brightness (-255 to 255)
+-- TODO void ImageColorReplace(Image *image, Color color, Color replace);                                   // Modify image color: replace color
+
+-- TODO // Image generation functions
+-- TODO Image GenImageColor(int width, int height, Color color);                                            // Generate image: plain color
+-- TODO Image GenImageGradientV(int width, int height, Color top, Color bottom);                            // Generate image: vertical gradient
+-- TODO Image GenImageGradientH(int width, int height, Color left, Color right);                            // Generate image: horizontal gradient
+-- TODO Image GenImageGradientRadial(int width, int height, float density, Color inner, Color outer);       // Generate image: radial gradient
+-- TODO Image GenImageChecked(int width, int height, int checksX, int checksY, Color col1, Color col2);     // Generate image: checked
+-- TODO Image GenImageWhiteNoise(int width, int height, float factor);                                      // Generate image: white noise
+-- TODO Image GenImagePerlinNoise(int width, int height, int offsetX, int offsetY, float scale);            // Generate image: perlin noise
+-- TODO Image GenImageCellular(int width, int height, int tileSize);                                        // Generate image: cellular algorithm. Bigger tileSize means bigger cells
+
+-- TODO // Texture2D configuration functions
+-- TODO void GenTextureMipmaps(Texture2D *texture);                                                         // Generate GPU mipmaps for a texture
+-- TODO void SetTextureFilter(Texture2D texture, int filterMode);                                           // Set texture scaling filter mode
+-- TODO void SetTextureWrap(Texture2D texture, int wrapMode);                                               // Set texture wrapping mode
+
+-- TODO // Texture2D drawing functions
+-- TODO void DrawTexture(Texture2D texture, int posX, int posY, Color tint);                                // Draw a Texture2D
+-- TODO void DrawTextureV(Texture2D texture, Vector2 position, Color tint);                                 // Draw a Texture2D with position defined as Vector2
+-- TODO void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);   // Draw a Texture2D with extended parameters
+-- TODO void DrawTextureRec(Texture2D texture, Rectangle sourceRec, Vector2 position, Color tint);          // Draw a part of a texture defined by a rectangle
+-- TODO void DrawTexturePro(Texture2D texture, Rectangle sourceRec, Rectangle destRec, Vector2 origin,      // Draw a part of a texture defined by a rectangle with 'pro' parameters
+-- TODO                     float rotation, Color tint);

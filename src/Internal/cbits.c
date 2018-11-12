@@ -87,3 +87,13 @@ void WrappedGetMousePosition(Vector2 *result) {
 void WrappedGetCollisionRec(Rectangle rec1, Rectangle rec2, Rectangle *result) {
   *result = GetCollisionRec(rec1, rec2);
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+// Textures
+/////////////////////////////////////////////////////////////////////////////////
+
+Image *WrappedLoadImage(const char *fileName) {
+  Image *result = malloc(sizeof *result);
+  *result = LoadImage(fileName);
+  return result;
+}
