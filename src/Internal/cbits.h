@@ -22,3 +22,9 @@ void WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera, Ray *result);
 void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result);
 void WrappedGetCameraMatrix(Camera3D camera, Matrix *result);
 void WrappedGetMousePosition(Vector2 *result);
+
+/////////////////////////////////////////////////////////////////////////////////
+// Shapes
+/////////////////////////////////////////////////////////////////////////////////
+
+void WrappedGetCollisionRec(Rectangle rec1, Rectangle rec2, Rectangle *result);

@@ -79,3 +79,11 @@ void WrappedGetCameraMatrix(Camera3D camera, Matrix *result) {
 void WrappedGetMousePosition(Vector2 *result) {
   *result = GetMousePosition();
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+// Shapes
+/////////////////////////////////////////////////////////////////////////////////
+
+void WrappedGetCollisionRec(Rectangle rec1, Rectangle rec2, Rectangle *result) {
+  *result = GetCollisionRec(rec1, rec2);
+}
