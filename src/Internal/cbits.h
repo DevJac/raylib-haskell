@@ -13,3 +13,11 @@ void WrappedUnloadWave(Wave *wave);
 void WrappedUnloadSound(Sound *sound);
 void WrappedUnloadMusicStream(Music *music);
 void WrappedCloseAudioStream(AudioStream *audioStream);
+
+/////////////////////////////////////////////////////////////////////////////////
+// Core
+/////////////////////////////////////////////////////////////////////////////////
+
+void WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera, Ray *result);
+void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result);
+void WrappedGetCameraMatrix(Camera3D camera, Matrix *result);

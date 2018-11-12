@@ -59,3 +59,19 @@ void WrappedCloseAudioStream(AudioStream *audioStream) {
   CloseAudioStream(*audioStream);
   free(audioStream);
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+// Core
+/////////////////////////////////////////////////////////////////////////////////
+
+void WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera, Ray *result) {
+  *result = GetMouseRay(mousePosition, camera);
+}
+
+void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result) {
+  *result = GetWorldToScreen(position, camera);
+}
+
+void WrappedGetCameraMatrix(Camera3D camera, Matrix *result) {
+  *result = GetCameraMatrix(camera);
+}
