@@ -1,16 +1,16 @@
 * Structs
 ** complex - need unloading
-- Music
-- Sound
-- Wave
-- Shader
-- Material
-- Mesh
-- Model
-- Font
-- Image
-- Texture2D / Texture
-- RenderTexture2D / RenderTexture
+- [ ] Music
+- [ ] Sound
+- [ ] Wave
+- [X] Shader
+- [X] Material
+- [X] Mesh
+- [X] Model
+- [X] Font
+- [X] Image
+- [X] Texture2D / Texture
+- [X] RenderTexture2D / RenderTexture
 ** complex - other
 - AudioStream (see CloseAudioStream)
 - MaterialMap
@@ -89,3 +89,6 @@ Each module will have a "public" version with some Haskell cleanups, and an "Int
 - [X] Double check derived instances on data types. We should probably have Show and Eq on all datatypes.
 - [ ] Finish creating field accessors for basic data types.
 - [ ] Review and improve documentation
+- [ ] Create a data type for the type value in Camera3D.
+- [ ] Create accessors for complex types
+- [ ] Bind complex sound types

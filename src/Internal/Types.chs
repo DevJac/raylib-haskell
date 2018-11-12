@@ -100,7 +100,7 @@ instance Storable Vector3 where
 
 -- | @Vector4 x y z w@
 --
---   This is also known as a 'Quaternion' in Raylib.
+--   This is also known as a 'Quaternion' in raylib.
 data Vector4 = Vector4 { vector4X :: !Float -- ^ X coordinate
                        , vector4Y :: !Float -- ^ Y coordinate
                        , vector4Z :: !Float -- ^ Z coordinate
@@ -271,3 +271,29 @@ instance Storable RayHitInfo where
     {# set RayHitInfo.distance #} p (realToFrac distance)
     poke (p `plusPtr` {# offsetof RayHitInfo.position #}) position
     poke (p `plusPtr` {# offsetof RayHitInfo.normal #})   normal
+
+-- | Image
+{# pointer *Image foreign finalizer WrappedUnloadImage as unloadImage newtype #}
+
+-- | Texture2D
+{# pointer *Texture2D foreign finalizer WrappedUnloadTexture as unloadTexture newtype #}
+
+-- | RenderTexture2D
+{# pointer *RenderTexture2D foreign finalizer WrappedUnloadRenderTexture as unloadRenderTexture newtype #}
+
+-- | Font
+{# pointer *Font foreign finalizer WrappedUnloadFont as unloadFont newtype #}
+
+-- | Model
+{# pointer *Model foreign finalizer WrappedUnloadModel as unloadModel newtype #}
+
+-- | Mesh
+
+-- Unlike other Unload* functions in raylib, UnloadMesh takes a pointer, so we do not need to wrap UnloadMesh.
+{# pointer *Mesh foreign finalizer UnloadMesh as unloadMesh newtype #}
+
+-- | Material
+{# pointer *Material foreign finalizer WrappedUnloadMaterial as unloadMaterial newtype #}
+
+-- | Shader
+{# pointer *Shader foreign finalizer WrappedUnloadShader as unloadShader newtype #}
