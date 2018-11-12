@@ -75,3 +75,7 @@ void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result)
 void WrappedGetCameraMatrix(Camera3D camera, Matrix *result) {
   *result = GetCameraMatrix(camera);
 }
+
+void WrappedGetMousePosition(Vector2 *result) {
+  *result = GetMousePosition();
+}

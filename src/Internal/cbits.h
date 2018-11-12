@@ -21,3 +21,4 @@ void WrappedCloseAudioStream(AudioStream *audioStream);
 void WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera, Ray *result);
 void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result);
 void WrappedGetCameraMatrix(Camera3D camera, Matrix *result);
+void WrappedGetMousePosition(Vector2 *result);
