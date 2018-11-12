@@ -17,6 +17,7 @@ import Foreign.Ptr
 import Foreign.Storable
 
 #include "raylib.h"
+#include "cbits.h"
 
 -- | @Color r g b a@
 data Color = Color { colorR :: !Word8 -- ^ red channel
@@ -280,37 +281,39 @@ instance Storable RayHitInfo where
     poke (p `plusPtr` {# offsetof RayHitInfo.normal #})   normal
 
 -- | Image
-{# pointer *Image foreign finalizer UnloadImage as unloadImage newtype #}
+{# pointer *Image foreign finalizer WrappedUnloadImage as unloadImage newtype #}
 
 -- | Texture2D
-{# pointer *Texture2D foreign finalizer UnloadTexture as unloadTexture newtype #}
+{# pointer *Texture2D foreign finalizer WrappedUnloadTexture as unloadTexture newtype #}
 
 -- | RenderTexture2D
-{# pointer *RenderTexture2D foreign finalizer UnloadRenderTexture as unloadRenderTexture newtype #}
+{# pointer *RenderTexture2D foreign finalizer WrappedUnloadRenderTexture as unloadRenderTexture newtype #}
 
 -- | Font
-{# pointer *Font foreign finalizer UnloadFont as unloadFont newtype #}
+{# pointer *Font foreign finalizer WrappedUnloadFont as unloadFont newtype #}
 
 -- | Model
-{# pointer *Model foreign finalizer UnloadModel as unloadModel newtype #}
+{# pointer *Model foreign finalizer WrappedUnloadModel as unloadModel newtype #}
 
 -- | Mesh
+
+-- raylib's UnloadMesh function takes a pointer, so we don't have to wrap it like the other Unload* functions.
 {# pointer *Mesh foreign finalizer UnloadMesh as unloadMesh newtype #}
 
 -- | Material
-{# pointer *Material foreign finalizer UnloadMaterial as unloadMaterial newtype #}
+{# pointer *Material foreign finalizer WrappedUnloadMaterial as unloadMaterial newtype #}
 
 -- | Shader
-{# pointer *Shader foreign finalizer UnloadShader as unloadShader newtype #}
+{# pointer *Shader foreign finalizer WrappedUnloadShader as unloadShader newtype #}
 
 -- | Wave
-{# pointer *Wave foreign finalizer UnloadWave as unloadWave newtype #}
+{# pointer *Wave foreign finalizer WrappedUnloadWave as unloadWave newtype #}
 
 -- | Sound
-{# pointer *Sound foreign finalizer UnloadSound as unloadSound newtype #}
+{# pointer *Sound foreign finalizer WrappedUnloadSound as unloadSound newtype #}
 
 -- | Music
-{# pointer *Music foreign finalizer UnloadMusicStream as unloadMusicStream newtype #}
+{# pointer *Music foreign finalizer WrappedUnloadMusicStream as unloadMusicStream newtype #}
 
 -- | AudioStream
-{# pointer *AudioStream foreign finalizer CloseAudioStream as closeAudioStream newtype #}
+{# pointer *AudioStream foreign finalizer WrappedCloseAudioStream as closeAudioStream newtype #}
