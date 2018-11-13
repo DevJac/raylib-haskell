@@ -23,7 +23,7 @@ import Foreign.Storable
 -- Types
 ---------------------------------------------------------------------------------
 
--- Color r g b a
+-- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
 
 {# pointer *Color as ColorPtr -> Color #}
@@ -43,7 +43,7 @@ instance Storable Color where
     {# set Color.b #} p (fromIntegral b)
     {# set Color.a #} p (fromIntegral a)
 
--- Rectangle x y width height
+-- | @Rectangle x y width height@
 data Rectangle = Rectangle !Float !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Rectangle as RectanglePtr -> Rectangle #}
@@ -63,7 +63,7 @@ instance Storable Rectangle where
     {# set Rectangle.width #}  p (realToFrac width)
     {# set Rectangle.height #} p (realToFrac height)
 
--- Vector2 x y
+-- | @Vector2 x y@
 data Vector2 = Vector2 !Float !Float deriving (Show, Eq)
 
 {# pointer *Vector2 as Vector2Ptr -> Vector2 #}
@@ -79,7 +79,7 @@ instance Storable Vector2 where
     {# set Vector2.x #} p (realToFrac x)
     {# set Vector2.y #} p (realToFrac y)
 
--- Vector3 x y z
+-- | @Vector3 x y z@
 data Vector3 = Vector3 !Float !Float !Float deriving (Show, Eq)
 
 {# pointer *Vector3 as Vector3Ptr -> Vector3 #}
@@ -97,7 +97,8 @@ instance Storable Vector3 where
     {# set Vector3.y #} p (realToFrac y)
     {# set Vector3.z #} p (realToFrac z)
 
--- Vector4 x y z w
+-- | @Vector4 x y z w@
+--
 -- This is also known as a 'Quaternion' in raylib.
 data Vector4 = Vector4 !Float !Float !Float !Float deriving (Show, Eq)
 
@@ -120,7 +121,7 @@ instance Storable Vector4 where
     {# set Vector4.z #} p (realToFrac z)
     {# set Vector4.w #} p (realToFrac w)
 
--- Matrix m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15
+-- | @Matrix m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15@
 data Matrix = Matrix !Float !Float !Float !Float
                      !Float !Float !Float !Float
                      !Float !Float !Float !Float
@@ -173,7 +174,7 @@ instance Storable Matrix where
     {# set Matrix.m14 #} p (realToFrac m14)
     {# set Matrix.m15 #} p (realToFrac m15)
 
--- Camera3D position target up fovy type
+-- | @Camera3D position target up fovy type@
 data Camera3D = Camera3D !Vector3 !Vector3 !Vector3 !Float !Int deriving (Show, Eq)
 
 {# pointer *Camera3D as Camera3DPtr -> Camera3D #}
@@ -195,7 +196,7 @@ instance Storable Camera3D where
     {# set Camera3D.fovy #} p (realToFrac fovy)
     {# set Camera3D.type #} p (fromIntegral type_)
 
--- Camera2D offset target rotation zoom
+-- | @Camera2D offset target rotation zoom@
 data Camera2D = Camera2D !Vector2 !Vector2 !Float !Float deriving (Show, Eq)
 
 {# pointer *Camera2D as Camera2DPtr -> Camera2D #}
@@ -215,7 +216,7 @@ instance Storable Camera2D where
     {# set Camera2D.rotation #} p (realToFrac rotation)
     {# set Camera2D.zoom #}     p (realToFrac zoom)
 
--- Ray position direction
+-- | @Ray position direction@
 data Ray = Ray !Vector3 !Vector3 deriving (Show, Eq)
 
 {# pointer *Ray as RayPtr -> Ray #}
@@ -231,7 +232,7 @@ instance Storable Ray where
     poke (p `plusPtr` {# offsetof Ray.position #})  position
     poke (p `plusPtr` {# offsetof Ray.direction #}) direction
 
--- RayHitInfo hit distance position normal
+-- | @RayHitInfo hit distance position normal@
 data RayHitInfo = RayHitInfo !Bool !Float !Vector3 !Vector3 deriving (Show, Eq)
 
 {# pointer *RayHitInfo as RayHitInfoPtr -> RayHitInfo #}
