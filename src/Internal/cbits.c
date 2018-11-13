@@ -97,3 +97,25 @@ Image *WrappedLoadImage(const char *fileName) {
   *result = LoadImage(fileName);
   return result;
 }
+
+Texture2D *WrappedLoadTexture(const char *fileName) {
+  Texture2D *result = malloc(sizeof *result);
+  *result = LoadTexture(fileName);
+  return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// Text
+/////////////////////////////////////////////////////////////////////////////////
+
+Font *WrappedGetFontDefault(void) {
+  Font *result = malloc(sizeof *result);
+  *result = GetFontDefault();
+  return result;
+}
+
+Font *WrappedLoadFont(const char *fileName) {
+  Font *result = malloc(sizeof *result);
+  *result = LoadFont(fileName);
+  return result;
+}

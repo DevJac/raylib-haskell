@@ -2,12 +2,13 @@ import Internal.Bindings
 import Foreign.Storable
 import Foreign.Marshal.Utils
 import Foreign.Marshal.Alloc
+import Control.Concurrent
 
 main :: IO ()
 main = do
-  let d = Camera3D (Vector3 1 2 3) (Vector3 4 5 6) (Vector3 7 8 9) 10 11
-  alloca $ \p -> do
-    putStrLn $ "Pointer from Haskell main alloca: " ++ (show p)
-    poke p d
-    print =<< peek p
-    print =<< peek p
+  initWindow 500 500 "Test"
+  threadDelay (4 * 1000 * 1000)
+  icon <- loadImage "test_data/raylib_16x16.png"
+  setWindowIcon icon
+  threadDelay (4 * 1000 * 1000)
+  closeWindow

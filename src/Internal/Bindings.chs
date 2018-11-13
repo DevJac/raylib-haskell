@@ -653,12 +653,12 @@ instance Storable RayHitInfo where
 -- TODO Image LoadImagePro(void *data, int width, int height, int format);                                  // Load image from raw data with parameters
 -- TODO Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);        // Load image from RAW file data
 -- TODO void ExportImage(const char *fileName, Image image);                                                // Export image as a PNG file
--- TODO Texture2D LoadTexture(const char *fileName);                                                        // Load texture from file into GPU memory (VRAM)
+
+{# fun unsafe WrappedLoadTexture as loadTexture
+  {`String'} -> `Texture2D' #}
+
 -- TODO Texture2D LoadTextureFromImage(Image image);                                                        // Load texture from image data
 -- TODO RenderTexture2D LoadRenderTexture(int width, int height);                                           // Load texture for rendering (framebuffer)
--- TODO void UnloadImage(Image image);                                                                      // Unload image from CPU memory (RAM)
--- TODO void UnloadTexture(Texture2D texture);                                                              // Unload texture from GPU memory (VRAM)
--- TODO void UnloadRenderTexture(RenderTexture2D target);                                                   // Unload render texture from GPU memory (VRAM)
 -- TODO Color *GetImageData(Image image);                                                                   // Get pixel data from image as a Color struct array
 -- TODO Vector4 *GetImageDataNormalized(Image image);                                                       // Get pixel data from image as Vector4 array (float normalized)
 -- TODO int GetPixelDataSize(int width, int height, int format);                                            // Get pixel data size in bytes (image or texture)
@@ -720,3 +720,33 @@ instance Storable RayHitInfo where
 -- TODO void DrawTextureRec(Texture2D texture, Rectangle sourceRec, Vector2 position, Color tint);          // Draw a part of a texture defined by a rectangle
 -- TODO void DrawTexturePro(Texture2D texture, Rectangle sourceRec, Rectangle destRec, Vector2 origin,      // Draw a part of a texture defined by a rectangle with 'pro' parameters
 -- TODO                     float rotation, Color tint);
+
+---------------------------------------------------------------------------------
+-- Text
+---------------------------------------------------------------------------------
+
+{# fun unsafe WrappedGetFontDefault as getFontDefault
+  {} -> `Font' #}
+
+{# fun unsafe WrappedLoadFont as loadFont
+  {`String'} -> `Font' #}
+
+-- TODO // Font loading/unloading functions
+-- TODO Font LoadFontEx(const char *fileName, int fontSize, int charsCount, int *fontChars);              // Load font from file with extended parameters
+-- TODO CharInfo *LoadFontData(const char *fileName, int fontSize, int *fontChars, int charsCount, bool sdf); // Load font data for further use
+-- TODO Image GenImageFontAtlas(CharInfo *chars, int fontSize, int charsCount, int padding, int packMethod);  // Generate image font atlas using chars info
+
+{# fun unsafe DrawFPS as ^
+  {`Int', `Int'} -> `()' #}
+
+{# fun unsafe DrawText as ^
+  {`String', `Int', `Int', `Int', %`ColorPtr'} -> `()' #}
+
+{# fun unsafe DrawTextEx as ^
+  {%`Font', `String', %`Vector2Ptr', `Float', `Float', %`ColorPtr'} -> `()' #}
+
+-- TODO // Text misc. functions
+-- TODO int MeasureText(const char *text, int fontSize);                                                  // Measure string width for default font
+-- TODO Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing);                // Measure string size for Font
+-- TODO const char *SubText(const char *text, int position, int length);                                  // Get a piece of a text string
+-- TODO int GetGlyphIndex(Font font, int character);                                                      // Get index position for a unicode character on font
