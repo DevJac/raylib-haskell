@@ -400,9 +400,13 @@ instance Storable RayHitInfo where
 {# fun unsafe TakeScreenshot as ^
   {`String'} -> `()' #}
 
+{# fun unsafe GetWorkingDirectory as ^
+  {} -> `String' #}
+
+{# fun unsafe ChangeDirectory as ^
+  {`String'} -> `Bool' #}
+
 -- TODO // Files management functions
--- TODO const char *GetWorkingDirectory(void);                                  // Get current working directory (uses static string)
--- TODO bool ChangeDirectory(const char *dir);                                  // Change working directory, returns true if success
 -- TODO bool IsFileDropped(void);                                               // Check if a file has been dropped into window
 -- TODO char **GetDroppedFiles(int *count);                                     // Get dropped files names
 -- TODO void ClearDroppedFiles(void);                                           // Clear dropped files paths buffer
@@ -425,17 +429,35 @@ instance Storable RayHitInfo where
 {# fun unsafe SetExitKey as ^
   {`Int'} -> `()' #}
 
--- TODO // Input-related functions: gamepads
--- TODO bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
--- TODO bool IsGamepadName(int gamepad, const char *name);                      // Check gamepad name (if available)
--- TODO const char *GetGamepadName(int gamepad);                                // Return gamepad internal name id
--- TODO bool IsGamepadButtonPressed(int gamepad, int button);                   // Detect if a gamepad button has been pressed once
--- TODO bool IsGamepadButtonDown(int gamepad, int button);                      // Detect if a gamepad button is being pressed
--- TODO bool IsGamepadButtonReleased(int gamepad, int button);                  // Detect if a gamepad button has been released once
--- TODO bool IsGamepadButtonUp(int gamepad, int button);                        // Detect if a gamepad button is NOT being pressed
--- TODO int GetGamepadButtonPressed(void);                                      // Get the last gamepad button pressed
--- TODO int GetGamepadAxisCount(int gamepad);                                   // Return gamepad axis count for a gamepad
--- TODO float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
+{# fun unsafe IsGamepadAvailable as ^
+  {`Int'} -> `Bool' #}
+
+{# fun unsafe IsGamepadName as ^
+  {`Int', `String'} -> `Bool' #}
+
+{# fun unsafe GetGamepadName as ^
+  {`Int'} -> `String' #}
+
+{# fun unsafe IsGamepadButtonPressed as ^
+  {`Int', `Int'} -> `Bool' #}
+
+{# fun unsafe IsGamepadButtonDown as ^
+  {`Int', `Int'} -> `Bool' #}
+
+{# fun unsafe IsGamepadButtonReleased as ^
+  {`Int', `Int'} -> `Bool' #}
+
+{# fun unsafe IsGamepadButtonUp as ^
+  {`Int', `Int'} -> `Bool' #}
+
+{# fun unsafe GetGamepadButtonPressed as ^
+  {} -> `Int' #}
+
+{# fun unsafe GetGamepadAxisCount as ^
+  {`Int'} -> `Int' #}
+
+{# fun unsafe GetGamepadAxisMovement as ^
+  {`Int', `Int'} -> `Float' #}
 
 {# fun unsafe IsMouseButtonPressed as ^
   {`Int'} -> `Bool' #}
