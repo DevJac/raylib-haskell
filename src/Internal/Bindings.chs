@@ -338,7 +338,7 @@ instance Storable RayHitInfo where
   {} -> `()' #}
 
 {# fun unsafe ClearBackground as ^
-  {%`ColorPtr'} -> `()' #}
+  {with* %`Color'} -> `()' #}
 
 {# fun unsafe BeginDrawing as ^
   {} -> `()' #}
@@ -347,13 +347,13 @@ instance Storable RayHitInfo where
   {} -> `()' #}
 
 {# fun unsafe BeginMode2D as ^
-  {%`Camera2DPtr'} -> `()' #}
+  {with* %`Camera2D'} -> `()' #}
 
 {# fun unsafe EndMode2D as ^
   {} -> `()' #}
 
 {# fun unsafe BeginMode3D as ^
-  {%`Camera3DPtr'} -> `()' #}
+  {with* %`Camera3D'} -> `()' #}
 
 {# fun unsafe EndMode3D as ^
   {} -> `()' #}
@@ -365,13 +365,13 @@ instance Storable RayHitInfo where
   {} -> `()' #}
 
 {# fun unsafe WrappedGetMouseRay as getMouseRay
-  {%`Vector2Ptr', %`Camera3DPtr', alloca- `Ray' peek*} -> `()' #}
+  {with* %`Vector2', with* %`Camera3D', alloca- `Ray' peek*} -> `()' #}
 
 {# fun unsafe WrappedGetWorldToScreen as getWorldToScreen
-  {%`Vector3Ptr', %`Camera3DPtr', alloca- `Vector2' peek*} -> `()' #}
+  {with* %`Vector3', with* %`Camera3D', alloca- `Vector2' peek*} -> `()' #}
 
 {# fun unsafe WrappedGetCameraMatrix as getCameraMatrix
-  {%`Camera3DPtr', alloca- `Matrix' peek*} -> `()' #}
+  {with* %`Camera3D', alloca- `Matrix' peek*} -> `()' #}
 
 {# fun unsafe SetTargetFPS as ^
   {`Int'} -> `()' #}
@@ -459,7 +459,7 @@ instance Storable RayHitInfo where
   {alloca- `Vector2' peek*} -> `()' #}
 
 {# fun unsafe SetMousePosition as ^
-  {%`Vector2Ptr'} -> `()' #}
+  {with* %`Vector2'} -> `()' #}
 
 {# fun unsafe GetMouseWheelMove as ^
   {} -> `Int' #}
@@ -481,10 +481,10 @@ instance Storable RayHitInfo where
 -- TODO float GetGesturePinchAngle(void);                                       // Get gesture pinch angle
 
 {# fun unsafe SetCameraMode as ^
-  {%`Camera3DPtr', `Int'} -> `()' #}
+  {with* %`Camera3D', `Int'} -> `()' #}
 
 {# fun unsafe UpdateCamera as ^
-  {`Camera3DPtr'} -> `()' #}
+  {with* `Camera3D'} -> `()' #}
 
 {# fun unsafe SetCameraPanControl as ^
   {`Int'} -> `()' #}
@@ -503,97 +503,97 @@ instance Storable RayHitInfo where
 ---------------------------------------------------------------------------------
 
 {# fun unsafe DrawPixel as ^
-  {`Int', `Int', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawPixelV as ^
-  {%`Vector2Ptr', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawLine as ^
-  {`Int', `Int', `Int', `Int', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Int', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawLineV as ^
-  {%`Vector2Ptr', %`Vector2Ptr', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawLineEx as ^
-  {%`Vector2Ptr', %`Vector2Ptr', `Float', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawLineBezier as ^
-  {%`Vector2Ptr', %`Vector2Ptr', `Float', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircle as ^
-  {`Int', `Int', `Float', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleGradient as ^
-  {`Int', `Int', `Float', %`ColorPtr', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Float', with* %`Color', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleV as ^
-  {%`Vector2Ptr', `Float', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawCircleLines as ^
-  {`Int', `Int', `Float', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangle as ^
-  {`Int', `Int', `Int', `Int', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Int', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleV as ^
-  {%`Vector2Ptr', %`Vector2Ptr', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleRec as ^
-  {%`RectanglePtr', %`ColorPtr'} -> `()' #}
+  {with* %`Rectangle', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectanglePro as ^
-  {%`RectanglePtr', %`Vector2Ptr', `Float', %`ColorPtr'} -> `()' #}
+  {with* %`Rectangle', with* %`Vector2', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleGradientV as ^
-  {`Int', `Int', `Int', `Int', %`ColorPtr', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Int', `Int', with* %`Color', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleGradientH as ^
-  {`Int', `Int', `Int', `Int', %`ColorPtr', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Int', `Int', with* %`Color', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleGradientEx as ^
-  {%`RectanglePtr', %`ColorPtr', %`ColorPtr', %`ColorPtr', %`ColorPtr'} -> `()' #}
+  {with* %`Rectangle', with* %`Color', with* %`Color', with* %`Color', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleLines as ^
-  {`Int', `Int', `Int', `Int', %`ColorPtr'} -> `()' #}
+  {`Int', `Int', `Int', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawRectangleLinesEx as ^
-  {%`RectanglePtr', `Int', %`ColorPtr'} -> `()' #}
+  {with* %`Rectangle', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawTriangle as ^
-  {%`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', with* %`Vector2', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawTriangleLines as ^
-  {%`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', with* %`Vector2', with* %`Vector2', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawPoly as ^
-  {%`Vector2Ptr', `Int', `Float', `Float', %`ColorPtr'} -> `()' #}
+  {with* %`Vector2', `Int', `Float', `Float', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawPolyEx as ^
-  {`Vector2Ptr', `Int', %`ColorPtr'} -> `()' #}
+  {with* `Vector2', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawPolyExLines as ^
-  {`Vector2Ptr', `Int', %`ColorPtr'} -> `()' #}
+  {with* `Vector2', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe CheckCollisionRecs as ^
-  {%`RectanglePtr', %`RectanglePtr'} -> `Bool' #}
+  {with* %`Rectangle', with* %`Rectangle'} -> `Bool' #}
 
 {# fun unsafe CheckCollisionCircles as ^
-  {%`Vector2Ptr', `Float', %`Vector2Ptr', `Float'} -> `Bool' #}
+  {with* %`Vector2', `Float', with* %`Vector2', `Float'} -> `Bool' #}
 
 {# fun unsafe CheckCollisionCircleRec as ^
-  {%`Vector2Ptr', `Float', %`RectanglePtr'} -> `Bool' #}
+  {with* %`Vector2', `Float', with* %`Rectangle'} -> `Bool' #}
 
 {# fun unsafe WrappedGetCollisionRec as getCollisionRec
-  {%`RectanglePtr', %`RectanglePtr', alloca- `Rectangle' peek*} -> `()' #}
+  {with* %`Rectangle', with* %`Rectangle', alloca- `Rectangle' peek*} -> `()' #}
 
 {# fun unsafe CheckCollisionPointRec as ^
-  {%`Vector2Ptr', %`RectanglePtr'} -> `Bool' #}
+  {with* %`Vector2', with* %`Rectangle'} -> `Bool' #}
 
 {# fun unsafe CheckCollisionPointCircle as ^
-  {%`Vector2Ptr', %`Vector2Ptr', `Float'} -> `Bool' #}
+  {with* %`Vector2', with* %`Vector2', `Float'} -> `Bool' #}
 
 {# fun unsafe CheckCollisionPointTriangle as ^
-  {%`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr', %`Vector2Ptr'} -> `Bool' #}
+  {with* %`Vector2', with* %`Vector2', with* %`Vector2', with* %`Vector2'} -> `Bool' #}
 
 ---------------------------------------------------------------------------------
 -- Textures
@@ -694,10 +694,10 @@ instance Storable RayHitInfo where
   {`Int', `Int'} -> `()' #}
 
 {# fun unsafe DrawText as ^
-  {`String', `Int', `Int', `Int', %`ColorPtr'} -> `()' #}
+  {`String', `Int', `Int', `Int', with* %`Color'} -> `()' #}
 
 {# fun unsafe DrawTextEx as ^
-  {%`Font', `String', %`Vector2Ptr', `Float', `Float', %`ColorPtr'} -> `()' #}
+  {%`Font', `String', with* %`Vector2', `Float', `Float', with* %`Color'} -> `()' #}
 
 -- TODO // Text misc. functions
 -- TODO int MeasureText(const char *text, int fontSize);                                                  // Measure string width for default font
