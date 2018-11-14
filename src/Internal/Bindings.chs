@@ -8,15 +8,13 @@
 -}
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Internal.Bindings where
-import Data.Coerce
-import Data.Word
-import Foreign.C.String
-import Foreign.C.Types
-import Foreign.ForeignPtr
-import Foreign.Marshal.Alloc
-import Foreign.Marshal.Utils
-import Foreign.Ptr
-import Foreign.Storable
+import Data.Word (Word8, Word32)
+import Foreign.C.String (CString)
+import Foreign.C.Types (CInt)
+import Foreign.Marshal.Alloc (alloca)
+import Foreign.Marshal.Utils (with, toBool, fromBool)
+import Foreign.Ptr (Ptr, plusPtr)
+import Foreign.Storable (Storable(peek, poke))
 
 #include "raylib.h"
 #include "cbits.h"
@@ -208,7 +206,7 @@ instance Eq GamepadButton where
 instance Eq GamepadAxis where
   x == y = (fromEnum x) == (fromEnum y)
 
-{# enum Gestures
+{# enum Gestures as Gesture
   { GESTURE_NONE as None
   , GESTURE_TAP as Tap
   , GESTURE_DOUBLETAP as DoubleTap

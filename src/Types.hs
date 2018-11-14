@@ -46,7 +46,7 @@ import Internal.Bindings (
   , Gamepad
   , GamepadButton
   , GamepadAxis
-  , Gestures
+  , Gesture
   , Color
   , Rectangle
   , Vector2
@@ -71,7 +71,5 @@ import Internal.Bindings (
   , Music
   , AudioStream
   )
-
-type Gesture = Gestures
 
 data GetPressedError = NothingPressed | UnknownPressed
