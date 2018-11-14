@@ -24,9 +24,30 @@ module Types (
   , Sound
   , Music
   , AudioStream
+  -- * Enum Types
+  , KeyboardKey
+  , MouseButton
+  , CameraType
+  , Gamepad
+  , GamepadButton
+  , GamepadAxis
+  , Gesture
+  , ConfigFlag
+  , LogType
+  -- * Other Types
+  , GetPressedError (NothingPressed, UnknownPressed)
   ) where
 import Internal.Bindings (
-    Color
+    ConfigFlag
+  , KeyboardKey
+  , MouseButton
+  , LogType
+  , CameraType
+  , Gamepad
+  , GamepadButton
+  , GamepadAxis
+  , Gestures
+  , Color
   , Rectangle
   , Vector2
   , Vector3
@@ -50,3 +71,7 @@ import Internal.Bindings (
   , Music
   , AudioStream
   )
+
+type Gesture = Gestures
+
+data GetPressedError = NothingPressed | UnknownPressed

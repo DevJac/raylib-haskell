@@ -25,6 +25,207 @@ import Foreign.Storable
 -- Types
 ---------------------------------------------------------------------------------
 
+{# enum define ConfigFlag
+  { FLAG_SHOW_LOGO as ShowLogo
+  , FLAG_FULLSCREEN_MODE as Fullscreen
+  , FLAG_WINDOW_RESIZABLE as WindowResizable
+  , FLAG_WINDOW_UNDECORATED as WindowUndecorated
+  , FLAG_WINDOW_TRANSPARENT as WindowTransparent
+  , FLAG_MSAA_4X_HINT as Msaa4xHint
+  , FLAG_VSYNC_HINT as VsyncHint
+  } deriving (Show, Eq) #}
+
+{# enum define KeyboardKey
+  { KEY_SPACE as Space
+  , KEY_ESCAPE as Escape
+  , KEY_ENTER as Enter
+  , KEY_TAB as Tab
+  , KEY_BACKSPACE as Backspace
+  , KEY_INSERT as Insert
+  , KEY_DELETE as Delete
+  , KEY_RIGHT as ArrowRight
+  , KEY_LEFT as ArrowLeft
+  , KEY_DOWN as ArrowDown
+  , KEY_UP as ArrowUp
+  , KEY_PAGE_UP as PageUp
+  , KEY_PAGE_DOWN as PageDown
+  , KEY_HOME as Home
+  , KEY_END as End
+  , KEY_CAPS_LOCK as CapsLock
+  , KEY_SCROLL_LOCK as ScrollLock
+  , KEY_NUM_LOCK as NumLock
+  , KEY_PRINT_SCREEN as PrintScreen
+  , KEY_PAUSE as Pause
+  , KEY_F1 as F1
+  , KEY_F2 as F2
+  , KEY_F3 as F3
+  , KEY_F4 as F4
+  , KEY_F5 as F5
+  , KEY_F6 as F6
+  , KEY_F7 as F7
+  , KEY_F8 as F8
+  , KEY_F9 as F9
+  , KEY_F10 as F10
+  , KEY_F11 as F11
+  , KEY_F12 as F12
+  , KEY_LEFT_SHIFT as LeftShift
+  , KEY_LEFT_CONTROL as LeftControl
+  , KEY_LEFT_ALT as LeftAlt
+  , KEY_RIGHT_SHIFT as RightShift
+  , KEY_RIGHT_CONTROL as RightControl
+  , KEY_RIGHT_ALT as RightAlt
+  , KEY_GRAVE as Grave
+  , KEY_SLASH as Slash
+  , KEY_BACKSLASH as Backslash
+  , KEY_ZERO as Zero
+  , KEY_ONE as One
+  , KEY_TWO as Two
+  , KEY_THREE as Three
+  , KEY_FOUR as Four
+  , KEY_FIVE as Five
+  , KEY_SIX as Six
+  , KEY_SEVEN as Seven
+  , KEY_EIGHT as Eight
+  , KEY_NINE as Nine
+  , KEY_A as A
+  , KEY_B as B
+  , KEY_C as C
+  , KEY_D as D
+  , KEY_E as E
+  , KEY_F as F
+  , KEY_G as G
+  , KEY_H as H
+  , KEY_I as I
+  , KEY_J as J
+  , KEY_K as K
+  , KEY_L as L
+  , KEY_M as M
+  , KEY_N as N
+  , KEY_O as O
+  , KEY_P as P
+  , KEY_Q as Q
+  , KEY_R as R
+  , KEY_S as S
+  , KEY_T as T
+  , KEY_U as U
+  , KEY_V as V
+  , KEY_W as W
+  , KEY_X as X
+  , KEY_Y as Y
+  , KEY_Z as Z
+  } deriving (Show, Eq) #}
+
+{# enum define MouseButton
+  { MOUSE_LEFT_BUTTON as LeftButton
+  , MOUSE_RIGHT_BUTTON as RightButton
+  , MOUSE_MIDDLE_BUTTON as MiddleButton
+  } deriving (Show, Eq) #}
+
+{# enum LogType
+  { LOG_INFO as Info
+  , LOG_WARNING as Warning
+  , LOG_ERROR as Error
+  , LOG_DEBUG as Debug
+  , LOG_OTHER as Other
+  } deriving (Show, Eq) #}
+
+{# enum CameraType
+  { CAMERA_PERSPECTIVE as Perspective
+  , CAMERA_ORTHOGRAPHIC as Orthographic
+  } deriving (Show, Eq) #}
+
+{# enum define Gamepad
+  { GAMEPAD_PLAYER1 as Gamepad1
+  , GAMEPAD_PLAYER2 as Gamepad2
+  , GAMEPAD_PLAYER3 as Gamepad3
+  , GAMEPAD_PLAYER4 as Gamepad4
+  } deriving (Show, Eq) #}
+
+{# enum define GamepadButton
+  { GAMEPAD_PS3_BUTTON_TRIANGLE as Ps3Triangle
+  , GAMEPAD_PS3_BUTTON_CIRCLE as Ps3Cricle
+  , GAMEPAD_PS3_BUTTON_CROSS as Ps3Cross
+  , GAMEPAD_PS3_BUTTON_SQUARE as Ps3Square
+  , GAMEPAD_PS3_BUTTON_L1 as Ps3L1
+  , GAMEPAD_PS3_BUTTON_R1 as Ps3R1
+  , GAMEPAD_PS3_BUTTON_L2 as Ps3L2
+  , GAMEPAD_PS3_BUTTON_R2 as Ps3R2
+  , GAMEPAD_PS3_BUTTON_START as Ps3Start
+  , GAMEPAD_PS3_BUTTON_SELECT as Ps3Select
+  , GAMEPAD_PS3_BUTTON_UP as Ps3Up
+  , GAMEPAD_PS3_BUTTON_RIGHT as Ps3Right
+  , GAMEPAD_PS3_BUTTON_DOWN as Ps3Down
+  , GAMEPAD_PS3_BUTTON_LEFT as Ps3Left
+  , GAMEPAD_PS3_BUTTON_PS as Ps3PS
+  , GAMEPAD_XBOX_BUTTON_A as XBoxA
+  , GAMEPAD_XBOX_BUTTON_B as XBoxB
+  , GAMEPAD_XBOX_BUTTON_X as XBoxX
+  , GAMEPAD_XBOX_BUTTON_Y as XBoxY
+  , GAMEPAD_XBOX_BUTTON_LB as XBoxLB
+  , GAMEPAD_XBOX_BUTTON_RB as XBoxRB
+  , GAMEPAD_XBOX_BUTTON_SELECT as XBoxSelect
+  , GAMEPAD_XBOX_BUTTON_START as XBoxStart
+  , GAMEPAD_XBOX_BUTTON_UP as XBoxUp
+  , GAMEPAD_XBOX_BUTTON_RIGHT as XBoxRight
+  , GAMEPAD_XBOX_BUTTON_DOWN as XBoxDown
+  , GAMEPAD_XBOX_BUTTON_LEFT as XBoxLeft
+  , GAMEPAD_XBOX_BUTTON_HOME as XBoxHome
+  , GAMEPAD_ANDROID_DPAD_UP as AndroidUp
+  , GAMEPAD_ANDROID_DPAD_DOWN as AndroidDown
+  , GAMEPAD_ANDROID_DPAD_LEFT as AndroidLeft
+  , GAMEPAD_ANDROID_DPAD_RIGHT as AndroidRight
+  , GAMEPAD_ANDROID_DPAD_CENTER as AndroidCenter
+  , GAMEPAD_ANDROID_BUTTON_A as AndroidA
+  , GAMEPAD_ANDROID_BUTTON_B as AndroidB
+  , GAMEPAD_ANDROID_BUTTON_C as AndroidC
+  , GAMEPAD_ANDROID_BUTTON_X as AndroidX
+  , GAMEPAD_ANDROID_BUTTON_Y as AndroidY
+  , GAMEPAD_ANDROID_BUTTON_Z as AndroidZ
+  , GAMEPAD_ANDROID_BUTTON_L1 as AndroidL1
+  , GAMEPAD_ANDROID_BUTTON_R1 as AndroidR1
+  , GAMEPAD_ANDROID_BUTTON_L2 as AndroidL2
+  , GAMEPAD_ANDROID_BUTTON_R2 as AndroidR2
+  } deriving (Show) #}
+
+instance Eq GamepadButton where
+  x == y = (fromEnum x) == (fromEnum y)
+
+{# enum define GamepadAxis
+  { GAMEPAD_PS3_AXIS_LEFT_X as Ps3LeftX
+  , GAMEPAD_PS3_AXIS_LEFT_Y as Ps3LeftY
+  , GAMEPAD_PS3_AXIS_RIGHT_X as Ps3RightX
+  , GAMEPAD_PS3_AXIS_RIGHT_Y as Ps3RightY
+  , GAMEPAD_PS3_AXIS_L2 as Ps3L2Axis
+  , GAMEPAD_PS3_AXIS_R2 as Ps3R2Axis
+  , GAMEPAD_XBOX_AXIS_LEFT_X as XBoxLeftX
+  , GAMEPAD_XBOX_AXIS_LEFT_Y as XBoxLeftY
+  , GAMEPAD_XBOX_AXIS_RIGHT_X as XBoxRightX
+  , GAMEPAD_XBOX_AXIS_RIGHT_Y as XBoxRightY
+  , GAMEPAD_XBOX_AXIS_LT as XBoxLT
+  , GAMEPAD_XBOX_AXIS_RT as XBoxRT
+  } deriving (Show) #}
+
+instance Eq GamepadAxis where
+  x == y = (fromEnum x) == (fromEnum y)
+
+{# enum Gestures
+  { GESTURE_NONE as None
+  , GESTURE_TAP as Tap
+  , GESTURE_DOUBLETAP as DoubleTap
+  , GESTURE_HOLD as Hold
+  , GESTURE_DRAG as Drag
+  , GESTURE_SWIPE_RIGHT as SwipeRight
+  , GESTURE_SWIPE_LEFT as SwipeLeft
+  , GESTURE_SWIPE_UP as SwipeUp
+  , GESTURE_SWIPE_DOWN as SwipeDown
+  , GESTURE_PINCH_IN as PinchIn
+  , GESTURE_PINCH_OUT as PinchOut
+  } deriving (Show, Eq) #}
+
+---------------------------------------------------------------------------------
+-- Types
+---------------------------------------------------------------------------------
+
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
 
@@ -533,7 +734,7 @@ instance Storable RayHitInfo where
   {with* %`Camera3D', `Int'} -> `()' #}
 
 {# fun unsafe UpdateCamera as ^
-  {with* `Camera3D'} -> `()' #}
+  {`Camera3DPtr'} -> `()' #}
 
 {# fun unsafe SetCameraPanControl as ^
   {`Int'} -> `()' #}
@@ -679,7 +880,7 @@ instance Storable RayHitInfo where
 -- TODO void ImageCrop(Image *image, Rectangle crop);                                                       // Crop an image to a defined rectangle
 -- TODO void ImageResize(Image *image, int newWidth, int newHeight);                                        // Resize image (bilinear filtering)
 -- TODO void ImageResizeNN(Image *image, int newWidth,int newHeight);                                       // Resize image (Nearest-Neighbor scaling algorithm)
--- TODO void ImageResizeCanvas(Image *image, int newWidth, int newHeight, 
+-- TODO void ImageResizeCanvas(Image *image, int newWidth, int newHeight,
 -- TODO                        int offsetX, int offsetY, Color color);                                      // Resize canvas and fill with color
 -- TODO void ImageMipmaps(Image *image);                                                                    // Generate all mipmap levels for a provided image
 -- TODO void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                             // Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
@@ -688,7 +889,7 @@ instance Storable RayHitInfo where
 -- TODO void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec);                          // Draw a source image within a destination image
 -- TODO void ImageDrawRectangle(Image *dst, Vector2 position, Rectangle rec, Color color);                  // Draw rectangle within an image
 -- TODO void ImageDrawText(Image *dst, Vector2 position, const char *text, int fontSize, Color color);      // Draw text (default font) within an image (destination)
--- TODO void ImageDrawTextEx(Image *dst, Vector2 position, Font font, const char *text, 
+-- TODO void ImageDrawTextEx(Image *dst, Vector2 position, Font font, const char *text,
 -- TODO                      float fontSize, float spacing, Color color);                                   // Draw text (custom sprite font) within an image (destination)
 -- TODO void ImageFlipVertical(Image *image);                                                               // Flip image vertically
 -- TODO void ImageFlipHorizontal(Image *image);                                                             // Flip image horizontally
