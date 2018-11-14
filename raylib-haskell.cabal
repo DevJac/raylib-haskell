@@ -28,7 +28,8 @@ library
                         raylib/src
                         raylib/src/external
                         raylib/src/external/glfw/include
-  exposed-modules:      Types
+  exposed-modules:      Core
+                        Types
                         Internal.Bindings
   ghc-options:          -Wall
                         --Werror

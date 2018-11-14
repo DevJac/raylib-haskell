@@ -10,6 +10,8 @@
 module Internal.Bindings where
 import Data.Coerce
 import Data.Word
+import Foreign.C.String
+import Foreign.C.Types
 import Foreign.ForeignPtr
 import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
@@ -407,10 +409,14 @@ instance Storable RayHitInfo where
 {# fun unsafe ChangeDirectory as ^
   {`String'} -> `Bool' #}
 
--- TODO // Files management functions
--- TODO bool IsFileDropped(void);                                               // Check if a file has been dropped into window
--- TODO char **GetDroppedFiles(int *count);                                     // Get dropped files names
--- TODO void ClearDroppedFiles(void);                                           // Clear dropped files paths buffer
+{# fun unsafe IsFileDropped as ^
+  {} -> `Bool' #}
+
+{# fun unsafe GetDroppedFiles as ^
+  {alloca- `CInt' peek*} -> `Ptr CString' id #}
+
+{# fun unsafe ClearDroppedFiles as ^
+  {} -> `()' #}
 
 {# fun unsafe IsKeyPressed as ^
   {`Int'} -> `Bool' #}
@@ -487,21 +493,41 @@ instance Storable RayHitInfo where
 {# fun unsafe GetMouseWheelMove as ^
   {} -> `Int' #}
 
--- TODO // Input-related functions: touch
--- TODO int GetTouchX(void);                                                    // Get touch position X for touch point 0 (relative to screen size)
--- TODO int GetTouchY(void);                                                    // Get touch position Y for touch point 0 (relative to screen size)
--- TODO Vector2 GetTouchPosition(int index);                                    // Get touch position XY for a touch point index (relative to screen size)
+{# fun unsafe GetTouchX as ^
+  {} -> `Int' #}
 
--- TODO // Gestures-related functions
--- TODO void SetGesturesEnabled(unsigned int gestureFlags);                     // Enable a set of gestures using flags
--- TODO bool IsGestureDetected(int gesture);                                    // Check if a gesture have been detected
--- TODO int GetGestureDetected(void);                                           // Get latest detected gesture
--- TODO int GetTouchPointsCount(void);                                          // Get touch points count
--- TODO float GetGestureHoldDuration(void);                                     // Get gesture hold time in milliseconds
--- TODO Vector2 GetGestureDragVector(void);                                     // Get gesture drag vector
--- TODO float GetGestureDragAngle(void);                                        // Get gesture drag angle
--- TODO Vector2 GetGesturePinchVector(void);                                    // Get gesture pinch delta
--- TODO float GetGesturePinchAngle(void);                                       // Get gesture pinch angle
+{# fun unsafe GetTouchY as ^
+  {} -> `Int' #}
+
+{# fun unsafe WrappedGetTouchPosition as getTouchPosition
+  {`Int', alloca- `Vector2' peek*} -> `()' #}
+
+{# fun unsafe SetGesturesEnabled as ^
+  {`Word32'} -> `()' #}
+
+{# fun unsafe IsGestureDetected as ^
+  {`Int'} -> `Bool' #}
+
+{# fun unsafe GetGestureDetected as ^
+  {} -> `Int' #}
+
+{# fun unsafe GetTouchPointsCount as ^
+  {} -> `Int' #}
+
+{# fun unsafe GetGestureHoldDuration as ^
+  {} -> `Float' #}
+
+{# fun unsafe WrappedGetGestureDragVector as getGestureDragVector
+  {alloca- `Vector2' peek*} -> `()' #}
+
+{# fun unsafe GetGestureDragAngle as ^
+  {} -> `Float' #}
+
+{# fun unsafe WrappedGetGesturePinchVector as getGesturePinchVector
+  {alloca- `Vector2' peek*} -> `()' #}
+
+{# fun unsafe GetGesturePinchAngle as ^
+  {} -> `Float' #}
 
 {# fun unsafe SetCameraMode as ^
   {with* %`Camera3D', `Int'} -> `()' #}

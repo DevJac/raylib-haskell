@@ -80,6 +80,18 @@ void WrappedGetMousePosition(Vector2 *result) {
   *result = GetMousePosition();
 }
 
+void WrappedGetTouchPosition(int index, Vector2 *result) {
+  *result = GetTouchPosition(index);
+}
+
+void WrappedGetGestureDragVector(Vector2 *result) {
+  *result = GetGestureDragVector();
+}
+
+void WrappedGetGesturePinchVector(Vector2 *result) {
+  *result = GetGesturePinchVector();
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 // Shapes
 /////////////////////////////////////////////////////////////////////////////////

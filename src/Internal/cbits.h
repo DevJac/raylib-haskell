@@ -22,6 +22,9 @@ void WrappedGetMouseRay(Vector2 mousePosition, Camera3D camera, Ray *result);
 void WrappedGetWorldToScreen(Vector3 position, Camera3D camera, Vector2 *result);
 void WrappedGetCameraMatrix(Camera3D camera, Matrix *result);
 void WrappedGetMousePosition(Vector2 *result);
+void WrappedGetTouchPosition(int index, Vector2 *result);
+void WrappedGetGestureDragVector(Vector2 *result);
+void WrappedGetGesturePinchVector(Vector2 *result);
 
 /////////////////////////////////////////////////////////////////////////////////
 // Shapes
