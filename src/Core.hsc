@@ -1,8 +1,8 @@
 module Core (
 
   -- * Window-related functions
-  -- TODO initWindow,
-  -- TODO closeWindow,
+  initWindow,
+  closeWindow,
   -- TODO isWindowReady,
   -- TODO windowShouldClose,
   -- TODO isWindowMinimized,
@@ -24,9 +24,9 @@ module Core (
   -- TODO disableCursor,
 
   -- * Drawing-related functions
-  -- TODO clearBackground,
-  -- TODO beginDrawing,
-  -- TODO endDrawing,
+  clearBackground,
+  beginDrawing,
+  endDrawing,
   -- TODO beginMode2D,
   -- TODO endMode2D,
   -- TODO beginMode3D,
@@ -114,3 +114,39 @@ module Core (
   -- TODO setCameraMoveControls,
 
 ) where
+import Foreign.C.String
+import Foreign.C.Types
+import Foreign.Marshal.Utils
+import Foreign.Ptr
+import Types
+
+#include "raylib.h"
+#include "core.h"
+
+foreign import ccall unsafe "raylib.h InitWindow" c_InitWindow :: CInt -> CInt -> CString -> IO ()
+initWindow :: Int -- ^ width
+           -> Int -- ^ height
+           -> String -- ^ title
+           -> IO ()
+initWindow width height title = do
+  cTitle <- newCString title
+  c_InitWindow (fromIntegral width) (fromIntegral height) cTitle
+
+foreign import ccall unsafe "raylib.h CloseWindow" c_CloseWindow :: IO ()
+closeWindow :: IO ()
+closeWindow = c_CloseWindow
+
+foreign import ccall unsafe "core.h WrappedClearBackground" c_WrappedClearBackground :: Ptr Color -> IO ()
+clearBackground :: Color -- ^ background color
+                -> IO ()
+clearBackground color =
+  with color $ \colorPtr ->
+    c_WrappedClearBackground colorPtr
+
+foreign import ccall unsafe "raylib.h BeginDrawing" c_BeginDrawing :: IO ()
+beginDrawing :: IO ()
+beginDrawing = c_BeginDrawing
+
+foreign import ccall unsafe "raylib.h EndDrawing" c_EndDrawing :: IO ()
+endDrawing :: IO ()
+endDrawing = c_EndDrawing

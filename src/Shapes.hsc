@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Shapes (
 
   -- * Basic shapes
@@ -13,7 +14,7 @@ module Shapes (
   -- TODO drawCircleLines,
   -- TODO drawRectangle,
   -- TODO drawRectangleV,
-  -- TODO drawRectangleRec,
+  drawRectangleRec,
   -- TODO drawRectanglePro,
   -- TODO drawRectangleGradientV,
   -- TODO drawRectangleGradientH,
@@ -36,3 +37,16 @@ module Shapes (
   -- TODO checkCollisionPointTriangle,
 
 ) where
+import Foreign.Marshal.Utils
+import Foreign.Ptr
+import Types
+
+#include "raylib.h"
+#include "shapes.h"
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleRec" c_WrappedDrawRectangleRec :: Ptr Rectangle -> Ptr Color -> IO ()
+drawRectangleRec :: Rectangle -> Color -> IO ()
+drawRectangleRec rectangle color =
+  with rectangle $ \rectanglePtr ->
+    with color $ \colorPtr ->
+      c_WrappedDrawRectangleRec rectanglePtr colorPtr

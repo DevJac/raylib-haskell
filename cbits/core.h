@@ -1,0 +1,1 @@
+void WrappedClearBackground(Color *color);
