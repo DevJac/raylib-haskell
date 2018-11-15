@@ -1,10 +1,11 @@
 module Types (
 
   -- * Enum types
+  LogType (Info, Warning, Error, Debug, Other),
 
   -- * Simple types
-  Color(Color),
-  Rectangle(Rectangle),
+  Color (Color),
+  Rectangle (Rectangle),
 
   -- * Complex types
 
@@ -15,6 +16,26 @@ import Data.Word
 import Foreign.Storable
 
 #include "raylib.h"
+
+data LogType = Info
+             | Warning
+             | Error
+             | Debug
+             | Other
+             deriving (Show, Eq)
+
+instance Enum LogType where
+  fromEnum Info    = #{const LOG_INFO}
+  fromEnum Warning = #{const LOG_WARNING}
+  fromEnum Error   = #{const LOG_ERROR}
+  fromEnum Debug   = #{const LOG_DEBUG}
+  fromEnum Other   = #{const LOG_OTHER}
+  toEnum #{const LOG_INFO}    = Info
+  toEnum #{const LOG_WARNING} = Warning
+  toEnum #{const LOG_ERROR}   = Error
+  toEnum #{const LOG_DEBUG}   = Debug
+  toEnum #{const LOG_OTHER}   = Other
+  toEnum unknown              = error $ "Received an unknown LogType value from raylib: " ++ (show unknown)
 
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)

@@ -1,14 +1,18 @@
+import Control.Concurrent
 import Core
 import Shapes
 import Types
 
 main :: IO ()
 main = do
+  setTraceLog [Info, Warning, Error, Other]
   initWindow 500 500 "Hello World"
+  threadDelay (3 * 1000 * 1000)
   loop 0
 
 loop :: Int -> IO ()
 loop n = do
+  traceLog Info "My trace log!"
   print n
   clearBackground (Color 0 0 0 255)
   beginDrawing

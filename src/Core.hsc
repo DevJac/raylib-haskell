@@ -48,8 +48,8 @@ module Core (
   -- * Misc. functions
   -- TODO showLogo,
   -- TODO setConfigFlags,
-  -- TODO setTraceLog,
-  -- TODO traceLog,
+  setTraceLog,
+  traceLog,
   -- TODO takeScreenshot,
 
   -- * File management functions
@@ -119,6 +119,7 @@ import Foreign.C.Types
 import Foreign.Marshal.Utils
 import Foreign.Ptr
 import Types
+import Utils
 
 #include "raylib.h"
 #include "core.h"
@@ -128,9 +129,9 @@ initWindow :: Int -- ^ width
            -> Int -- ^ height
            -> String -- ^ title
            -> IO ()
-initWindow width height title = do
-  cTitle <- newCString title
-  c_InitWindow (fromIntegral width) (fromIntegral height) cTitle
+initWindow width height title =
+  withCString title $ \cTitle ->
+    c_InitWindow (fromIntegral width) (fromIntegral height) cTitle
 
 foreign import ccall unsafe "raylib.h CloseWindow" c_CloseWindow :: IO ()
 closeWindow :: IO ()
@@ -150,3 +151,13 @@ beginDrawing = c_BeginDrawing
 foreign import ccall unsafe "raylib.h EndDrawing" c_EndDrawing :: IO ()
 endDrawing :: IO ()
 endDrawing = c_EndDrawing
+
+foreign import ccall unsafe "raylib.h SetTraceLog" c_SetTraceLog :: CUChar -> IO ()
+setTraceLog :: [LogType] -> IO ()
+setTraceLog logTypes = c_SetTraceLog (combineBitflags logTypes)
+
+foreign import ccall unsafe "raylib.h TraceLog" c_TraceLog :: CInt -> CString -> IO ()
+traceLog :: LogType -> String -> IO ()
+traceLog logType logMessage =
+  withCString logMessage $ \cLogMessage ->
+    c_TraceLog (fromIntegral (fromEnum logType)) cLogMessage
