@@ -1,23 +1,23 @@
 module Text (
 
   -- * Font loading/unloading functions
-  getFontDefault,
-  loadFont,
-  loadFontEx,
-  loadFontData,
-  genImageFontAtlas,
-  unloadFont,
+  -- TODO getFontDefault,
+  -- TODO loadFont,
+  -- TODO loadFontEx,
+  -- TODO loadFontData,
+  -- TODO genImageFontAtlas,
+  -- TODO unloadFont,
 
   -- * Text drawing functions
-  drawFPS,
-  drawText,
-  drawTextEx,
+  -- TODO drawFPS,
+  -- TODO drawText,
+  -- TODO drawTextEx,
 
   -- * Text misc. functions
-  measureText,
-  measureTextEx,
-  formatText,
-  subText,
-  getGlyphIndex,
+  -- TODO measureText,
+  -- TODO measureTextEx,
+  -- TODO formatText,
+  -- TODO subText,
+  -- TODO getGlyphIndex,
 
 ) where
