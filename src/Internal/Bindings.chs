@@ -44,6 +44,13 @@ import Foreign.Storable (Storable(peek, poke))
   , FLAG_VSYNC_HINT as VsyncHint
   } deriving (Show, Eq) #}
 
+-- | This is a workaround for (what seems to be) a Haddock parsing bug
+--
+-- @
+-- Haddock! Why you do this!?!
+-- @
+data HaddockHelper
+
 -- | Constructors:
 --
 -- @
