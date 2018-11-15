@@ -1,5 +1,7 @@
 {-|
-All functions from raylib Core except for the following:
+This module contains bindings to most of the functions in raylib Core. See: https://www.raylib.com/cheatsheet/cheatsheet.html
+
+All functions from raylib Core have bindings except for the following:
 
   * The 5 color-related functions
 
@@ -8,6 +10,8 @@ All functions from raylib Core except for the following:
   * Some of the file management functions
 
   * Persistent storage management functions
+
+These functions are convenient to have in C, but not necessary in Haskell.
 -}
 {-# LANGUAGE LambdaCase #-}
 module Core (
@@ -155,13 +159,12 @@ closeWindow = Bindings.closeWindow
 isWindowReady :: IO Bool
 isWindowReady = Bindings.isWindowReady
 
--- | Check if escape key or close button has been pressed
+-- | Check if the exit key (escape by default) or window manager has requested the window to close
 --
 -- See: 'setExitKey'
 windowShouldClose :: IO Bool
 windowShouldClose = Bindings.windowShouldClose
 
--- | Check if window has been minimized or lost focus
 isWindowMinimized :: IO Bool
 isWindowMinimized = Bindings.isWindowMinimized
 
@@ -221,9 +224,13 @@ clearBackground :: Color -- ^ background color
                 -> IO ()
 clearBackground = Bindings.clearBackground
 
+-- | Setup canvas (framebuffer) for drawing
+--
+-- If drawing functions seem to not be working, it might be because you haven't called 'beginDrawing' first.
 beginDrawing :: IO ()
 beginDrawing = Bindings.beginDrawing
 
+-- | End canvas drawing and swap buffer (double buffering)
 endDrawing :: IO ()
 endDrawing = Bindings.endDrawing
 
@@ -283,10 +290,15 @@ setConfigFlags :: [ConfigFlag] -> IO ()
 setConfigFlags = Bindings.setConfigFlags . combineBitflags
 
 -- | Set allowed trace log message types
+--
+-- This can be used to make raylib's internal logging more or less verbose.
 setTraceLog :: [LogType] -> IO ()
 setTraceLog = Bindings.setTraceLog . combineBitflags
 
-traceLog :: LogType -> String -> IO ()
+-- | Emit a log message using raylib's logging system
+traceLog :: LogType -- ^ log level
+         -> String -- ^ log message
+         -> IO ()
 traceLog logType logMessage = Bindings.traceLog (fromIntegral (fromEnum logType)) logMessage
 
 takeScreenshot :: String -- ^ filename
@@ -300,34 +312,43 @@ changeDirectory :: String -- ^ raylib's new working directory
                 -> IO Bool -- ^ success flag
 changeDirectory = Bindings.changeDirectory
 
+-- | Has a file been dragged and dropped into the raylib window?
 isFileDropped :: IO Bool
 isFileDropped = Bindings.isFileDropped
 
+-- | Which files have been dragged and dropped into the raylib window?
+--
+-- See: 'clearDroppedFiles'
 getDroppedFiles :: IO [String] -- ^ dropped filenames
 getDroppedFiles = do
   (droppedFiles, count) <- Bindings.getDroppedFiles
   traverse peekCString =<< peekArray (fromIntegral count) droppedFiles
 
+-- | Clear the list of files that have been dragged and dropped into the raylib window
+--
+-- See: 'getDroppedFiles'
 clearDroppedFiles :: IO ()
 clearDroppedFiles = Bindings.clearDroppedFiles
 
--- | Has key been pressed?
+-- | Has the given key been pressed?
 isKeyPressed :: KeyboardKey -> IO Bool
 isKeyPressed = Bindings.isKeyPressed . fromEnum
 
--- | Is key being pressed?
+-- | Is the given key being pressed?
 isKeyDown :: KeyboardKey -> IO Bool
 isKeyDown = Bindings.isKeyPressed . fromEnum
 
--- | Has keey been released?
+-- | Has the given key been released?
 isKeyReleased :: KeyboardKey -> IO Bool
 isKeyReleased = Bindings.isKeyReleased . fromEnum
 
--- | Is key NOT being pressed?
+-- | Is the given key NOT being pressed?
 isKeyUp :: KeyboardKey -> IO Bool
 isKeyUp = Bindings.isKeyUp . fromEnum
 
 -- | Get last key pressed
+--
+-- It's possible that no key has ever been pressed, or that the last key pressed is unknown to these raylib bindings. This is the reason for the @Either GetPressedError KeyboardKey@ type.
 getKeyPressed :: IO (Either GetPressedError KeyboardKey)
 getKeyPressed = do
   Bindings.getKeyPressed >>= \case
@@ -339,7 +360,7 @@ getKeyPressed = do
                           then Just UnknownPressed
                           else Nothing
 
--- | Set a custom key to exit program. Default is escape.
+-- | Set a custom key to exit the program. The default is escape.
 --
 -- See: 'windowShouldClose'
 setExitKey :: KeyboardKey -> IO ()

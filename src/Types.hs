@@ -1,6 +1,18 @@
 module Types (
+  -- * Enum Types
+    ConfigFlag
+  , LogType
+  , CameraType
+  , KeyboardKey
+  , MouseButton
+  , Gamepad
+  , GamepadButton
+  , GamepadAxis
+  , Gesture
+  -- * Other Types
+  , GetPressedError (NothingPressed, UnknownPressed)
   -- * Simple Types
-    Color
+  , Color
   , Rectangle
   , Vector2
   , Vector3
@@ -24,18 +36,6 @@ module Types (
   , Sound
   , Music
   , AudioStream
-  -- * Enum Types
-  , KeyboardKey
-  , MouseButton
-  , CameraType
-  , Gamepad
-  , GamepadButton
-  , GamepadAxis
-  , Gesture
-  , ConfigFlag
-  , LogType
-  -- * Other Types
-  , GetPressedError (NothingPressed, UnknownPressed)
   ) where
 import Internal.Bindings (
     ConfigFlag

@@ -23,6 +23,17 @@ import Foreign.Storable (Storable(peek, poke))
 -- Types
 ---------------------------------------------------------------------------------
 
+-- | Constructors:
+--
+-- @
+-- ShowLogo
+-- Fullscreen
+-- WindowResizable
+-- WindowUndecorated
+-- WindowTransparent
+-- Msaa4xHint
+-- VsyncHint
+-- @
 {# enum define ConfigFlag
   { FLAG_SHOW_LOGO as ShowLogo
   , FLAG_FULLSCREEN_MODE as Fullscreen
@@ -33,6 +44,115 @@ import Foreign.Storable (Storable(peek, poke))
   , FLAG_VSYNC_HINT as VsyncHint
   } deriving (Show, Eq) #}
 
+-- | Constructors:
+--
+-- @
+-- Info
+-- Warning
+-- Error
+-- Debug
+-- Other
+-- @
+{# enum LogType
+  { LOG_INFO as Info
+  , LOG_WARNING as Warning
+  , LOG_ERROR as Error
+  , LOG_DEBUG as Debug
+  , LOG_OTHER as Other
+  } deriving (Show, Eq) #}
+
+-- | Constructors:
+--
+-- @
+-- Perspective
+-- Orthographic
+-- @
+{# enum CameraType
+  { CAMERA_PERSPECTIVE as Perspective
+  , CAMERA_ORTHOGRAPHIC as Orthographic
+  } deriving (Show, Eq) #}
+
+-- | Constructors:
+--
+-- @
+-- Space
+-- Escape
+-- Enter
+-- Tab
+-- Backspace
+-- Insert
+-- Delete
+-- ArrowRight
+-- ArrowLeft
+-- ArrowDown
+-- ArrowUp
+-- PageUp
+-- PageDown
+-- Home
+-- End
+-- CapsLock
+-- ScrollLock
+-- NumLock
+-- PrintScreen
+-- Pause
+-- F1
+-- F2
+-- F3
+-- F4
+-- F5
+-- F6
+-- F7
+-- F8
+-- F9
+-- F10
+-- F11
+-- F12
+-- LeftShift
+-- LeftControl
+-- LeftAlt
+-- RightShift
+-- RightControl
+-- RightAlt
+-- Grave
+-- Slash
+-- Backslash
+-- Zero
+-- One
+-- Two
+-- Three
+-- Four
+-- Five
+-- Six
+-- Seven
+-- Eight
+-- Nine
+-- A
+-- B
+-- C
+-- D
+-- E
+-- F
+-- G
+-- H
+-- I
+-- J
+-- K
+-- L
+-- M
+-- N
+-- O
+-- P
+-- Q
+-- R
+-- S
+-- T
+-- U
+-- V
+-- W
+-- X
+-- Y
+-- Z
+-- @
 {# enum define KeyboardKey
   { KEY_SPACE as Space
   , KEY_ESCAPE as Escape
@@ -113,25 +233,27 @@ import Foreign.Storable (Storable(peek, poke))
   , KEY_Z as Z
   } deriving (Show, Eq) #}
 
+-- | Constructors:
+--
+-- @
+-- LeftButton
+-- RightButton
+-- MiddleButton
+-- @
 {# enum define MouseButton
   { MOUSE_LEFT_BUTTON as LeftButton
   , MOUSE_RIGHT_BUTTON as RightButton
   , MOUSE_MIDDLE_BUTTON as MiddleButton
   } deriving (Show, Eq) #}
 
-{# enum LogType
-  { LOG_INFO as Info
-  , LOG_WARNING as Warning
-  , LOG_ERROR as Error
-  , LOG_DEBUG as Debug
-  , LOG_OTHER as Other
-  } deriving (Show, Eq) #}
-
-{# enum CameraType
-  { CAMERA_PERSPECTIVE as Perspective
-  , CAMERA_ORTHOGRAPHIC as Orthographic
-  } deriving (Show, Eq) #}
-
+-- | Constructors:
+--
+-- @
+-- Gamepad1
+-- Gamepad2
+-- Gamepad3
+-- Gamepad4
+-- @
 {# enum define Gamepad
   { GAMEPAD_PLAYER1 as Gamepad1
   , GAMEPAD_PLAYER2 as Gamepad2
@@ -139,6 +261,53 @@ import Foreign.Storable (Storable(peek, poke))
   , GAMEPAD_PLAYER4 as Gamepad4
   } deriving (Show, Eq) #}
 
+-- | Constructors:
+--
+-- @
+-- Ps3Triangle
+-- Ps3Cricle
+-- Ps3Cross
+-- Ps3Square
+-- Ps3L1
+-- Ps3R1
+-- Ps3L2
+-- Ps3R2
+-- Ps3Start
+-- Ps3Select
+-- Ps3Up
+-- Ps3Right
+-- Ps3Down
+-- Ps3Left
+-- Ps3PS
+-- XBoxA
+-- XBoxB
+-- XBoxX
+-- XBoxY
+-- XBoxLB
+-- XBoxRB
+-- XBoxSelect
+-- XBoxStart
+-- XBoxUp
+-- XBoxRight
+-- XBoxDown
+-- XBoxLeft
+-- XBoxHome
+-- AndroidUp
+-- AndroidDown
+-- AndroidLeft
+-- AndroidRight
+-- AndroidCenter
+-- AndroidA
+-- AndroidB
+-- AndroidC
+-- AndroidX
+-- AndroidY
+-- AndroidZ
+-- AndroidL1
+-- AndroidR1
+-- AndroidL2
+-- AndroidR2
+-- @
 {# enum define GamepadButton
   { GAMEPAD_PS3_BUTTON_TRIANGLE as Ps3Triangle
   , GAMEPAD_PS3_BUTTON_CIRCLE as Ps3Cricle
@@ -188,6 +357,22 @@ import Foreign.Storable (Storable(peek, poke))
 instance Eq GamepadButton where
   x == y = (fromEnum x) == (fromEnum y)
 
+-- | Constructors:
+--
+-- @
+-- Ps3LeftX
+-- Ps3LeftY
+-- Ps3RightX
+-- Ps3RightY
+-- Ps3L2Axis
+-- Ps3R2Axis
+-- XBoxLeftX
+-- XBoxLeftY
+-- XBoxRightX
+-- XBoxRightY
+-- XBoxLT
+-- XBoxRT
+-- @
 {# enum define GamepadAxis
   { GAMEPAD_PS3_AXIS_LEFT_X as Ps3LeftX
   , GAMEPAD_PS3_AXIS_LEFT_Y as Ps3LeftY
@@ -206,6 +391,21 @@ instance Eq GamepadButton where
 instance Eq GamepadAxis where
   x == y = (fromEnum x) == (fromEnum y)
 
+-- | Constructors:
+--
+-- @
+-- None
+-- Tap
+-- DoubleTap
+-- Hold
+-- Drag
+-- SwipeRight
+-- SwipeLeft
+-- SwipeUp
+-- SwipeDown
+-- PinchIn
+-- PinchOut
+-- @
 {# enum Gestures as Gesture
   { GESTURE_NONE as None
   , GESTURE_TAP as Tap
