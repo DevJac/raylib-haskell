@@ -6,13 +6,16 @@ module Types (
   -- * Simple types
   Color (Color),
   Rectangle (Rectangle),
+  Vector2 (Vector2),
 
   -- * Complex types
+  Font (Font),
 
   -- * Other types
 
 ) where
 import Data.Word
+import Foreign.ForeignPtr
 import Foreign.Storable
 
 #include "raylib.h"
@@ -72,3 +75,19 @@ instance Storable Rectangle where
     #{poke Rectangle, y} p y
     #{poke Rectangle, width} p width
     #{poke Rectangle, height} p height
+
+-- | @Vector2 x y@
+data Vector2 = Vector2 !Float !Float deriving (Show, Eq)
+
+instance Storable Vector2 where
+  sizeOf _ = #{size Vector2}
+  alignment _ = #{alignment Vector2}
+  peek p = do
+    x <- #{peek Vector2, x} p
+    y <- #{peek Vector2, y} p
+    pure $ Vector2 x y
+  poke p (Vector2 x y) = do
+    #{poke Vector2, x} p x
+    #{poke Vector2, y} p y
+
+newtype Font = Font (ForeignPtr Font)

@@ -15,6 +15,7 @@ library
   cc-options:           -DPLATFORM_DESKTOP -D_GLFW_X11
   c-sources:            cbits/core.c
                         cbits/shapes.c
+                        cbits/text.c
                         raylib/src/external/mini_al.c
                         raylib/src/external/stb_vorbis.c
                         raylib/src/audio.c
@@ -31,6 +32,7 @@ library
                         raylib/src/external/glfw/include
   exposed-modules:      Core
                         Shapes
+                        Text
                         Types
                         Utils
   ghc-options:          -Wall
