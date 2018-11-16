@@ -117,6 +117,7 @@ module Core (
   cTest,
 
 ) where
+import Control.Concurrent
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.ForeignPtr
@@ -189,5 +190,12 @@ toggleFullscreen = c_ToggleFullscreen
 foreign import ccall unsafe "core.h WrappedSetWindowIcon" c_WrappedSetWindowIcon :: Ptr Image -> IO ()
 setWindowIcon :: Image -> IO ()
 setWindowIcon (Image imageForeignPtr) =
-  withForeignPtr imageForeignPtr $ \imagePtr ->
+  withForeignPtr imageForeignPtr $ \imagePtr -> do
     c_WrappedSetWindowIcon imagePtr
+    -- There is a bug in raylib. On GNOME 3 (and maybe others) if you call raylib's SetWindowIcon function
+    -- too many times, or if the image you are using as the icon is freed to quickly after the call,
+    -- you get a double free error. See: https://github.com/raysan5/raylib/issues/689
+    -- We use forkIO, threadDelay, and touchForeignPtr below to work around this issue.
+    _ <- forkIO $ do threadDelay (10 * 1000 * 1000)
+                     touchForeignPtr imageForeignPtr
+    pure ()

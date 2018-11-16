@@ -12,7 +12,6 @@ main = do
   print =<< isWindowReady
   icon <- loadImage "test_data/raylib_16x16.png"
   setWindowIcon icon
-  threadDelay (3 * 1000 * 1000)
   loop 0
 
 loop :: Int -> IO ()
