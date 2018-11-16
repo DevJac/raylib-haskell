@@ -30,7 +30,8 @@ library
                         raylib/src
                         raylib/src/external
                         raylib/src/external/glfw/include
-  exposed-modules:      Core
+  exposed-modules:      Colors
+                        Core
                         Shapes
                         Text
                         Types
