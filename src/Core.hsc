@@ -40,10 +40,10 @@ module Core (
   -- TODO getCameraMatrix,
 
   -- * Timing-related functions
-  -- TODO setTargetFPS,
-  -- TODO getFPS,
-  -- TODO getFrameTime,
-  -- TODO getTime,
+  setTargetFPS,
+  getFPS,
+  getFrameTime,
+  getTime,
 
   -- * Misc. functions
   -- TODO showLogo,
@@ -249,3 +249,19 @@ enableCursor = c_EnableCursor
 foreign import ccall unsafe "raylib.h DisableCursor" c_DisableCursor :: IO ()
 disableCursor :: IO ()
 disableCursor = c_DisableCursor
+
+foreign import ccall unsafe "raylib.h SetTargetFPS" c_SetTargetFPS :: CInt -> IO ()
+setTargetFPS :: Int -> IO ()
+setTargetFPS = c_SetTargetFPS . fromIntegral
+
+foreign import ccall unsafe "raylib.h GetFPS" c_GetFPS :: IO CInt
+getFPS :: IO Int
+getFPS = fromIntegral <$> c_GetFPS
+
+foreign import ccall unsafe "raylib.h GetFrameTime" c_GetFrameTime :: IO CFloat
+getFrameTime :: IO Float
+getFrameTime = realToFrac <$> c_GetFrameTime
+
+foreign import ccall unsafe "raylib.h GetTime" c_GetTime :: IO CDouble
+getTime :: IO Double
+getTime = realToFrac <$> c_GetTime
