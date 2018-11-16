@@ -3,10 +3,10 @@ module Core (
   -- * Window-related functions
   initWindow,
   closeWindow,
-  -- TODO isWindowReady,
-  -- TODO windowShouldClose,
-  -- TODO isWindowMinimized,
-  -- TODO toggleFullscreen,
+  isWindowReady,
+  windowShouldClose,
+  isWindowMinimized,
+  toggleFullscreen,
   -- TODO setWindowIcon,
   -- TODO setWindowTitle,
   -- TODO setWindowPosition,
@@ -161,3 +161,19 @@ traceLog :: LogType -> String -> IO ()
 traceLog logType logMessage =
   withCString logMessage $ \cLogMessage ->
     c_TraceLog (fromIntegral (fromEnum logType)) cLogMessage
+
+foreign import ccall unsafe "raylib.h IsWindowReady" c_IsWindowReady :: IO CBool
+isWindowReady :: IO Bool
+isWindowReady = toBool <$> c_IsWindowReady
+
+foreign import ccall unsafe "raylib.h WindowShouldClose" c_WindowShouldClose :: IO CBool
+windowShouldClose :: IO Bool
+windowShouldClose = toBool <$> c_WindowShouldClose
+
+foreign import ccall unsafe "raylib.h IsWindowMinimized" c_IsWindowMinimized :: IO CBool
+isWindowMinimized :: IO Bool
+isWindowMinimized = toBool <$> c_IsWindowMinimized
+
+foreign import ccall unsafe "raylib.h ToggleFullscreen" c_ToggleFullscreen :: IO ()
+toggleFullscreen :: IO ()
+toggleFullscreen = c_ToggleFullscreen

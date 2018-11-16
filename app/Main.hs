@@ -8,6 +8,7 @@ main :: IO ()
 main = do
   setTraceLog [Info, Warning, Error, Other]
   initWindow 500 500 "Hello World"
+  print =<< isWindowReady
   threadDelay (3 * 1000 * 1000)
   loop 0
 
