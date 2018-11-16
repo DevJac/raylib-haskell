@@ -7,7 +7,7 @@ module Core (
   windowShouldClose,
   isWindowMinimized,
   toggleFullscreen,
-  -- TODO setWindowIcon,
+  setWindowIcon,
   -- TODO setWindowTitle,
   -- TODO setWindowPosition,
   -- TODO setWindowMonitor,
@@ -116,6 +116,7 @@ module Core (
 ) where
 import Foreign.C.String
 import Foreign.C.Types
+import Foreign.ForeignPtr
 import Foreign.Marshal.Utils
 import Foreign.Ptr
 import Types
@@ -177,3 +178,9 @@ isWindowMinimized = toBool <$> c_IsWindowMinimized
 foreign import ccall unsafe "raylib.h ToggleFullscreen" c_ToggleFullscreen :: IO ()
 toggleFullscreen :: IO ()
 toggleFullscreen = c_ToggleFullscreen
+
+foreign import ccall unsafe "core.h WrappedSetWindowIcon" c_WrappedSetWindowIcon :: Ptr Image -> IO ()
+setWindowIcon :: Image -> IO ()
+setWindowIcon (Image imageForeignPtr) =
+  withForeignPtr imageForeignPtr $ \imagePtr ->
+    c_WrappedSetWindowIcon imagePtr

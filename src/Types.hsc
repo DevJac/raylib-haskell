@@ -9,6 +9,7 @@ module Types (
   Vector2 (Vector2),
 
   -- * Complex types
+  Image (Image),
   Font (Font),
 
   -- * Other types
@@ -91,3 +92,5 @@ instance Storable Vector2 where
     #{poke Vector2, y} p y
 
 newtype Font = Font (ForeignPtr Font)
+
+newtype Image = Image (ForeignPtr Image)

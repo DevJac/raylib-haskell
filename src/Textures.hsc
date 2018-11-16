@@ -1,7 +1,7 @@
 module Textures (
 
   -- * Loading/Unloading functions
-  -- TODO loadImage,
+  loadImage,
   -- TODO loadImageEx,
   -- TODO loadImagePro,
   -- TODO loadImageRaw,
@@ -9,7 +9,6 @@ module Textures (
   -- TODO loadTexture,
   -- TODO loadTextureFromImage,
   -- TODO loadRenderTexture,
-  -- TODO unloadImage,
   -- TODO unloadTexture,
   -- TODO unloadRenderTexture,
   -- TODO getImageData,
@@ -72,3 +71,19 @@ module Textures (
   -- TODO drawTexturePro,
 
 ) where
+import Foreign.C.String
+import Foreign.ForeignPtr
+import Foreign.Ptr
+import Types
+
+#include "raylib.h"
+#include "textures.h"
+
+foreign import ccall unsafe "textures.h WrappedLoadImage" c_WrappedLoadImage :: CString -> IO (Ptr Image)
+loadImage :: String -> IO Image
+loadImage filename =
+  withCString filename $ \filenamePtr -> do
+    imagePtr <- c_WrappedLoadImage filenamePtr
+    Image <$> newForeignPtr c_WrappedUnloadImage imagePtr
+
+foreign import ccall unsafe "textures.h &WrappedUnloadImage" c_WrappedUnloadImage :: FunPtr (Ptr Image -> IO ())

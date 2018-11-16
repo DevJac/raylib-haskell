@@ -2,6 +2,7 @@ import Control.Concurrent
 import Core
 import Shapes
 import Text
+import Textures
 import Types
 
 main :: IO ()
@@ -9,11 +10,14 @@ main = do
   setTraceLog [Info, Warning, Error, Other]
   initWindow 500 500 "Hello World"
   print =<< isWindowReady
+  icon <- loadImage "test_data/raylib_16x16.png"
+  setWindowIcon icon
   threadDelay (3 * 1000 * 1000)
   loop 0
 
 loop :: Int -> IO ()
 loop n = do
+  _image <- loadImage "test_data/raylib_16x16.png"
   font <- getFontDefault
   traceLog Info "My trace log!"
   print n
