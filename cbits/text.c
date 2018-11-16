@@ -15,3 +15,7 @@ void WrappedUnloadFont(Font *font) {
   UnloadFont(*font);
   free(font);
 }
+
+void WrappedDrawText(const char *text, int posX, int posY, int fontSize, Color *color) {
+  DrawText(text, posX, posY, fontSize, *color);
+}
