@@ -113,6 +113,9 @@ module Core (
   -- TODO setCameraSmoothZoomControl,
   -- TODO setCameraMoveControls,
 
+  -- TODO Remove the following function
+  cTest,
+
 ) where
 import Foreign.C.String
 import Foreign.C.Types
@@ -124,6 +127,10 @@ import Utils
 
 #include "raylib.h"
 #include "core.h"
+
+foreign import ccall unsafe "core.h CTest" c_CTest :: IO ()
+cTest :: IO ()
+cTest = c_CTest
 
 foreign import ccall unsafe "raylib.h InitWindow" c_InitWindow :: CInt -> CInt -> CString -> IO ()
 initWindow :: Int -- ^ width
