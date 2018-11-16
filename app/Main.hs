@@ -20,8 +20,11 @@ loop n = do
   font <- getFontDefault
   traceLog Info "My trace log!"
   print n
+  width <- getScreenWidth
+  height <- getScreenHeight
   clearBackground (Color 0 0 0 255)
   beginDrawing
+  drawText (show (width, height)) 100 200 20 (Color 255 0 0 255)
   drawFPS 100 50
   let x = realToFrac $ n `div` 100 `mod` 400
       y = realToFrac $ n `mod` 400

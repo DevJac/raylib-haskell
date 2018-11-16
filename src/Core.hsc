@@ -8,20 +8,20 @@ module Core (
   isWindowMinimized,
   toggleFullscreen,
   setWindowIcon,
-  -- TODO setWindowTitle,
-  -- TODO setWindowPosition,
-  -- TODO setWindowMonitor,
-  -- TODO setWindowMinSize,
-  -- TODO setWindowSize,
-  -- TODO getScreenWidth,
-  -- TODO getScreenHeight,
+  setWindowTitle,
+  setWindowPosition,
+  setWindowMonitor,
+  setWindowMinSize,
+  setWindowSize,
+  getScreenWidth,
+  getScreenHeight,
 
   -- * Cursor-related functions
-  -- TODO showCursor,
-  -- TODO hideCursor,
-  -- TODO isCursorHidden,
-  -- TODO enableCursor,
-  -- TODO disableCursor,
+  showCursor,
+  hideCursor,
+  isCursorHidden,
+  enableCursor,
+  disableCursor,
 
   -- * Drawing-related functions
   clearBackground,
@@ -199,3 +199,53 @@ setWindowIcon (Image imageForeignPtr) =
     _ <- forkIO $ do threadDelay (10 * 1000 * 1000)
                      touchForeignPtr imageForeignPtr
     pure ()
+
+foreign import ccall unsafe "raylib.h SetWindowTitle" c_SetWindowTitle :: CString -> IO ()
+setWindowTitle :: String -> IO ()
+setWindowTitle title =
+  withCString title $ \titlePtr ->
+    c_SetWindowTitle titlePtr
+
+foreign import ccall unsafe "raylib.h SetWindowPosition" c_SetWindowPosition :: CInt -> CInt -> IO ()
+setWindowPosition :: Int -> Int -> IO ()
+setWindowPosition x y = c_SetWindowPosition (fromIntegral x) (fromIntegral y)
+
+foreign import ccall unsafe "raylib.h SetWindowMonitor" c_SetWindowMonitor :: CInt -> IO ()
+setWindowMonitor :: Int -> IO ()
+setWindowMonitor monitor = c_SetWindowMonitor (fromIntegral monitor)
+
+foreign import ccall unsafe "raylib.h SetWindowMinSize" c_SetWindowMinSize :: CInt -> CInt -> IO ()
+setWindowMinSize :: Int -> Int -> IO ()
+setWindowMinSize width height = c_SetWindowMinSize (fromIntegral width) (fromIntegral height)
+
+foreign import ccall unsafe "raylib.h SetWindowSize" c_SetWindowSize :: CInt -> CInt -> IO ()
+setWindowSize :: Int -> Int -> IO ()
+setWindowSize width height = c_SetWindowSize (fromIntegral width) (fromIntegral height)
+
+foreign import ccall unsafe "raylib.h GetScreenWidth" c_GetScreenWidth :: IO CInt
+getScreenWidth :: IO Int
+getScreenWidth = fromIntegral <$> c_GetScreenWidth
+
+foreign import ccall unsafe "raylib.h GetScreenHeight" c_GetScreenHeight :: IO CInt
+getScreenHeight :: IO Int
+getScreenHeight = fromIntegral <$> c_GetScreenHeight
+
+foreign import ccall unsafe "raylib.h ShowCursor" c_ShowCursor :: IO ()
+showCursor :: IO ()
+showCursor = c_ShowCursor
+
+foreign import ccall unsafe "raylib.h HideCursor" c_HideCursor :: IO ()
+hideCursor :: IO ()
+hideCursor = c_HideCursor
+
+foreign import ccall unsafe "raylib.h IsCursorHidden" c_IsCursorHidden :: IO CBool
+isCursorHidden :: IO Bool
+isCursorHidden = toBool <$> c_IsCursorHidden
+
+foreign import ccall unsafe "raylib.h EnableCursor" c_EnableCursor :: IO ()
+enableCursor :: IO ()
+enableCursor = c_EnableCursor
+
+foreign import ccall unsafe "raylib.h DisableCursor" c_DisableCursor :: IO ()
+disableCursor :: IO ()
+disableCursor = c_DisableCursor
