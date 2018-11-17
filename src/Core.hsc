@@ -189,6 +189,9 @@ toggleFullscreen = c_ToggleFullscreen
 
 foreign import ccall unsafe "core.h WrappedSetWindowIcon" c_WrappedSetWindowIcon :: Ptr Image -> IO ()
 setWindowIcon :: Image -> IO ()
+-- ^ This function keeps a copy of the given image in memory forever; this is a workaround for a bug in the underlying C libraries.
+-- This function effectively leaks memory. Calling this function many times will cause more and more memory to be used.
+-- Thus, ideally, this function should only be called once.
 setWindowIcon (Image imageForeignPtr) =
   withForeignPtr imageForeignPtr $ \imagePtr -> do
     c_WrappedSetWindowIcon imagePtr
