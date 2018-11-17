@@ -1,1 +1,13 @@
+void WrappedDrawPixel(int posX, int posY, Color *color);
+void WrappedDrawPixelV(Vector2 *position, Color *color);
+void WrappedDrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color *color);
+void WrappedDrawLineV(Vector2 *startPos, Vector2 *endPos, Color *color);
+void WrappedDrawLineEx(Vector2 *startPos, Vector2 *endPos, float thick, Color *color);
+void WrappedDrawLineBezier(Vector2 *startPos, Vector2 *endPos, float thick, Color *color);
+void WrappedDrawCircle(int centerX, int centerY, float radius, Color *color);
+void WrappedDrawCircleGradient(int centerX, int centerY, float radius, Color *color1, Color *color2);
+void WrappedDrawCircleV(Vector2 *center, float radius, Color *color);
+void WrappedDrawCircleLines(int centerX, int centerY, float radius, Color *color);
+void WrappedDrawRectangle(int posX, int posY, int width, int height, Color *color);
+void WrappedDrawRectangleV(Vector2 *position, Vector2 *size, Color *color);
 void WrappedDrawRectangleRec(Rectangle *rec, Color *color);

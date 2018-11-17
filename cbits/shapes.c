@@ -1,6 +1,54 @@
 #include <stdlib.h>
 #include "raylib.h"
 
+void WrappedDrawPixel(int posX, int posY, Color *color) {
+  DrawPixel(posX, posY, *color);
+}
+
+void WrappedDrawPixelV(Vector2 *position, Color *color) {
+  DrawPixelV(*position, *color);
+}
+
+void WrappedDrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color *color) {
+  DrawLine(startPosX, startPosY, endPosX, endPosY, *color);
+}
+
+void WrappedDrawLineV(Vector2 *startPos, Vector2 *endPos, Color *color) {
+  DrawLineV(*startPos, *endPos, *color);
+}
+
+void WrappedDrawLineEx(Vector2 *startPos, Vector2 *endPos, float thick, Color *color) {
+  DrawLineEx(*startPos, *endPos, thick, *color);
+}
+
+void WrappedDrawLineBezier(Vector2 *startPos, Vector2 *endPos, float thick, Color *color) {
+  DrawLineBezier(*startPos, *endPos, thick, *color);
+}
+
+void WrappedDrawCircle(int centerX, int centerY, float radius, Color *color) {
+  DrawCircle(centerX, centerY, radius, *color);
+}
+
+void WrappedDrawCircleGradient(int centerX, int centerY, float radius, Color *color1, Color *color2) {
+  DrawCircleGradient(centerX, centerY, radius, *color1, *color2);
+}
+
+void WrappedDrawCircleV(Vector2 *center, float radius, Color *color) {
+  DrawCircleV(*center, radius, *color);
+}
+
+void WrappedDrawCircleLines(int centerX, int centerY, float radius, Color *color) {
+  DrawCircleLines(centerX, centerY, radius, *color);
+}
+
+void WrappedDrawRectangle(int posX, int posY, int width, int height, Color *color) {
+  DrawRectangle(posX, posY, width, height, *color);
+}
+
+void WrappedDrawRectangleV(Vector2 *position, Vector2 *size, Color *color) {
+  DrawRectangleV(*position, *size, *color);
+}
+
 void WrappedDrawRectangleRec(Rectangle *rec, Color *color) {
   DrawRectangleRec(*rec, *color);
 }
