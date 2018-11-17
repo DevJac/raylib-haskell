@@ -46,11 +46,11 @@ module Core (
   getTime,
 
   -- * Misc. functions
-  -- TODO showLogo,
+  showLogo,
   setConfigFlags,
   setTraceLog,
   traceLog,
-  -- TODO takeScreenshot,
+  takeScreenshot,
 
   -- * File management functions
   -- TODO getWorkingDirectory,
@@ -272,3 +272,13 @@ getTime = realToFrac <$> c_GetTime
 foreign import ccall unsafe "raylib.h SetConfigFlags" c_SetConfigFlags :: CUChar -> IO ()
 setConfigFlags :: [ConfigFlag] -> IO ()
 setConfigFlags configFlags = c_SetConfigFlags (combineBitflags configFlags)
+
+foreign import ccall unsafe "raylib.h ShowLogo" c_ShowLogo :: IO ()
+showLogo :: IO ()
+showLogo = c_ShowLogo
+
+foreign import ccall unsafe "raylib.h TakeScreenshot" c_TakeScreenshot :: CString -> IO ()
+takeScreenshot :: String -> IO ()
+takeScreenshot fileName =
+  withCString fileName $ \fileNamePtr ->
+    c_TakeScreenshot fileNamePtr
