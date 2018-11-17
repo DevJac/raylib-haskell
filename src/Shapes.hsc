@@ -15,15 +15,15 @@ module Shapes (
   drawRectangle,
   drawRectangleV,
   drawRectangleRec,
-  -- TODO drawRectanglePro,
-  -- TODO drawRectangleGradientV,
-  -- TODO drawRectangleGradientH,
-  -- TODO drawRectangleGradientEx,
-  -- TODO drawRectangleLines,
-  -- TODO drawRectangleLinesEx,
-  -- TODO drawTriangle,
-  -- TODO drawTriangleLines,
-  -- TODO drawPoly,
+  drawRectanglePro,
+  drawRectangleGradientV,
+  drawRectangleGradientH,
+  drawRectangleGradientEx,
+  drawRectangleLines,
+  drawRectangleLinesEx,
+  drawTriangle,
+  drawTriangleLines,
+  drawPoly,
   -- TODO drawPolyEx,
   -- TODO drawPolyExLines,
 
@@ -134,3 +134,73 @@ drawRectangleRec rectangle color =
   with rectangle $ \rectanglePtr ->
     with color $ \colorPtr ->
       c_WrappedDrawRectangleRec rectanglePtr colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectanglePro" c_WrappedDrawRectanglePro :: Ptr Rectangle -> Ptr Vector2 -> CFloat -> Ptr Color -> IO ()
+drawRectanglePro :: Rectangle -> Vector2 -> Float -> Color -> IO ()
+drawRectanglePro rectangle origin rotation color =
+  with rectangle $ \rectanglePtr ->
+    with origin $ \originPtr ->
+      with color $ \colorPtr ->
+        c_WrappedDrawRectanglePro rectanglePtr originPtr (realToFrac rotation) colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleGradientV" c_WrappedDrawRectangleGradientV :: CInt -> CInt -> CInt -> CInt -> Ptr Color -> Ptr Color -> IO ()
+drawRectangleGradientV :: Int -> Int -> Int -> Int -> Color -> Color -> IO ()
+drawRectangleGradientV posX posY width height color1 color2 =
+  with color1 $ \color1Ptr ->
+    with color2 $ \color2Ptr ->
+      c_WrappedDrawRectangleGradientV (fromIntegral posX) (fromIntegral posY) (fromIntegral width) (fromIntegral height) color1Ptr color2Ptr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleGradientH" c_WrappedDrawRectangleGradientH :: CInt -> CInt -> CInt -> CInt -> Ptr Color -> Ptr Color -> IO ()
+drawRectangleGradientH :: Int -> Int -> Int -> Int -> Color -> Color -> IO ()
+drawRectangleGradientH posX posY width height color1 color2 =
+  with color1 $ \color1Ptr ->
+    with color2 $ \color2Ptr ->
+      c_WrappedDrawRectangleGradientH (fromIntegral posX) (fromIntegral posY) (fromIntegral width) (fromIntegral height) color1Ptr color2Ptr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleGradientEx" c_WrappedDrawRectangleGradientEx :: Ptr Rectangle -> Ptr Color -> Ptr Color -> Ptr Color -> Ptr Color -> IO ()
+drawRectangleGradientEx :: Rectangle -> Color -> Color -> Color -> Color -> IO ()
+drawRectangleGradientEx rectangle col1 col2 col3 col4 =
+  with rectangle $ \rectanglePtr ->
+    with col1 $ \col1Ptr ->
+      with col2 $ \col2Ptr ->
+        with col3 $ \col3Ptr ->
+          with col4 $ \col4Ptr ->
+            c_WrappedDrawRectangleGradientEx rectanglePtr col1Ptr col2Ptr col3Ptr col4Ptr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleLines" c_WrappedDrawRectangleLines :: CInt -> CInt -> CInt -> CInt -> Ptr Color -> IO ()
+drawRectangleLines :: Int -> Int -> Int -> Int -> Color -> IO ()
+drawRectangleLines posX posY width height color =
+  with color $ \colorPtr ->
+    c_WrappedDrawRectangleLines (fromIntegral posX) (fromIntegral posY) (fromIntegral width) (fromIntegral height) colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawRectangleLinesEx" c_WrappedDrawRectangleLinesEx :: Ptr Rectangle -> CInt -> Ptr Color -> IO ()
+drawRectangleLinesEx :: Rectangle -> Int -> Color -> IO ()
+drawRectangleLinesEx rectangle lineThick color =
+  with rectangle $ \rectanglePtr ->
+    with color $ \colorPtr ->
+      c_WrappedDrawRectangleLinesEx rectanglePtr (fromIntegral lineThick) colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawTriangle" c_WrappedDrawTriangle :: Ptr Vector2 -> Ptr Vector2 -> Ptr Vector2 -> Ptr Color -> IO ()
+drawTriangle :: Vector2 -> Vector2 -> Vector2 -> Color -> IO ()
+drawTriangle v1 v2 v3 color =
+  with v1 $ \v1Ptr ->
+    with v2 $ \v2Ptr ->
+      with v3 $ \v3Ptr ->
+        with color $ \colorPtr ->
+          c_WrappedDrawTriangle v1Ptr v2Ptr v3Ptr colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawTriangleLines" c_WrappedDrawTriangleLines :: Ptr Vector2 -> Ptr Vector2 -> Ptr Vector2 -> Ptr Color -> IO ()
+drawTriangleLines :: Vector2 -> Vector2 -> Vector2 -> Color -> IO ()
+drawTriangleLines v1 v2 v3 color =
+  with v1 $ \v1Ptr ->
+    with v2 $ \v2Ptr ->
+      with v3 $ \v3Ptr ->
+        with color $ \colorPtr ->
+          c_WrappedDrawTriangleLines v1Ptr v2Ptr v3Ptr colorPtr
+
+foreign import ccall unsafe "shapes.h WrappedDrawPoly" c_WrappedDrawPoly :: Ptr Vector2 -> CInt -> CFloat -> CFloat -> Ptr Color -> IO ()
+drawPoly :: Vector2 -> Int -> Float -> Float -> Color -> IO ()
+drawPoly center sides radius rotation color =
+  with center $ \centerPtr ->
+    with color $ \colorPtr ->
+      c_WrappedDrawPoly centerPtr (fromIntegral sides) (realToFrac radius) (realToFrac rotation) colorPtr

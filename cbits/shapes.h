@@ -11,3 +11,12 @@ void WrappedDrawCircleLines(int centerX, int centerY, float radius, Color *color
 void WrappedDrawRectangle(int posX, int posY, int width, int height, Color *color);
 void WrappedDrawRectangleV(Vector2 *position, Vector2 *size, Color *color);
 void WrappedDrawRectangleRec(Rectangle *rec, Color *color);
+void WrappedRectanglePro(Rectangle *rec, Vector2 *origin, float rotation, Color *color);
+void WrappedRectangleGradientV(int posX, int posY, int width, int height, Color *color1, Color *color2);
+void WrappedRectangleGradientH(int posX, int posY, int width, int height, Color *color1, Color *color2);
+void WrappedDrawRectangleGradientEx(Rectangle *rec, Color *col1, Color *col2, Color *col3, Color *col4);
+void WrappedDrawRectangleLines(int posX, int posY, int width, int height, Color *color);
+void WrappedDrawRectangleLinesEx(Rectangle *rec, int lineThick, Color *color);
+void WrappedDrawTriangle(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color);
+void WrappedDrawTriangleLines(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color);
+void WrappedDrawPoly(Vector2 *center, int sides, float radius, float rotation, Color *color);

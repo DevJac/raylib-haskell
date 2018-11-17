@@ -52,3 +52,39 @@ void WrappedDrawRectangleV(Vector2 *position, Vector2 *size, Color *color) {
 void WrappedDrawRectangleRec(Rectangle *rec, Color *color) {
   DrawRectangleRec(*rec, *color);
 }
+
+void WrappedRectanglePro(Rectangle *rec, Vector2 *origin, float rotation, Color *color) {
+  DrawRectanglePro(*rec, *origin, rotation, *color);
+}
+
+void WrappedRectangleGradientV(int posX, int posY, int width, int height, Color *color1, Color *color2) {
+  DrawRectangleGradientV(posX, posY, width, height, *color1, *color2);
+}
+
+void WrappedRectangleGradientH(int posX, int posY, int width, int height, Color *color1, Color *color2) {
+  DrawRectangleGradientH(posX, posY, width, height, *color1, *color2);
+}
+
+void WrappedDrawRectangleGradientEx(Rectangle *rec, Color *col1, Color *col2, Color *col3, Color *col4) {
+  DrawRectangleGradientEx(*rec, *col1, *col2, *col3, *col4);
+}
+
+void WrappedDrawRectangleLines(int posX, int posY, int width, int height, Color *color) {
+  DrawRectangleLines(posX, posY, width, height, *color);
+}
+
+void WrappedDrawRectangleLinesEx(Rectangle *rec, int lineThick, Color *color) {
+  DrawRectangleLinesEx(*rec, lineThick, *color);
+}
+
+void WrappedDrawTriangle(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color) {
+  DrawTriangle(*v1, *v2, *v3, *color);
+}
+
+void WrappedDrawTriangleLines(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color) {
+  DrawTriangleLines(*v1, *v2, *v3, *color);
+}
+
+void WrappedDrawPoly(Vector2 *center, int sides, float radius, float rotation, Color *color) {
+  DrawPoly(*center, sides, radius, rotation, *color);
+}
