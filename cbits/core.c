@@ -9,5 +9,15 @@ void WrappedClearBackground(Color *color) {
 }
 
 void WrappedSetWindowIcon(Image *image) {
-  SetWindowIcon(*image);
+
+  /*
+    There is a memory leak here.
+    This is done on purpose because there is a double free error if you
+    unload the image (using UnloadImage) given to SetWindowIcon.
+    See: https://github.com/raysan5/raylib/issues/689
+    I am working around this issue by giving SetWindowIcon a copy of the image.
+  */
+  Image imageCopy = ImageCopy(*image);
+
+  SetWindowIcon(imageCopy);
 }
