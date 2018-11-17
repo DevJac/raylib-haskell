@@ -1,4 +1,3 @@
-import Control.Concurrent
 import Core
 import Shapes
 import Text
@@ -8,6 +7,7 @@ import Types
 main :: IO ()
 main = do
   setTraceLog [Info, Warning, Error, Other]
+  setConfigFlags [WindowResizable, Msaa4x]
   initWindow 500 500 "Hello World"
   print =<< isWindowReady
   icon <- loadImage "test_data/raylib_16x16.png"

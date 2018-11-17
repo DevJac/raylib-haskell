@@ -47,7 +47,7 @@ module Core (
 
   -- * Misc. functions
   -- TODO showLogo,
-  -- TODO setConfigFlags,
+  setConfigFlags,
   setTraceLog,
   traceLog,
   -- TODO takeScreenshot,
@@ -265,3 +265,7 @@ getFrameTime = realToFrac <$> c_GetFrameTime
 foreign import ccall unsafe "raylib.h GetTime" c_GetTime :: IO CDouble
 getTime :: IO Double
 getTime = realToFrac <$> c_GetTime
+
+foreign import ccall unsafe "raylib.h SetConfigFlags" c_SetConfigFlags :: CUChar -> IO ()
+setConfigFlags :: [ConfigFlag] -> IO ()
+setConfigFlags configFlags = c_SetConfigFlags (combineBitflags configFlags)

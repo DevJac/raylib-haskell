@@ -1,6 +1,14 @@
 module Types (
 
   -- * Enum types
+  ConfigFlag (
+      ShowLogo,
+      FullscreenMode,
+      WindowResizable,
+      WindowUndecorated,
+      WindowTransparent,
+      Msaa4x,
+      Vsync),
   LogType (Info, Warning, Error, Debug, Other),
 
   -- * Simple types
@@ -40,6 +48,32 @@ instance Enum LogType where
   toEnum #{const LOG_DEBUG}   = Debug
   toEnum #{const LOG_OTHER}   = Other
   toEnum unknown              = error $ "Received an unknown LogType value from raylib: " ++ (show unknown)
+
+data ConfigFlag = ShowLogo
+                | FullscreenMode
+                | WindowResizable
+                | WindowUndecorated
+                | WindowTransparent
+                | Msaa4x
+                | Vsync
+                deriving (Show, Eq)
+
+instance Enum ConfigFlag where
+  fromEnum ShowLogo          = #{const FLAG_SHOW_LOGO}
+  fromEnum FullscreenMode    = #{const FLAG_FULLSCREEN_MODE}
+  fromEnum WindowResizable   = #{const FLAG_WINDOW_RESIZABLE}
+  fromEnum WindowUndecorated = #{const FLAG_WINDOW_UNDECORATED}
+  fromEnum WindowTransparent = #{const FLAG_WINDOW_TRANSPARENT}
+  fromEnum Msaa4x            = #{const FLAG_MSAA_4X_HINT}
+  fromEnum Vsync             = #{const FLAG_VSYNC_HINT}
+  toEnum #{const FLAG_SHOW_LOGO}          = ShowLogo
+  toEnum #{const FLAG_FULLSCREEN_MODE}    = FullscreenMode
+  toEnum #{const FLAG_WINDOW_RESIZABLE}   = WindowResizable
+  toEnum #{const FLAG_WINDOW_UNDECORATED} = WindowUndecorated
+  toEnum #{const FLAG_WINDOW_TRANSPARENT} = WindowTransparent
+  toEnum #{const FLAG_MSAA_4X_HINT}       = Msaa4x
+  toEnum #{const FLAG_VSYNC_HINT}         = Vsync
+  toEnum unknown                          = error $ "Received an unknown ConfigFlag value from raylib: " ++ (show unknown)
 
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
@@ -91,6 +125,6 @@ instance Storable Vector2 where
     #{poke Vector2, x} p x
     #{poke Vector2, y} p y
 
-newtype Font = Font (ForeignPtr Font)
+newtype Font = Font (ForeignPtr Font) deriving (Show)
 
-newtype Image = Image (ForeignPtr Image)
+newtype Image = Image (ForeignPtr Image) deriving (Show)
