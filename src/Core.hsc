@@ -60,12 +60,12 @@ module Core (
   -- TODO clearDroppedFiles,
 
   -- * Keyboard-related functions
-  -- TODO isKeyPressed,
-  -- TODO isKeyDown,
-  -- TODO isKeyReleased,
-  -- TODO isKeyUp,
-  -- TODO getKeyPressed,
-  -- TODO setExitKey,
+  isKeyPressed,
+  isKeyDown,
+  isKeyReleased,
+  isKeyUp,
+  getKeyPressed,
+  setExitKey,
 
   -- * Mouse-related functions
   -- TODO isMouseButtonPressed,
@@ -282,3 +282,27 @@ takeScreenshot :: String -> IO ()
 takeScreenshot fileName =
   withCString fileName $ \fileNamePtr ->
     c_TakeScreenshot fileNamePtr
+
+foreign import ccall unsafe "raylib.h IsKeyPressed" c_IsKeyPressed :: CInt -> IO CBool
+isKeyPressed :: KeyboardKey -> IO Bool
+isKeyPressed key = toBool <$> c_IsKeyPressed (fromIntegral (fromEnum key))
+
+foreign import ccall unsafe "raylib.h IsKeyDown" c_IsKeyDown :: CInt -> IO CBool
+isKeyDown :: KeyboardKey -> IO Bool
+isKeyDown key = toBool <$> c_IsKeyDown (fromIntegral (fromEnum key))
+
+foreign import ccall unsafe "raylib.h IsKeyReleased" c_IsKeyReleased :: CInt -> IO CBool
+isKeyReleased :: KeyboardKey -> IO Bool
+isKeyReleased key = toBool <$> c_IsKeyReleased (fromIntegral (fromEnum key))
+
+foreign import ccall unsafe "raylib.h IsKeyUp" c_IsKeyUp :: CInt -> IO CBool
+isKeyUp :: KeyboardKey -> IO Bool
+isKeyUp key = toBool <$> c_IsKeyUp (fromIntegral (fromEnum key))
+
+foreign import ccall unsafe "raylib.h GetKeyPressed" c_GetKeyPressed :: IO CInt
+getKeyPressed :: IO KeyboardKey
+getKeyPressed = toEnum . fromIntegral <$> c_GetKeyPressed
+
+foreign import ccall unsafe "raylib.h SetExitKey" c_SetExitKey :: CInt -> IO ()
+setExitKey :: KeyboardKey -> IO ()
+setExitKey key = c_SetExitKey (fromIntegral (fromEnum key))
