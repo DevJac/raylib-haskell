@@ -43,6 +43,7 @@ instance Enum LogType where
   fromEnum Error   = #{const LOG_ERROR}
   fromEnum Debug   = #{const LOG_DEBUG}
   fromEnum Other   = #{const LOG_OTHER}
+  -- I don't think raylib ever returns LogType from a function, thus we probably wont ever use toEnum.
   toEnum #{const LOG_INFO}    = Info
   toEnum #{const LOG_WARNING} = Warning
   toEnum #{const LOG_ERROR}   = Error
@@ -67,6 +68,7 @@ instance Enum ConfigFlag where
   fromEnum WindowTransparent = #{const FLAG_WINDOW_TRANSPARENT}
   fromEnum Msaa4x            = #{const FLAG_MSAA_4X_HINT}
   fromEnum Vsync             = #{const FLAG_VSYNC_HINT}
+  -- I don't think raylib ever returns ConfigFlags from a function, thus we probably wont ever use toEnum.
   toEnum #{const FLAG_SHOW_LOGO}          = ShowLogo
   toEnum #{const FLAG_FULLSCREEN_MODE}    = FullscreenMode
   toEnum #{const FLAG_WINDOW_RESIZABLE}   = WindowResizable
