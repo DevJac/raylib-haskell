@@ -14,6 +14,7 @@ library
   hs-source-dirs:       src
   cc-options:           -DPLATFORM_DESKTOP -D_GLFW_X11
   c-sources:            cbits/core.c
+                        cbits/internal.c
                         cbits/shapes.c
                         cbits/text.c
                         cbits/textures.c
@@ -33,6 +34,7 @@ library
                         raylib/src/external/glfw/include
   exposed-modules:      Colors
                         Core
+                        Internal
                         Shapes
                         Text
                         Textures
