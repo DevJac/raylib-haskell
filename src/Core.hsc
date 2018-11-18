@@ -68,15 +68,15 @@ module Core (
   setExitKey,
 
   -- * Mouse-related functions
-  -- TODO isMouseButtonPressed,
-  -- TODO isMouseButtonDown,
-  -- TODO isMouseButtonReleased,
-  -- TODO isMouseButtonUp,
-  -- TODO getMouseX,
-  -- TODO getMouseY,
-  -- TODO getMousePosition,
-  -- TODO setMousePosition,
-  -- TODO getMouseWheelMove,
+  isMouseButtonPressed,
+  isMouseButtonDown,
+  isMouseButtonReleased,
+  isMouseButtonUp,
+  getMouseX,
+  getMouseY,
+  getMousePosition,
+  setMousePosition,
+  getMouseWheelMove,
 
   -- * Gamepad-related functions
   -- TODO isGamepadAvailable,
@@ -121,8 +121,10 @@ import Control.Concurrent
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.ForeignPtr
+import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.Ptr
+import Foreign.Storable
 import Types
 import Utils
 
@@ -306,3 +308,44 @@ getKeyPressed = toEnum . fromIntegral <$> c_GetKeyPressed
 foreign import ccall unsafe "raylib.h SetExitKey" c_SetExitKey :: CInt -> IO ()
 setExitKey :: KeyboardKey -> IO ()
 setExitKey key = c_SetExitKey (fromIntegral (fromEnum key))
+
+foreign import ccall "raylib.h IsMouseButtonPressed" c_IsMouseButtonPressed :: CInt -> IO CBool
+isMouseButtonPressed :: MouseButton -> IO Bool
+isMouseButtonPressed mouseButton = toBool <$> c_IsMouseButtonPressed (fromIntegral (fromEnum mouseButton))
+
+foreign import ccall "raylib.h IsMouseButtonDown" c_IsMouseButtonDown :: CInt -> IO CBool
+isMouseButtonDown :: MouseButton -> IO Bool
+isMouseButtonDown mouseButton = toBool <$> c_IsMouseButtonDown (fromIntegral (fromEnum mouseButton))
+
+foreign import ccall "raylib.h IsMouseButtonReleased" c_IsMouseButtonReleased :: CInt -> IO CBool
+isMouseButtonReleased :: MouseButton -> IO Bool
+isMouseButtonReleased mouseButton = toBool <$> c_IsMouseButtonReleased (fromIntegral (fromEnum mouseButton))
+
+foreign import ccall "raylib.h IsMouseButtonUp" c_IsMouseButtonUp :: CInt -> IO CBool
+isMouseButtonUp :: MouseButton -> IO Bool
+isMouseButtonUp mouseButton = toBool <$> c_IsMouseButtonUp (fromIntegral (fromEnum mouseButton))
+
+foreign import ccall "raylib.h GetMouseX" c_GetMouseX :: IO CInt
+getMouseX :: IO Int
+getMouseX = fromIntegral <$> c_GetMouseX
+
+foreign import ccall "raylib.h GetMouseY" c_GetMouseY :: IO CInt
+getMouseY :: IO Int
+getMouseY = fromIntegral <$> c_GetMouseY
+
+foreign import ccall "core.h WrappedGetMousePosition" c_WrappedGetMousePosition :: Ptr Vector2 -> IO ()
+getMousePosition :: IO Vector2
+getMousePosition =
+  alloca $ \vector2Ptr -> do
+    c_WrappedGetMousePosition vector2Ptr
+    peek vector2Ptr
+
+foreign import ccall "core.h WrappedSetMousePosition" c_WrappedSetMousePosition :: Ptr Vector2 -> IO ()
+setMousePosition :: Vector2 -> IO ()
+setMousePosition position =
+  with position $ \positionPtr ->
+    c_WrappedSetMousePosition positionPtr
+
+foreign import ccall "raylib.h GetMouseWheelMove" c_GetMouseWheelMove :: IO CInt
+getMouseWheelMove :: IO Int
+getMouseWheelMove = fromIntegral <$> c_GetMouseWheelMove

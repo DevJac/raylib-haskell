@@ -32,6 +32,8 @@ loop n = do
       y = realToFrac $ n `mod` 400
   drawRectangleRec (Rectangle x y (x + 100) (y + 100)) (Color 120 120 255 255)
   drawTextEx font "Text is Test" (Vector2 100 100) 20 5 (Color 255 255 0 255)
+  mousePosition <- getMousePosition
   drawText "Test is Text" 100 150 20 (Color 255 128 0 255)
+  drawText (show mousePosition) 100 250 20 pink
   endDrawing
   loop (n + 1)

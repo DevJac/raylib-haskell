@@ -10,7 +10,8 @@ module Types (
       Msaa4x,
       Vsync),
   LogType (Info, Warning, Error, Debug, Other),
-  KeyboardKey(..),
+  KeyboardKey (..),
+  MouseButton (LeftClick, RightClick, MiddleClick),
 
   -- * Simple types
   Color (Color),
@@ -315,6 +316,23 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_Y}             = Y
   toEnum #{const KEY_Z}             = Z
   toEnum i                          = OtherKey i
+
+-- The word "click" seems to uniquely apply to the mouse, so it's a good word to use in our data constructors.
+data MouseButton = LeftClick
+                 | RightClick
+                 | MiddleClick
+                 | OtherClick Int
+                 deriving (Show, Eq)
+
+instance Enum MouseButton where
+  fromEnum LeftClick      = #{const MOUSE_LEFT_BUTTON}
+  fromEnum RightClick     = #{const MOUSE_RIGHT_BUTTON}
+  fromEnum MiddleClick    = #{const MOUSE_MIDDLE_BUTTON}
+  fromEnum (OtherClick i) = i
+  toEnum #{const MOUSE_LEFT_BUTTON}   = LeftClick
+  toEnum #{const MOUSE_RIGHT_BUTTON}  = RightClick
+  toEnum #{const MOUSE_MIDDLE_BUTTON} = MiddleClick
+  toEnum i                            = OtherClick i
 
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)

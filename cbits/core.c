@@ -21,3 +21,11 @@ void WrappedSetWindowIcon(Image *image) {
 
   SetWindowIcon(imageCopy);
 }
+
+void WrappedGetMousePosition(Vector2 *result) {
+  *result = GetMousePosition();
+}
+
+void WrappedSetMousePosition(Vector2 *position) {
+  SetMousePosition(*position);
+}
