@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Text (
 
   -- * Font loading/unloading functions

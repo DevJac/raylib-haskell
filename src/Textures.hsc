@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Textures (
 
   -- * Loading/Unloading functions
