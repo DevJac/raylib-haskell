@@ -53,18 +53,18 @@ drawFPS posX posY = c_DrawFPS (fromIntegral posX) (fromIntegral posY)
 foreign import ccall unsafe "text.h WrappedDrawText" c_WrappedDrawText :: CString -> CInt -> CInt -> CInt -> Ptr Color -> IO ()
 drawText :: String -> Int -> Int -> Int -> Color -> IO ()
 drawText text posX posY fontSize color =
-  withCString text $ \textPtr ->
+  withCString text $ \cText ->
     with color $ \colorPtr ->
-      c_WrappedDrawText textPtr (fromIntegral posX) (fromIntegral posY) (fromIntegral fontSize) colorPtr
+      c_WrappedDrawText cText (fromIntegral posX) (fromIntegral posY) (fromIntegral fontSize) colorPtr
 
 foreign import ccall unsafe "text.h WrappedDrawTextEx" c_WrappedDrawTextEx :: Ptr Font -> CString -> Ptr Vector2 -> CFloat -> CFloat -> Ptr Color -> IO ()
 drawTextEx :: Font -> String -> Vector2 -> Float -> Float -> Color -> IO ()
 drawTextEx (Font fontForeignPtr) text position fontSize spacing color =
   withForeignPtr fontForeignPtr $ \fontPtr ->
-    withCString text $ \textPtr ->
+    withCString text $ \cText ->
       with position $ \positionPtr ->
         with color $ \colorPtr ->
-          c_WrappedDrawTextEx fontPtr textPtr positionPtr (realToFrac fontSize) (realToFrac spacing) colorPtr
+          c_WrappedDrawTextEx fontPtr cText positionPtr (realToFrac fontSize) (realToFrac spacing) colorPtr
 
 foreign import ccall unsafe "raylib.h MeasureText" c_MeasureText :: CString -> CInt -> IO CInt
 measureText :: String -> Int -> IO Int

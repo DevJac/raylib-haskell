@@ -202,8 +202,8 @@ setWindowIcon (Image imageForeignPtr) =
 foreign import ccall unsafe "raylib.h SetWindowTitle" c_SetWindowTitle :: CString -> IO ()
 setWindowTitle :: String -> IO ()
 setWindowTitle title =
-  withCString title $ \titlePtr ->
-    c_SetWindowTitle titlePtr
+  withCString title $ \cTitle ->
+    c_SetWindowTitle cTitle
 
 foreign import ccall unsafe "raylib.h SetWindowPosition" c_SetWindowPosition :: CInt -> CInt -> IO ()
 setWindowPosition :: Int -> Int -> IO ()
@@ -276,8 +276,8 @@ showLogo = c_ShowLogo
 foreign import ccall unsafe "raylib.h TakeScreenshot" c_TakeScreenshot :: CString -> IO ()
 takeScreenshot :: String -> IO ()
 takeScreenshot fileName =
-  withCString fileName $ \fileNamePtr ->
-    c_TakeScreenshot fileNamePtr
+  withCString fileName $ \cFileName ->
+    c_TakeScreenshot cFileName
 
 foreign import ccall unsafe "raylib.h IsKeyPressed" c_IsKeyPressed :: CInt -> IO CBool
 isKeyPressed :: KeyboardKey -> IO Bool

@@ -83,8 +83,8 @@ import Types
 foreign import ccall unsafe "textures.h WrappedLoadImage" c_WrappedLoadImage :: CString -> IO (Ptr Image)
 loadImage :: String -> IO Image
 loadImage filename =
-  withCString filename $ \filenamePtr -> do
-    imagePtr <- c_WrappedLoadImage filenamePtr
+  withCString filename $ \cFilename -> do
+    imagePtr <- c_WrappedLoadImage cFilename
     Image <$> newForeignPtr c_WrappedUnloadImage imagePtr
 
 foreign import ccall unsafe "textures.h &WrappedUnloadImage" c_WrappedUnloadImage :: FunPtr (Ptr Image -> IO ())
