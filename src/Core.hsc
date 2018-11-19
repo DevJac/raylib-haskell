@@ -330,9 +330,9 @@ getMouseY = fromIntegral <$> c_GetMouseY
 foreign import ccall "core.h WrappedGetMousePosition" c_WrappedGetMousePosition :: Ptr Vector2 -> IO ()
 getMousePosition :: IO Vector2
 getMousePosition =
-  alloca $ \vector2Ptr -> do
-    c_WrappedGetMousePosition vector2Ptr
-    peek vector2Ptr
+  alloca $ \vector2ResultPtr -> do
+    c_WrappedGetMousePosition vector2ResultPtr
+    peek vector2ResultPtr
 
 foreign import ccall "core.h WrappedSetMousePosition" c_WrappedSetMousePosition :: Ptr Vector2 -> IO ()
 setMousePosition :: Vector2 -> IO ()
