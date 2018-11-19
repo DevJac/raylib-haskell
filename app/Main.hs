@@ -35,5 +35,7 @@ loop n = do
   mousePosition <- getMousePosition
   drawText "Test is Text" 100 150 20 (Color 255 128 0 255)
   drawText (show mousePosition) 100 250 20 pink
+  textMeasure <- measureTextEx font "Text is Test" 20 5
+  drawText (show textMeasure) 100 300 20 green
   endDrawing
   loop (n + 1)

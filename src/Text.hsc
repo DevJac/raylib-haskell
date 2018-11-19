@@ -3,7 +3,7 @@ module Text (
 
   -- * Font loading/unloading functions
   getFontDefault,
-  -- TODO loadFont,
+  loadFont,
   -- TODO loadFontEx,
   -- TODO loadFontData,
   -- TODO genImageFontAtlas,
@@ -14,18 +14,18 @@ module Text (
   drawTextEx,
 
   -- * Text misc. functions
-  -- TODO measureText,
-  -- TODO measureTextEx,
-  -- TODO formatText,
-  -- TODO subText,
+  measureText,
+  measureTextEx,
   -- TODO getGlyphIndex,
 
 ) where
 import Foreign.C.String
 import Foreign.C.Types
+import Foreign.ForeignPtr
+import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.Ptr
-import Foreign.ForeignPtr
+import Foreign.Storable
 import Types
 
 #include "raylib.h"
@@ -36,6 +36,13 @@ getFontDefault :: IO Font
 getFontDefault = do
   fontPtr <- c_WrappedGetFontDefault
   Font <$> newForeignPtr c_WrappedUnloadFont fontPtr
+
+foreign import ccall unsafe "text.h WrappedLoadFont" c_WrappedLoadFont :: CString -> IO (Ptr Font)
+loadFont :: String -> IO Font
+loadFont fileName =
+  withCString fileName $ \cFileName -> do
+    fontPtr <- c_WrappedLoadFont cFileName
+    Font <$> newForeignPtr c_WrappedUnloadFont fontPtr
 
 foreign import ccall unsafe "text.h &WrappedUnloadFont" c_WrappedUnloadFont :: FunPtr (Ptr Font -> IO ())
 
@@ -58,3 +65,18 @@ drawTextEx (Font fontForeignPtr) text position fontSize spacing color =
       with position $ \positionPtr ->
         with color $ \colorPtr ->
           c_WrappedDrawTextEx fontPtr textPtr positionPtr (realToFrac fontSize) (realToFrac spacing) colorPtr
+
+foreign import ccall unsafe "raylib.h MeasureText" c_MeasureText :: CString -> CInt -> IO CInt
+measureText :: String -> Int -> IO Int
+measureText text fontSize =
+  withCString text $ \cText ->
+    fromIntegral <$> c_MeasureText cText (fromIntegral fontSize)
+
+foreign import ccall unsafe "text.h WrappedMeasureTextEx" c_WrappedMeasureTextEx :: Ptr Font -> CString -> CFloat -> CFloat -> Ptr Vector2 -> IO ()
+measureTextEx :: Font -> String -> Float -> Float -> IO Vector2
+measureTextEx (Font fontForeignPtr) text fontSize spacing =
+  alloca $ \vector2ResultPtr ->
+    withForeignPtr fontForeignPtr $ \fontPtr ->
+      withCString text $ \cText -> do
+        c_WrappedMeasureTextEx fontPtr cText (realToFrac fontSize) (realToFrac spacing) vector2ResultPtr
+        peek vector2ResultPtr
