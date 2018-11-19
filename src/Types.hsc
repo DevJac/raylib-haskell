@@ -20,13 +20,14 @@ module Types (
   Vector2 (Vector2),
 
   -- * Complex types
-  Image (Image),
-  Font (Font), baseSize, charsCount,
+  Image (Image), imageWidth, imageHeight,
+  Font (Font), fontBaseSize, fontCharsCount,
 
   -- * Other types
 
 ) where
 import Data.Word
+import Foreign.C.Types
 import Foreign.ForeignPtr
 import Foreign.Storable
 import System.IO.Unsafe (unsafePerformIO)
@@ -388,16 +389,28 @@ instance Storable Vector2 where
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
-baseSize :: Font -> Int
-baseSize (Font fontForeignPtr) =
+fontBaseSize :: Font -> Int
+fontBaseSize (Font fontForeignPtr) =
   unsafePerformIO $
     withForeignPtr fontForeignPtr $ \fontPtr ->
-      #{peek Font, baseSize} fontPtr
+      fromIntegral <$> (#{peek Font, baseSize} fontPtr :: IO CInt)
 
-charsCount :: Font -> Int
-charsCount (Font fontForeignPtr) =
+fontCharsCount :: Font -> Int
+fontCharsCount (Font fontForeignPtr) =
   unsafePerformIO $
     withForeignPtr fontForeignPtr $ \fontPtr ->
-      #{peek Font, charsCount} fontPtr
+      fromIntegral <$> (#{peek Font, charsCount} fontPtr :: IO CInt)
 
 newtype Image = Image (ForeignPtr Image) deriving (Show)
+
+imageWidth :: Image -> Int
+imageWidth (Image imageForeignPtr) =
+  unsafePerformIO $
+    withForeignPtr imageForeignPtr $ \imagePtr ->
+      fromIntegral <$> (#{peek Image, width} imagePtr :: IO CInt)
+
+imageHeight :: Image -> Int
+imageHeight (Image imageForeignPtr) =
+  unsafePerformIO $
+    withForeignPtr imageForeignPtr $ \imagePtr ->
+      fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)

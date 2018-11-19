@@ -17,7 +17,7 @@ main = do
 
 loop :: Int -> IO ()
 loop n = do
-  _image <- loadImage "test_data/raylib_16x16.png"
+  image <- loadImage "test_data/raylib_16x16.png"
   font <- getFontDefault
   traceLog Info "My trace log!"
   print n
@@ -37,5 +37,7 @@ loop n = do
   drawText (show mousePosition) 100 250 20 pink
   textMeasure <- measureTextEx font "Text is Test" 20 5
   drawText (show textMeasure) 100 300 20 green
+  drawText (show (fontCharsCount font)) 100 350 20 gold
+  drawText (show (imageWidth image, imageHeight image)) 100 400 20 maroon
   endDrawing
   loop (n + 1)
