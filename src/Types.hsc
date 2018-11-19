@@ -21,7 +21,7 @@ module Types (
 
   -- * Complex types
   Image (Image),
-  Font (Font),
+  Font (Font), baseSize, charsCount,
 
   -- * Other types
 
@@ -29,6 +29,7 @@ module Types (
 import Data.Word
 import Foreign.ForeignPtr
 import Foreign.Storable
+import System.IO.Unsafe (unsafePerformIO)
 
 #include "raylib.h"
 
@@ -386,5 +387,17 @@ instance Storable Vector2 where
     #{poke Vector2, y} p y
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
+
+baseSize :: Font -> Int
+baseSize (Font fontForeignPtr) =
+  unsafePerformIO $
+    withForeignPtr fontForeignPtr $ \fontPtr ->
+      #{peek Font, baseSize} fontPtr
+
+charsCount :: Font -> Int
+charsCount (Font fontForeignPtr) =
+  unsafePerformIO $
+    withForeignPtr fontForeignPtr $ \fontPtr ->
+      #{peek Font, charsCount} fontPtr
 
 newtype Image = Image (ForeignPtr Image) deriving (Show)
