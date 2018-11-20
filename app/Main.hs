@@ -7,7 +7,7 @@ import Types
 
 main :: IO ()
 main = do
-  setTraceLog [Info, Warning, Error, Other]
+  setTraceLog [Info, Warning, Error]
   setConfigFlags [WindowResizable, Msaa4x]
   initWindow 500 500 "Hello World"
   print =<< isWindowReady

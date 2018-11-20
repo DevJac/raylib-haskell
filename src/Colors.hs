@@ -6,6 +6,8 @@ lightGray   = Color 200 200 200 255
 
 gray       :: Color
 gray        = Color 130 130 130 255
+grey       :: Color
+grey        = gray
 
 darkGray   :: Color
 darkGray    = Color 80 80 80 255
