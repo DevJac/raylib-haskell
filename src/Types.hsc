@@ -10,7 +10,7 @@ module Types (
       WindowTransparent,
       Msaa4x,
       Vsync),
-  LogType (Info, Warning, Error, Debug, Other),
+  LogType (Debug, Info, Warning, Error),
   KeyboardKey (..),
   MouseButton (LeftClick, RightClick, MiddleClick),
 
