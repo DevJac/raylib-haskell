@@ -190,14 +190,10 @@ setWindowIcon :: Image -> IO ()
 -- Thus, ideally, this function should only be called once.
 setWindowIcon (Image imageForeignPtr) =
   withForeignPtr imageForeignPtr $ \imagePtr -> do
-    c_WrappedSetWindowIcon imagePtr
     -- There is a bug in raylib. On GNOME 3 (and maybe others) if you call raylib's SetWindowIcon function
     -- too many times, or if the image you are using as the icon is freed to quickly after the call,
     -- you get a double free error. See: https://github.com/raysan5/raylib/issues/689
-    -- We use forkIO, threadDelay, and touchForeignPtr below to work around this issue.
-    _ <- forkIO $ do threadDelay (10 * 1000 * 1000)
-                     touchForeignPtr imageForeignPtr
-    pure ()
+    c_WrappedSetWindowIcon imagePtr
 
 foreign import ccall unsafe "raylib.h SetWindowTitle" c_SetWindowTitle :: CString -> IO ()
 setWindowTitle :: String -> IO ()
