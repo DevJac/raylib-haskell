@@ -1,0 +1,97 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
+module Models (
+
+  -- * Basic geometric 3D shapes
+  -- TODO drawLine3D,
+  -- TODO drawCircle3D,
+  drawCube,
+  -- TODO drawCubeV,
+  drawCubeWires,
+  -- TODO drawCubeTexture,
+  -- TODO drawSphere,
+  -- TODO drawSphereEx,
+  -- TODO drawSphereWires,
+  -- TODO drawCylinder,
+  -- TODO drawCylinderWires,
+  -- TODO drawPlane,
+  -- TODO drawRay,
+  drawGrid,
+  -- TODO drawGizmo,
+
+  -- * Model loading functions
+  -- TODO loadModel,
+  -- TODO loadModelFromMesh,
+  -- TODO unloadModel,
+
+  -- * Mesh loading functions
+  -- TODO loadMesh,
+  -- TODO unloadMesh,
+  -- TODO exportMesh,
+
+  -- * Mesh manipulation functions
+  -- TODO meshBoundingBox,
+  -- TODO meshTangents,
+  -- TODO meshBinormals,
+
+  -- * Mesh generation functions
+  -- TODO genMeshPlane,
+  -- TODO genMeshCube,
+  -- TODO genMeshSphere,
+  -- TODO genMeshHemiSphere,
+  -- TODO genMeshCylinder,
+  -- TODO genMeshTorus,
+  -- TODO genMeshKnot,
+  -- TODO genMeshHeightmap,
+  -- TODO genMeshCubicmap,
+
+  -- * Material loading functions
+  -- TODO loadMaterial,
+  -- TODO loadMaterialDefault,
+  -- TODO unloadMaterial,
+
+  -- * Model drawing functions
+  -- TODO drawModel,
+  -- TODO drawModelEx,
+  -- TODO drawModelWires,
+  -- TODO drawModelWiresEx,
+  -- TODO drawBoundingBox,
+  -- TODO drawBillboard,
+  -- TODO drawBillboardRec,
+
+  -- * Collision detection functions
+  -- TODO checkCollisionSpheres,
+  -- TODO checkCollisionBoxes,
+  -- TODO checkCollisionBoxSphere,
+  -- TODO checkCollisionRaySphere,
+  -- TODO checkCollisionRaySphereEx,
+  -- TODO checkCollisionRayBox,
+  -- TODO getCollisionRayModel,
+  -- TODO getCollisionRayTriangle,
+  -- TODO getCollisionRayGround,
+
+) where
+import Foreign.C.Types
+import Foreign.Marshal.Utils
+import Foreign.Ptr
+import Types
+
+#include "raylib.h"
+#include "models.h"
+
+foreign import ccall unsafe "models.h WrappedDrawCube" c_WrappedDrawCube :: Ptr Vector3 -> CFloat -> CFloat -> CFloat -> Ptr Color -> IO ()
+drawCube :: Vector3 -> Float -> Float -> Float -> Color -> IO ()
+drawCube position width height length_ color =
+  with position $ \positionPtr ->
+    with color $ \colorPtr ->
+      c_WrappedDrawCube positionPtr (realToFrac width) (realToFrac height) (realToFrac length_) colorPtr
+
+foreign import ccall unsafe "models.h WrappedDrawCubeWires" c_WrappedDrawCubeWires :: Ptr Vector3 -> CFloat -> CFloat -> CFloat -> Ptr Color -> IO ()
+drawCubeWires :: Vector3 -> Float -> Float -> Float -> Color -> IO ()
+drawCubeWires position width height length_ color =
+  with position $ \positionPtr ->
+    with color $ \colorPtr ->
+      c_WrappedDrawCubeWires positionPtr (realToFrac width) (realToFrac height) (realToFrac length_) colorPtr
+
+foreign import ccall unsafe "raylib.h DrawGrid" c_DrawGrid :: CInt -> CFloat -> IO ()
+drawGrid :: Int -> Float -> IO ()
+drawGrid slices spacing = c_DrawGrid (fromIntegral slices) (realToFrac spacing)

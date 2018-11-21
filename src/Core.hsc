@@ -30,8 +30,8 @@ module Core (
   endDrawing,
   -- TODO beginMode2D,
   -- TODO endMode2D,
-  -- TODO beginMode3D,
-  -- TODO endMode3D,
+  beginMode3D,
+  endMode3D,
   -- TODO beginTextureMode,
   -- TODO endTextureMode,
 
@@ -155,6 +155,16 @@ beginDrawing = c_BeginDrawing
 foreign import ccall unsafe "raylib.h EndDrawing" c_EndDrawing :: IO ()
 endDrawing :: IO ()
 endDrawing = c_EndDrawing
+
+foreign import ccall unsafe "core.h WrappedBeginMode3D" c_WrappedBeginMode3D :: Ptr Camera3D -> IO ()
+beginMode3D :: Camera3D -> IO ()
+beginMode3D camera =
+  with camera $ \cameraPtr ->
+    c_WrappedBeginMode3D cameraPtr
+
+foreign import ccall unsafe "raylib.h EndMode3D" c_EndMode3D :: IO ()
+endMode3D :: IO ()
+endMode3D = c_EndMode3D
 
 foreign import ccall unsafe "raylib.h SetTraceLog" c_SetTraceLog :: CUChar -> IO ()
 setTraceLog :: [LogType] -> IO ()

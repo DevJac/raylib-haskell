@@ -3,6 +3,8 @@ import Types
 
 lightGray  :: Color
 lightGray   = Color 200 200 200 255
+lightGrey  :: Color
+lightGrey   = lightGray
 
 gray       :: Color
 gray        = Color 130 130 130 255
@@ -11,6 +13,8 @@ grey        = gray
 
 darkGray   :: Color
 darkGray    = Color 80 80 80 255
+darkGrey   :: Color
+darkGrey    = darkGray
 
 yellow     :: Color
 yellow      = Color 253 249 0 255
