@@ -30,3 +30,7 @@ void WrappedSetMousePosition(Vector2 *position) {
 void WrappedBeginMode3D(Camera3D *camera) {
   BeginMode3D(*camera);
 }
+
+void WrappedSetCameraMode(Camera3D *camera, int mode) {
+  SetCameraMode(*camera, mode);
+}

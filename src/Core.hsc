@@ -107,8 +107,8 @@ module Core (
   -- TODO getGesturePinchAngle,
 
   -- * Camera-related functions
-  -- TODO setCameraMode,
-  -- TODO updateCamera,
+  setCameraMode,
+  updateCamera,
   -- TODO setCameraPanControl,
   -- TODO setCameraAltControl,
   -- TODO setCameraSmoothZoomControl,
@@ -348,3 +348,16 @@ setMousePosition position =
 foreign import ccall "raylib.h GetMouseWheelMove" c_GetMouseWheelMove :: IO CInt
 getMouseWheelMove :: IO Int
 getMouseWheelMove = fromIntegral <$> c_GetMouseWheelMove
+
+foreign import ccall "core.h WrappedSetCameraMode" c_WrappedSetCameraMode :: Ptr Camera3D -> CInt -> IO ()
+setCameraMode :: Camera3D -> CameraMode -> IO ()
+setCameraMode camera mode =
+  with camera $ \cameraPtr ->
+    c_WrappedSetCameraMode cameraPtr (fromIntegral (fromEnum mode))
+
+foreign import ccall "raylib.h UpdateCamera" c_UpdateCamera :: Ptr Camera3D -> IO ()
+updateCamera :: Camera3D -> IO Camera3D
+updateCamera camera =
+  with camera $ \cameraPtr -> do
+    c_UpdateCamera cameraPtr
+    peek cameraPtr

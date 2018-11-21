@@ -12,6 +12,7 @@ module Types (
       Vsync),
   LogType (Debug, Info, Warning, Error),
   CameraType (Perspective, Orthographic),
+  CameraMode (Custom, Free, Orbital, FirstPerson, ThirdPerson),
   KeyboardKey (..),
   MouseButton (LeftClick, RightClick, MiddleClick),
 
@@ -95,6 +96,26 @@ instance Enum CameraType where
   toEnum #{const CAMERA_PERSPECTIVE}  = Perspective
   toEnum #{const CAMERA_ORTHOGRAPHIC} = Orthographic
   toEnum unknown                      = error $ "Received an unknown CameraType value from raylib: " ++ (show unknown)
+
+data CameraMode = Custom
+                | Free
+                | Orbital
+                | FirstPerson
+                | ThirdPerson
+                deriving (Show, Eq)
+
+instance Enum CameraMode where
+  fromEnum Custom      = #{const CAMERA_CUSTOM}
+  fromEnum Free        = #{const CAMERA_FREE}
+  fromEnum Orbital     = #{const CAMERA_ORBITAL}
+  fromEnum FirstPerson = #{const CAMERA_FIRST_PERSON}
+  fromEnum ThirdPerson = #{const CAMERA_THIRD_PERSON}
+  toEnum #{const CAMERA_CUSTOM}       = Custom
+  toEnum #{const CAMERA_FREE}         = Free
+  toEnum #{const CAMERA_ORBITAL}      = Orbital
+  toEnum #{const CAMERA_FIRST_PERSON} = FirstPerson
+  toEnum #{const CAMERA_THIRD_PERSON} = ThirdPerson
+  toEnum unknown                      = error $ "Received an unknown CameraMode value from raylib: " ++ (show unknown)
 
 data KeyboardKey = Space
                  | Escape
