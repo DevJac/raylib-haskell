@@ -115,7 +115,6 @@ module Core (
   -- TODO setCameraMoveControls,
 
 ) where
-import Control.Concurrent
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.ForeignPtr
