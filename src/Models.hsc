@@ -55,7 +55,7 @@ module Models (
   -- TODO drawModelWires,
   -- TODO drawModelWiresEx,
   -- TODO drawBoundingBox,
-  -- TODO drawBillboard,
+  drawBillboard,
   -- TODO drawBillboardRec,
 
   -- * Collision detection functions
@@ -71,6 +71,7 @@ module Models (
 
 ) where
 import Foreign.C.Types
+import Foreign.ForeignPtr
 import Foreign.Marshal.Utils
 import Foreign.Ptr
 import Types
@@ -95,3 +96,12 @@ drawCubeWires position width height length_ color =
 foreign import ccall unsafe "raylib.h DrawGrid" c_DrawGrid :: CInt -> CFloat -> IO ()
 drawGrid :: Int -> Float -> IO ()
 drawGrid slices spacing = c_DrawGrid (fromIntegral slices) (realToFrac spacing)
+
+foreign import ccall unsafe "models.h WrappedDrawBillboard" c_WrappedDrawBillboard :: Ptr Camera3D -> Ptr Texture2D -> Ptr Vector3 -> CFloat -> Ptr Color -> IO ()
+drawBillboard :: Camera3D -> Texture2D -> Vector3 -> Float -> Color -> IO ()
+drawBillboard camera (Texture2D textureForeignPtr) center size tint =
+  with camera $ \cameraPtr ->
+    withForeignPtr textureForeignPtr $ \texturePtr ->
+      with center $ \centerPtr ->
+        with tint $ \tintPtr ->
+          c_WrappedDrawBillboard cameraPtr texturePtr centerPtr (realToFrac size) tintPtr

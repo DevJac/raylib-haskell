@@ -7,10 +7,9 @@ module Textures (
   -- TODO loadImagePro,
   -- TODO loadImageRaw,
   -- TODO exportImage,
-  -- TODO loadTexture,
+  loadTexture,
   -- TODO loadTextureFromImage,
   -- TODO loadRenderTexture,
-  -- TODO unloadTexture,
   -- TODO unloadRenderTexture,
   -- TODO getImageData,
   -- TODO getImageDataNormalized,
@@ -88,3 +87,11 @@ loadImage filename =
     Image <$> newForeignPtr c_WrappedUnloadImage imagePtr
 
 foreign import ccall unsafe "textures.h &WrappedUnloadImage" c_WrappedUnloadImage :: FunPtr (Ptr Image -> IO ())
+foreign import ccall unsafe "textures.h &WrappedUnloadTexture" c_WrappedUnloadTexture :: FunPtr (Ptr Texture2D -> IO ())
+
+foreign import ccall unsafe "textures.h WrappedLoadTexture" c_WrappedLoadTexture :: CString -> IO (Ptr Texture2D)
+loadTexture :: String -> IO Texture2D
+loadTexture filename =
+  withCString filename $ \cFilename -> do
+    texturePtr <- c_WrappedLoadTexture cFilename
+    Texture2D <$> newForeignPtr c_WrappedUnloadTexture texturePtr

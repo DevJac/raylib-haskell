@@ -26,6 +26,7 @@ module Types (
   -- * Complex types
   Image (Image), imageWidth, imageHeight,
   Font (Font), fontBaseSize, fontCharsCount,
+  Texture2D (Texture2D),
 
   -- * Other types
 
@@ -486,3 +487,5 @@ imageHeight (Image imageForeignPtr) =
   unsafePerformIO $
     withForeignPtr imageForeignPtr $ \imagePtr ->
       fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
+
+newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)
