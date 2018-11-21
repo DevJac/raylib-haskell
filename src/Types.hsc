@@ -159,6 +159,7 @@ data KeyboardKey = Space
                  | X
                  | Y
                  | Z
+                 | NoKey
                  | OtherKey Int
                  deriving (Show, Eq)
 
@@ -240,6 +241,7 @@ instance Enum KeyboardKey where
   fromEnum X            = #{const KEY_X}
   fromEnum Y            = #{const KEY_Y}
   fromEnum Z            = #{const KEY_Z}
+  fromEnum NoKey        = (-1)
   fromEnum (OtherKey i) = i
   toEnum #{const KEY_SPACE}         = Space
   toEnum #{const KEY_ESCAPE}        = Escape
@@ -318,6 +320,7 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_X}             = X
   toEnum #{const KEY_Y}             = Y
   toEnum #{const KEY_Z}             = Z
+  toEnum (-1)                       = NoKey
   toEnum i                          = OtherKey i
 
 -- The word "click" seems to uniquely apply to the mouse, so it's a good word to use in our data constructors.
