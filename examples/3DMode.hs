@@ -10,14 +10,17 @@ main = do
       screenHeight = 450
   initWindow screenWidth screenHeight "raylib [core] example - 3d mode"
   setTargetFPS 60
-  loop
+  let camera = (Camera3D (Vector3 4 4 4) (Vector3 0 0 0) (Vector3 0 1 0) 45 Perspective)
+  setCameraMode camera Orbital
+  loop camera
   closeWindow
   where
-    loop :: IO ()
-    loop = do
+    loop :: Camera3D -> IO ()
+    loop camera = do
+      camera' <- updateCamera camera
       beginDrawing
       clearBackground rayWhite
-      beginMode3D (Camera3D (Vector3 0 10 10) (Vector3 0 0 0) (Vector3 0 1 0) 45 Perspective)
+      beginMode3D camera'
       drawCube (Vector3 0 0 0) 2 2 2 red
       drawCubeWires (Vector3 0 0 0) 2 2 2 maroon
       drawGrid 10 1
@@ -26,4 +29,4 @@ main = do
       drawFPS 10 10
       endDrawing
       shouldClose <- windowShouldClose
-      if shouldClose then pure () else loop
+      if shouldClose then pure () else loop camera'
