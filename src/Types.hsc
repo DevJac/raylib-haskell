@@ -11,6 +11,7 @@ module Types (
       Msaa4x,
       Vsync),
   LogType (Debug, Info, Warning, Error),
+  CameraType (Perspective, Orthographic),
   KeyboardKey (..),
   MouseButton (LeftClick, RightClick, MiddleClick),
 
@@ -18,6 +19,8 @@ module Types (
   Color (Color),
   Rectangle (Rectangle),
   Vector2 (Vector2),
+  Vector3 (Vector3),
+  Camera3D (Camera3D),
 
   -- * Complex types
   Image (Image), imageWidth, imageHeight,
@@ -81,6 +84,17 @@ instance Enum ConfigFlag where
   toEnum #{const FLAG_MSAA_4X_HINT}       = Msaa4x
   toEnum #{const FLAG_VSYNC_HINT}         = Vsync
   toEnum unknown                          = error $ "Received an unknown ConfigFlag value from raylib: " ++ (show unknown)
+
+data CameraType = Perspective
+                | Orthographic
+                deriving (Show, Eq)
+
+instance Enum CameraType where
+  fromEnum Perspective  = #{const CAMERA_PERSPECTIVE}
+  fromEnum Orthographic = #{const CAMERA_ORTHOGRAPHIC}
+  toEnum #{const CAMERA_PERSPECTIVE}  = Perspective
+  toEnum #{const CAMERA_ORTHOGRAPHIC} = Orthographic
+  toEnum unknown                      = error $ "Received an unknown CameraType value from raylib: " ++ (show unknown)
 
 data KeyboardKey = Space
                  | Escape
@@ -389,6 +403,40 @@ instance Storable Vector2 where
   poke p (Vector2 x y) = do
     #{poke Vector2, x} p x
     #{poke Vector2, y} p y
+
+data Vector3 = Vector3 !Float !Float !Float deriving (Show, Eq)
+
+instance Storable Vector3 where
+  sizeOf _ = #{size Vector3}
+  alignment _ = #{alignment Vector3}
+  peek p = do
+    x <- #{peek Vector3, x} p
+    y <- #{peek Vector3, y} p
+    z <- #{peek Vector3, z} p
+    pure $ Vector3 x y z
+  poke p (Vector3 x y z) = do
+    #{poke Vector3, x} p x
+    #{poke Vector3, y} p y
+    #{poke Vector3, z} p z
+
+data Camera3D = Camera3D !Vector3 !Vector3 !Vector3 !Float !CameraType deriving (Show, Eq)
+
+instance Storable Camera3D where
+  sizeOf _ = #{size Camera3D}
+  alignment _ = #{alignment Camera3D}
+  peek p = do
+    position <- #{peek Camera3D, position} p
+    target   <- #{peek Camera3D, target}   p
+    up       <- #{peek Camera3D, up}       p
+    fovy     <- #{peek Camera3D, fovy}     p
+    type_    <- #{peek Camera3D, type}     p
+    pure $ Camera3D position target up fovy (toEnum type_)
+  poke p (Camera3D position target up fovy type_) = do
+    #{poke Camera3D, position} p position
+    #{poke Camera3D, target}   p target
+    #{poke Camera3D, up}       p up
+    #{poke Camera3D, fovy}     p fovy
+    #{poke Camera3D, type}     p (fromEnum type_)
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
