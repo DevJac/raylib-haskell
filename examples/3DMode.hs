@@ -8,6 +8,7 @@ main :: IO ()
 main = do
   let screenWidth = 800
       screenHeight = 450
+  setConfigFlags [Vsync, Msaa4x]
   initWindow screenWidth screenHeight "raylib [core] example - 3d mode"
   setTargetFPS 60
   let camera = (Camera3D (Vector3 4 4 4) (Vector3 0 0 0) (Vector3 0 1 0) 45 Perspective)
