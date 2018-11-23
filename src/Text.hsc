@@ -59,8 +59,8 @@ drawText text posX posY fontSize color =
 
 foreign import ccall unsafe "text.h WrappedDrawTextEx" c_WrappedDrawTextEx :: Ptr Font -> CString -> Ptr Vector2 -> CFloat -> CFloat -> Ptr Color -> IO ()
 drawTextEx :: Font -> String -> Vector2 -> Float -> Float -> Color -> IO ()
-drawTextEx (Font fontForeignPtr) text position fontSize spacing color =
-  withForeignPtr fontForeignPtr $ \fontPtr ->
+drawTextEx font text position fontSize spacing color =
+  withFont font $ \fontPtr ->
     withCString text $ \cText ->
       with position $ \positionPtr ->
         with color $ \colorPtr ->
@@ -74,9 +74,9 @@ measureText text fontSize =
 
 foreign import ccall unsafe "text.h WrappedMeasureTextEx" c_WrappedMeasureTextEx :: Ptr Font -> CString -> CFloat -> CFloat -> Ptr Vector2 -> IO ()
 measureTextEx :: Font -> String -> Float -> Float -> IO Vector2
-measureTextEx (Font fontForeignPtr) text fontSize spacing =
+measureTextEx font text fontSize spacing =
   alloca $ \vector2ResultPtr ->
-    withForeignPtr fontForeignPtr $ \fontPtr ->
+    withFont font $ \fontPtr ->
       withCString text $ \cText -> do
         c_WrappedMeasureTextEx fontPtr cText (realToFrac fontSize) (realToFrac spacing) vector2ResultPtr
         peek vector2ResultPtr

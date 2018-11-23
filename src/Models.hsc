@@ -71,7 +71,6 @@ module Models (
 
 ) where
 import Foreign.C.Types
-import Foreign.ForeignPtr
 import Foreign.Marshal.Utils
 import Foreign.Ptr
 import Types
@@ -99,9 +98,9 @@ drawGrid slices spacing = c_DrawGrid (fromIntegral slices) (realToFrac spacing)
 
 foreign import ccall unsafe "models.h WrappedDrawBillboard" c_WrappedDrawBillboard :: Ptr Camera3D -> Ptr Texture2D -> Ptr Vector3 -> CFloat -> Ptr Color -> IO ()
 drawBillboard :: Camera3D -> Texture2D -> Vector3 -> Float -> Color -> IO ()
-drawBillboard camera (Texture2D textureForeignPtr) center size tint =
+drawBillboard camera texture center size tint =
   with camera $ \cameraPtr ->
-    withForeignPtr textureForeignPtr $ \texturePtr ->
+    withTexture2D texture $ \texturePtr ->
       with center $ \centerPtr ->
         with tint $ \tintPtr ->
           c_WrappedDrawBillboard cameraPtr texturePtr centerPtr (realToFrac size) tintPtr

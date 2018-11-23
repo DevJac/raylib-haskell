@@ -24,9 +24,9 @@ module Types (
   Camera3D (Camera3D),
 
   -- * Complex types
-  Image (Image), imageWidth, imageHeight,
-  Font (Font), fontBaseSize, fontCharsCount,
-  Texture2D (Texture2D),
+  Image (Image), withImage, imageWidth, imageHeight,
+  Texture2D (Texture2D), withTexture2D,
+  Font (Font), withFont, fontBaseSize, fontCharsCount,
 
   -- * Other types
 
@@ -36,6 +36,7 @@ import Foreign.C.Types
 import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.ForeignPtr
+import Foreign.Ptr
 import Foreign.Storable
 
 #include "raylib.h"
@@ -478,29 +479,38 @@ instance Storable MaterialMap where
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
+withFont :: Font -> (Ptr Font -> IO a) -> IO a
+withFont (Font fontForeignPtr) f = withForeignPtr fontForeignPtr f
+
 fontBaseSize :: Font -> IO Int
-fontBaseSize (Font fontForeignPtr) =
-  withForeignPtr fontForeignPtr $ \fontPtr ->
+fontBaseSize font =
+  withFont font $ \fontPtr ->
     fromIntegral <$> (#{peek Font, baseSize} fontPtr :: IO CInt)
 
 fontCharsCount :: Font -> IO Int
-fontCharsCount (Font fontForeignPtr) =
-  withForeignPtr fontForeignPtr $ \fontPtr ->
+fontCharsCount font =
+  withFont font $ \fontPtr ->
     fromIntegral <$> (#{peek Font, charsCount} fontPtr :: IO CInt)
 
 newtype Image = Image (ForeignPtr Image) deriving (Show)
 
+withImage :: Image -> (Ptr Image -> IO a) -> IO a
+withImage (Image imageForeignPtr) f = withForeignPtr imageForeignPtr f
+
 imageWidth :: Image -> IO Int
-imageWidth (Image imageForeignPtr) =
-  withForeignPtr imageForeignPtr $ \imagePtr ->
+imageWidth image =
+  withImage image $ \imagePtr ->
     fromIntegral <$> (#{peek Image, width} imagePtr :: IO CInt)
 
 imageHeight :: Image -> IO Int
-imageHeight (Image imageForeignPtr) =
-  withForeignPtr imageForeignPtr $ \imagePtr ->
+imageHeight image =
+  withImage image $ \imagePtr ->
     fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
 
 newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)
+
+withTexture2D :: Texture2D -> (Ptr Texture2D -> IO a) -> IO a
+withTexture2D (Texture2D texture2DForeignPtr) f = withForeignPtr texture2DForeignPtr f
 
 instance Storable Texture2D where
   sizeOf _ = #{size Texture2D}
@@ -509,6 +519,6 @@ instance Storable Texture2D where
     copyPtr <- mallocBytes #{size Texture2D}
     copyBytes copyPtr originPtr #{size Texture2D}
     Texture2D <$> newForeignPtr finalizerFree copyPtr
-  poke p (Texture2D textureForeignPtr) =
-    withForeignPtr textureForeignPtr $ \texturePtr ->
+  poke p texture =
+    withTexture2D texture $ \texturePtr ->
       moveBytes p texturePtr #{size Texture2D}

@@ -117,7 +117,6 @@ module Core (
 ) where
 import Foreign.C.String
 import Foreign.C.Types
-import Foreign.ForeignPtr
 import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.Ptr
@@ -197,8 +196,8 @@ setWindowIcon :: Image -> IO ()
 -- ^ This function keeps a copy of the given image in memory forever; this is a workaround for a bug in the underlying C libraries.
 -- This function effectively leaks memory. Calling this function many times will cause more and more memory to be used.
 -- Thus, ideally, this function should only be called once.
-setWindowIcon (Image imageForeignPtr) =
-  withForeignPtr imageForeignPtr $ \imagePtr -> do
+setWindowIcon image =
+  withImage image $ \imagePtr -> do
     -- There is a bug in raylib. On GNOME 3 (and maybe others) if you call raylib's SetWindowIcon function
     -- too many times, or if the image you are using as the icon is freed to quickly after the call,
     -- you get a double free error. See: https://github.com/raysan5/raylib/issues/689
