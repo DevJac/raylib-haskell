@@ -15,6 +15,18 @@ module Types (
   CameraMode (Custom, Free, Orbital, FirstPerson, ThirdPerson),
   KeyboardKey (..),
   MouseButton (LeftClick, RightClick, MiddleClick),
+  MaterialMapType (
+      Albedo,
+      Metalness,
+      Normal,
+      Roughness,
+      Occlusion,
+      Emission,
+      Height,
+      Cubemap,
+      Irradiance,
+      Prefilter,
+      BRDF),
 
   -- * Simple types
   Color (Color),
@@ -27,6 +39,8 @@ module Types (
   Image (Image), withImage, imageWidth, imageHeight,
   Texture2D (Texture2D), withTexture2D,
   Font (Font), withFont, fontBaseSize, fontCharsCount,
+  MaterialMap (MaterialMap),
+  Material (Material), withMaterial,
 
   -- * Other types
 
@@ -378,6 +392,44 @@ instance Enum MouseButton where
   toEnum #{const MOUSE_MIDDLE_BUTTON} = MiddleClick
   toEnum i                            = OtherClick i
 
+data MaterialMapType = Albedo
+                     | Metalness
+                     | Normal
+                     | Roughness
+                     | Occlusion
+                     | Emission
+                     | Height
+                     | Cubemap
+                     | Irradiance
+                     | Prefilter
+                     | BRDF
+                     deriving (Show, Eq)
+
+instance Enum MaterialMapType where
+  fromEnum Albedo     = #{const MAP_ALBEDO}
+  fromEnum Metalness  = #{const MAP_METALNESS}
+  fromEnum Normal     = #{const MAP_NORMAL}
+  fromEnum Roughness  = #{const MAP_ROUGHNESS}
+  fromEnum Occlusion  = #{const MAP_OCCLUSION}
+  fromEnum Emission   = #{const MAP_EMISSION}
+  fromEnum Height     = #{const MAP_HEIGHT}
+  fromEnum Cubemap    = #{const MAP_CUBEMAP}
+  fromEnum Irradiance = #{const MAP_IRRADIANCE}
+  fromEnum Prefilter  = #{const MAP_PREFILTER}
+  fromEnum BRDF       = #{const MAP_BRDF}
+  toEnum #{const MAP_ALBEDO}     = Albedo
+  toEnum #{const MAP_METALNESS}  = Metalness
+  toEnum #{const MAP_NORMAL}     = Normal
+  toEnum #{const MAP_ROUGHNESS}  = Roughness
+  toEnum #{const MAP_OCCLUSION}  = Occlusion
+  toEnum #{const MAP_EMISSION}   = Emission
+  toEnum #{const MAP_HEIGHT}     = Height
+  toEnum #{const MAP_CUBEMAP}    = Cubemap
+  toEnum #{const MAP_IRRADIANCE} = Irradiance
+  toEnum #{const MAP_PREFILTER}  = Prefilter
+  toEnum #{const MAP_BRDF}       = BRDF
+  toEnum unknown                 = error $ "Received an unknown MaterialMapType value from raylib: " ++ (show unknown)
+
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
 
@@ -522,3 +574,8 @@ instance Storable Texture2D where
   poke p texture =
     withTexture2D texture $ \texturePtr ->
       moveBytes p texturePtr #{size Texture2D}
+
+newtype Material = Material (ForeignPtr Material) deriving (Show)
+
+withMaterial :: Material -> (Ptr Material -> IO a) -> IO a
+withMaterial (Material materialForeignPtr) f = withForeignPtr materialForeignPtr f
