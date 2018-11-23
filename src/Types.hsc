@@ -35,7 +35,6 @@ import Data.Word
 import Foreign.C.Types
 import Foreign.ForeignPtr
 import Foreign.Storable
-import System.IO.Unsafe (unsafePerformIO)
 
 #include "raylib.h"
 
@@ -462,30 +461,26 @@ instance Storable Camera3D where
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
-fontBaseSize :: Font -> Int
+fontBaseSize :: Font -> IO Int
 fontBaseSize (Font fontForeignPtr) =
-  unsafePerformIO $
-    withForeignPtr fontForeignPtr $ \fontPtr ->
-      fromIntegral <$> (#{peek Font, baseSize} fontPtr :: IO CInt)
+  withForeignPtr fontForeignPtr $ \fontPtr ->
+    fromIntegral <$> (#{peek Font, baseSize} fontPtr :: IO CInt)
 
-fontCharsCount :: Font -> Int
+fontCharsCount :: Font -> IO Int
 fontCharsCount (Font fontForeignPtr) =
-  unsafePerformIO $
-    withForeignPtr fontForeignPtr $ \fontPtr ->
-      fromIntegral <$> (#{peek Font, charsCount} fontPtr :: IO CInt)
+  withForeignPtr fontForeignPtr $ \fontPtr ->
+    fromIntegral <$> (#{peek Font, charsCount} fontPtr :: IO CInt)
 
 newtype Image = Image (ForeignPtr Image) deriving (Show)
 
-imageWidth :: Image -> Int
+imageWidth :: Image -> IO Int
 imageWidth (Image imageForeignPtr) =
-  unsafePerformIO $
-    withForeignPtr imageForeignPtr $ \imagePtr ->
-      fromIntegral <$> (#{peek Image, width} imagePtr :: IO CInt)
+  withForeignPtr imageForeignPtr $ \imagePtr ->
+    fromIntegral <$> (#{peek Image, width} imagePtr :: IO CInt)
 
-imageHeight :: Image -> Int
+imageHeight :: Image -> IO Int
 imageHeight (Image imageForeignPtr) =
-  unsafePerformIO $
-    withForeignPtr imageForeignPtr $ \imagePtr ->
-      fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
+  withForeignPtr imageForeignPtr $ \imagePtr ->
+    fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
 
 newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)

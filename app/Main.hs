@@ -37,7 +37,10 @@ loop n = do
   drawText (show mousePosition) 100 250 20 pink
   textMeasure <- measureTextEx font "Text is Test" 20 5
   drawText (show textMeasure) 100 300 20 green
-  drawText (show (fontCharsCount font)) 100 350 20 gold
-  drawText (show (imageWidth image, imageHeight image)) 100 400 20 maroon
+  charsCount <- fontCharsCount font
+  drawText (show (charsCount)) 100 350 20 gold
+  imageW <- imageWidth image
+  imageH <- imageHeight image
+  drawText (show (imageW, imageH)) 100 400 20 maroon
   endDrawing
   loop (n + 1)
