@@ -33,6 +33,8 @@ module Types (
 ) where
 import Data.Word
 import Foreign.C.Types
+import Foreign.Marshal.Alloc
+import Foreign.Marshal.Utils
 import Foreign.ForeignPtr
 import Foreign.Storable
 
@@ -459,6 +461,21 @@ instance Storable Camera3D where
     #{poke Camera3D, fovy}     p fovy
     #{poke Camera3D, type}     p (fromEnum type_)
 
+data MaterialMap = MaterialMap !Texture2D !Color !Float deriving (Show)
+
+instance Storable MaterialMap where
+  sizeOf _ = #{size MaterialMap}
+  alignment _ = #{alignment MaterialMap}
+  peek p = do
+    texture <- #{peek MaterialMap, texture} p
+    color   <- #{peek MaterialMap, color}   p
+    value   <- #{peek MaterialMap, value}   p
+    pure $ MaterialMap texture color value
+  poke p (MaterialMap texture color value) = do
+    #{poke MaterialMap, texture} p texture
+    #{poke MaterialMap, color}   p color
+    #{poke MaterialMap, value}   p value
+
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
 fontBaseSize :: Font -> IO Int
@@ -484,3 +501,14 @@ imageHeight (Image imageForeignPtr) =
     fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
 
 newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)
+
+instance Storable Texture2D where
+  sizeOf _ = #{size Texture2D}
+  alignment _ = #{alignment Texture2D}
+  peek originPtr = do
+    copyPtr <- mallocBytes #{size Texture2D}
+    copyBytes copyPtr originPtr #{size Texture2D}
+    Texture2D <$> newForeignPtr finalizerFree copyPtr
+  poke p (Texture2D textureForeignPtr) =
+    withForeignPtr textureForeignPtr $ \texturePtr ->
+      moveBytes p texturePtr #{size Texture2D}
