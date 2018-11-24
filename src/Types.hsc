@@ -39,8 +39,10 @@ module Types (
   Image (Image), withImage, imageWidth, imageHeight,
   Texture2D (Texture2D), withTexture2D,
   Font (Font), withFont, fontBaseSize, fontCharsCount,
+  Mesh (Mesh), withMesh,
   MaterialMap (MaterialMap),
   Material (Material), withMaterial,
+  Model (Model), withModel,
 
   -- * Other types
 
@@ -571,7 +573,17 @@ instance Pokable Texture2D where
 withTexture2D :: Texture2D -> (Ptr Texture2D -> IO a) -> IO a
 withTexture2D (Texture2D texture2DForeignPtr) f = withForeignPtr texture2DForeignPtr f
 
-data Material = Material (ForeignPtr Material) [MaterialMap] deriving (Show)
+data Material = Material (ForeignPtr Material) [(MaterialMapType, MaterialMap)] deriving (Show)
 
 withMaterial :: Material -> (Ptr Material -> IO a) -> IO a
 withMaterial (Material materialForeignPtr _) f = withForeignPtr materialForeignPtr f
+
+data Model = Model (ForeignPtr Model) (Maybe Mesh) (Maybe Material) deriving (Show)
+
+withModel :: Model -> (Ptr Model -> IO a) -> IO a
+withModel (Model modelForeignPtr _ _) f = withForeignPtr modelForeignPtr f
+
+data Mesh = Mesh (ForeignPtr Mesh) deriving (Show)
+
+withMesh :: Mesh -> (Ptr Mesh -> IO a) -> IO a
+withMesh (Mesh meshForeignPtr) f = withForeignPtr meshForeignPtr f
