@@ -47,7 +47,6 @@ module Types (
 ) where
 import Data.Word
 import Foreign.C.Types
-import Foreign.Marshal.Alloc
 import Foreign.Marshal.Utils
 import Foreign.ForeignPtr
 import Foreign.Ptr
@@ -430,6 +429,11 @@ instance Enum MaterialMapType where
   toEnum #{const MAP_BRDF}       = BRDF
   toEnum unknown                 = error $ "Received an unknown MaterialMapType value from raylib: " ++ (show unknown)
 
+-- | Like Storable, but without peek, only poke.
+class Pokable a where
+  pokableSizeOf :: a -> Int
+  pokablePoke :: Ptr a -> a -> IO ()
+
 -- | @Color r g b a@
 data Color = Color !Word8 !Word8 !Word8 !Word8 deriving (Show, Eq)
 
@@ -516,18 +520,15 @@ instance Storable Camera3D where
 
 data MaterialMap = MaterialMap !Texture2D !Color !Float deriving (Show)
 
-instance Storable MaterialMap where
-  sizeOf _ = #{size MaterialMap}
-  alignment _ = #{alignment MaterialMap}
-  peek p = do
-    texture <- #{peek MaterialMap, texture} p
-    color   <- #{peek MaterialMap, color}   p
-    value   <- #{peek MaterialMap, value}   p
-    pure $ MaterialMap texture color value
-  poke p (MaterialMap texture color value) = do
-    #{poke MaterialMap, texture} p texture
-    #{poke MaterialMap, color}   p color
-    #{poke MaterialMap, value}   p value
+instance Pokable MaterialMap where
+  pokableSizeOf _ = #{size MaterialMap}
+  pokablePoke p (MaterialMap texture color value) = do
+    let texturePtr = #{ptr MaterialMap, texture} p
+        colorPtr   = #{ptr MaterialMap, color}   p
+        valuePtr   = #{ptr MaterialMap, value}   p
+    pokablePoke texturePtr texture
+    poke colorPtr color
+    poke valuePtr value
 
 newtype Font = Font (ForeignPtr Font) deriving (Show)
 
@@ -561,21 +562,16 @@ imageHeight image =
 
 newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)
 
+instance Pokable Texture2D where
+  pokableSizeOf _ = #{size Texture2D}
+  pokablePoke p texture =
+    withTexture2D texture $ \texturePtr ->
+      copyBytes p texturePtr (pokableSizeOf texture)
+
 withTexture2D :: Texture2D -> (Ptr Texture2D -> IO a) -> IO a
 withTexture2D (Texture2D texture2DForeignPtr) f = withForeignPtr texture2DForeignPtr f
 
-instance Storable Texture2D where
-  sizeOf _ = #{size Texture2D}
-  alignment _ = #{alignment Texture2D}
-  peek originPtr = do
-    copyPtr <- mallocBytes #{size Texture2D}
-    copyBytes copyPtr originPtr #{size Texture2D}
-    Texture2D <$> newForeignPtr finalizerFree copyPtr
-  poke p texture =
-    withTexture2D texture $ \texturePtr ->
-      moveBytes p texturePtr #{size Texture2D}
-
-newtype Material = Material (ForeignPtr Material) deriving (Show)
+data Material = Material (ForeignPtr Material) [MaterialMap] deriving (Show)
 
 withMaterial :: Material -> (Ptr Material -> IO a) -> IO a
-withMaterial (Material materialForeignPtr) f = withForeignPtr materialForeignPtr f
+withMaterial (Material materialForeignPtr _) f = withForeignPtr materialForeignPtr f

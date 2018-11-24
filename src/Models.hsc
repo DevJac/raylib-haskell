@@ -111,12 +111,14 @@ loadMaterial :: String -> IO Material
 loadMaterial filename =
   withCString filename $ \cFilename -> do
     materialPtr <- c_WrappedLoadMaterial cFilename
-    Material <$> newForeignPtr c_WrappedUnloadMaterial materialPtr
+    materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
+    pure $ Material materialForeignPtr []
 
 foreign import ccall unsafe "models.h WrappedLoadMaterialDefault" c_WrappedLoadMaterialDefault :: IO (Ptr Material)
 loadMaterialDefault :: IO Material
 loadMaterialDefault = do
   materialPtr <- c_WrappedLoadMaterialDefault
-  Material <$> newForeignPtr c_WrappedUnloadMaterial materialPtr
+  materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
+  pure $ Material materialForeignPtr []
 
 foreign import ccall unsafe "models.h &WrappedUnloadMaterial" c_WrappedUnloadMaterial :: FunPtr (Ptr Material -> IO ())
