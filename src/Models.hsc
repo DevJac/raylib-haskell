@@ -20,12 +20,10 @@ module Models (
 
   -- * Model loading functions
   -- TODO loadModel,
-  -- TODO loadModelFromMesh,
-  -- TODO unloadModel,
+  loadModelFromMesh,
 
   -- * Mesh loading functions
   -- TODO loadMesh,
-  -- TODO unloadMesh,
   -- TODO exportMesh,
 
   -- * Mesh manipulation functions
@@ -35,21 +33,21 @@ module Models (
 
   -- * Mesh generation functions
   -- TODO genMeshPlane,
-  -- TODO genMeshCube,
+  genMeshCube,
   -- TODO genMeshSphere,
   -- TODO genMeshHemiSphere,
   -- TODO genMeshCylinder,
   -- TODO genMeshTorus,
   -- TODO genMeshKnot,
   -- TODO genMeshHeightmap,
-  -- TODO genMeshCubicmap,
+  genMeshCubicmap,
 
   -- * Material loading functions
   loadMaterial,
   loadMaterialDefault,
 
   -- * Model drawing functions
-  -- TODO drawModel,
+  drawModel,
   -- TODO drawModelEx,
   -- TODO drawModelWires,
   -- TODO drawModelWiresEx,
@@ -125,3 +123,39 @@ loadMaterialDefault = do
   pure $ Material materialForeignPtr materialMaps
 
 foreign import ccall unsafe "models.h &WrappedUnloadMaterial" c_WrappedUnloadMaterial :: FunPtr (Ptr Material -> IO ())
+
+foreign import ccall unsafe "raylib.h &UnloadMesh" c_UnloadMesh :: FunPtr (Ptr Mesh -> IO ())
+
+foreign import ccall unsafe "models.h &WrappedUnloadModel" c_WrappedUnloadModel :: FunPtr (Ptr Model -> IO ())
+
+foreign import ccall unsafe "models.h WrappedLoadModelFromMesh" c_WrappedLoadModelFromMesh :: Ptr Mesh -> IO (Ptr Model)
+loadModelFromMesh :: Mesh -> IO Model
+loadModelFromMesh mesh =
+  withMesh mesh $ \meshPtr -> do
+    modelPtr <- c_WrappedLoadModelFromMesh meshPtr
+    modelForeignPtr <- newForeignPtr c_WrappedUnloadModel modelPtr
+    meshIORef <- newIORef (Just mesh)
+    materialIORef <- newIORef Nothing
+    pure $ Model modelForeignPtr meshIORef materialIORef
+
+foreign import ccall unsafe "models.h WrappedGenMeshCube" c_WrappedGenMeshCube :: CFloat -> CFloat -> CFloat -> IO (Ptr Mesh)
+genMeshCube :: Float -> Float -> Float -> IO Mesh
+genMeshCube width height length_ = do
+  meshPtr <- c_WrappedGenMeshCube (realToFrac width) (realToFrac height) (realToFrac length_)
+  Mesh <$> newForeignPtr c_UnloadMesh meshPtr
+
+foreign import ccall unsafe "models.h WrappedGenMeshCubicmap" c_WrappedGenMeshCubicmap :: Ptr Image -> Ptr Vector3 -> IO (Ptr Mesh)
+genMeshCubicmap :: Image -> Vector3 -> IO Mesh
+genMeshCubicmap cubicmap cubeSize =
+  withImage cubicmap $ \cubicmapPtr ->
+    with cubeSize $ \cubeSizePtr -> do
+      meshPtr <- c_WrappedGenMeshCubicmap cubicmapPtr cubeSizePtr
+      Mesh <$> newForeignPtr c_UnloadMesh meshPtr
+
+foreign import ccall unsafe "models.h WrappedDrawModel" c_WrappedDrawModel :: Ptr Model -> Ptr Vector3 -> CFloat -> Ptr Color -> IO ()
+drawModel :: Model -> Vector3 -> Float -> Color -> IO ()
+drawModel model position scale tint =
+  withModel model $ \modelPtr ->
+    with position $ \positionPtr ->
+      with tint $ \tintPtr ->
+        c_WrappedDrawModel modelPtr positionPtr (realToFrac scale) tintPtr

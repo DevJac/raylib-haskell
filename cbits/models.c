@@ -29,3 +29,30 @@ void WrappedUnloadMaterial(Material *material) {
   UnloadMaterial(*material);
   free(material);
 }
+
+void WrappedUnloadModel(Model *model) {
+  UnloadModel(*model);
+  free(model);
+}
+
+Model *WrappedLoadModelFromMesh(Mesh *mesh) {
+  Model *result = malloc(sizeof *result);
+  *result = LoadModelFromMesh(*mesh);
+  return result;
+}
+
+Mesh *WrappedGenMeshCube(float width, float height, float length) {
+  Mesh *result = malloc(sizeof *result);
+  *result = GenMeshCube(width, height, length);
+  return result;
+}
+
+Mesh *WrappedGenMeshCubicmap(Image *cubicmap, Vector3 *cubeSize) {
+  Mesh *result = malloc(sizeof *result);
+  *result = GenMeshCubicmap(*cubicmap, *cubeSize);
+  return result;
+}
+
+void WrappedDrawModel(Model *model, Vector3 *position, float scale, Color *tint) {
+  DrawModel(*model, *position, scale, *tint);
+}

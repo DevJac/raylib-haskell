@@ -4,3 +4,8 @@ void WrappedDrawBillboard(Camera3D *camera, Texture2D *texture, Vector3 *center,
 Material *WrappedLoadMaterial(const char *fileName);
 Material *WrappedLoadMaterialDefault(void);
 void WrappedUnloadMaterial(Material *material);
+void WrappedUnloadModel(Model *model);
+Model *WrappedLoadModelFromMesh(Mesh *mesh);
+Mesh *WrappedGenMeshCube(float width, float height, float length);
+Mesh *WrappedGenMeshCubicmap(Image *cubicmap, Vector3 *cubeSize);
+void WrappedDrawModel(Model *model, Vector3 *position, float scale, Color *tint);

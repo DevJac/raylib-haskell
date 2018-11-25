@@ -22,3 +22,13 @@ void WrappedUnloadTexture(Texture2D *texture) {
   UnloadTexture(*texture);
   free(texture);
 }
+
+Texture2D *WrappedLoadTextureFromImage(Image *image) {
+  Texture2D *result = malloc(sizeof *result);
+  *result = LoadTextureFromImage(*image);
+  return result;
+}
+
+void WrappedDrawTextureEx(Texture2D *texture, Vector2 *position, float rotation, float scale, Color *tint) {
+  DrawTextureEx(*texture, *position, rotation, scale, *tint);
+}

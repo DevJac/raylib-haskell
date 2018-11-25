@@ -8,7 +8,7 @@ module Textures (
   -- TODO loadImageRaw,
   -- TODO exportImage,
   loadTexture,
-  -- TODO loadTextureFromImage,
+  loadTextureFromImage,
   -- TODO loadRenderTexture,
   -- TODO unloadRenderTexture,
   -- TODO getImageData,
@@ -66,13 +66,15 @@ module Textures (
   -- * Texture2D drawing functions
   -- TODO drawTexture,
   -- TODO drawTextureV,
-  -- TODO drawTextureEx,
+  drawTextureEx,
   -- TODO drawTextureRec,
   -- TODO drawTexturePro,
 
 ) where
 import Foreign.C.String
+import Foreign.C.Types
 import Foreign.ForeignPtr
+import Foreign.Marshal.Utils
 import Foreign.Ptr
 import Types
 
@@ -95,3 +97,18 @@ loadTexture filename =
   withCString filename $ \cFilename -> do
     texturePtr <- c_WrappedLoadTexture cFilename
     Texture2D <$> newForeignPtr c_WrappedUnloadTexture texturePtr
+
+foreign import ccall unsafe "textures.h WrappedLoadTextureFromImage" c_WrappedLoadTextureFromImage :: Ptr Image -> IO (Ptr Texture2D)
+loadTextureFromImage :: Image -> IO Texture2D
+loadTextureFromImage image =
+  withImage image $ \imagePtr -> do
+    texturePtr <- c_WrappedLoadTextureFromImage imagePtr
+    Texture2D <$> newForeignPtr c_WrappedUnloadTexture texturePtr
+
+foreign import ccall unsafe "textures.h WrappedDrawTextureEx" c_WrappedDrawTextureEx :: Ptr Texture2D -> Ptr Vector2 -> CFloat -> CFloat -> Ptr Color -> IO ()
+drawTextureEx :: Texture2D -> Vector2 -> Float -> Float -> Color -> IO ()
+drawTextureEx texture position rotation scale tint =
+  withTexture2D texture $ \texturePtr ->
+    with position $ \positionPtr ->
+      with tint $ \tintPtr ->
+        c_WrappedDrawTextureEx texturePtr positionPtr (realToFrac rotation) (realToFrac scale) tintPtr
