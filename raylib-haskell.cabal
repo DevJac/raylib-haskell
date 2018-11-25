@@ -19,6 +19,7 @@ library
                         cbits/shapes.c
                         cbits/text.c
                         cbits/textures.c
+                        cbits/types.c
                         raylib/src/external/mini_al.c
                         raylib/src/external/stb_vorbis.c
                         raylib/src/audio.c

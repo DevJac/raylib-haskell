@@ -69,6 +69,7 @@ module Models (
   -- TODO getCollisionRayGround,
 
 ) where
+import Data.IORef
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.ForeignPtr
@@ -112,13 +113,15 @@ loadMaterial filename =
   withCString filename $ \cFilename -> do
     materialPtr <- c_WrappedLoadMaterial cFilename
     materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
-    pure $ Material materialForeignPtr []
+    materialMaps <- newIORef []
+    pure $ Material materialForeignPtr materialMaps
 
 foreign import ccall unsafe "models.h WrappedLoadMaterialDefault" c_WrappedLoadMaterialDefault :: IO (Ptr Material)
 loadMaterialDefault :: IO Material
 loadMaterialDefault = do
   materialPtr <- c_WrappedLoadMaterialDefault
   materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
-  pure $ Material materialForeignPtr []
+  materialMaps <- newIORef []
+  pure $ Material materialForeignPtr materialMaps
 
 foreign import ccall unsafe "models.h &WrappedUnloadMaterial" c_WrappedUnloadMaterial :: FunPtr (Ptr Material -> IO ())
