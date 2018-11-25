@@ -12,3 +12,7 @@ void ModelSetMesh(Model *model, Mesh *mesh) {
 void ModelSetMaterial(Model *model, Material *material) {
   model->material = *material;
 }
+
+void ModelSetMaterialMap(Model *model, int mapType, MaterialMap *map) {
+  model->material.maps[mapType] = *map;
+}

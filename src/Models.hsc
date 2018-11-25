@@ -134,8 +134,8 @@ loadModelFromMesh mesh =
   withMesh mesh $ \meshPtr -> do
     modelPtr <- c_WrappedLoadModelFromMesh meshPtr
     modelForeignPtr <- newForeignPtr c_WrappedUnloadModel modelPtr
-    meshIORef <- newIORef (Just mesh)
-    materialIORef <- newIORef Nothing
+    meshIORef <- newIORef mesh
+    materialIORef <- (newIORef =<< loadMaterialDefault)
     pure $ Model modelForeignPtr meshIORef materialIORef
 
 foreign import ccall unsafe "models.h WrappedGenMeshCube" c_WrappedGenMeshCube :: CFloat -> CFloat -> CFloat -> IO (Ptr Mesh)
