@@ -35,6 +35,11 @@ void WrappedUnloadModel(Model *model) {
   free(model);
 }
 
+void WrappedUnloadMesh(Mesh *mesh) {
+  UnloadMesh(mesh);
+  free(mesh);
+}
+
 Model *WrappedLoadModelFromMesh(Mesh *mesh) {
   Model *result = malloc(sizeof *result);
   *result = LoadModelFromMesh(*mesh);

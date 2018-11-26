@@ -124,7 +124,7 @@ loadMaterialDefault = do
 
 foreign import ccall unsafe "models.h &WrappedUnloadMaterial" c_WrappedUnloadMaterial :: FunPtr (Ptr Material -> IO ())
 
-foreign import ccall unsafe "raylib.h &UnloadMesh" c_UnloadMesh :: FunPtr (Ptr Mesh -> IO ())
+foreign import ccall unsafe "models.h &WrappedUnloadMesh" c_WrappedUnloadMesh :: FunPtr (Ptr Mesh -> IO ())
 
 foreign import ccall unsafe "models.h &WrappedUnloadModel" c_WrappedUnloadModel :: FunPtr (Ptr Model -> IO ())
 
@@ -142,7 +142,7 @@ foreign import ccall unsafe "models.h WrappedGenMeshCube" c_WrappedGenMeshCube :
 genMeshCube :: Float -> Float -> Float -> IO Mesh
 genMeshCube width height length_ = do
   meshPtr <- c_WrappedGenMeshCube (realToFrac width) (realToFrac height) (realToFrac length_)
-  Mesh <$> newForeignPtr c_UnloadMesh meshPtr
+  Mesh <$> newForeignPtr c_WrappedUnloadMesh meshPtr
 
 foreign import ccall unsafe "models.h WrappedGenMeshCubicmap" c_WrappedGenMeshCubicmap :: Ptr Image -> Ptr Vector3 -> IO (Ptr Mesh)
 genMeshCubicmap :: Image -> Vector3 -> IO Mesh
@@ -150,7 +150,7 @@ genMeshCubicmap cubicmap cubeSize =
   withImage cubicmap $ \cubicmapPtr ->
     with cubeSize $ \cubeSizePtr -> do
       meshPtr <- c_WrappedGenMeshCubicmap cubicmapPtr cubeSizePtr
-      Mesh <$> newForeignPtr c_UnloadMesh meshPtr
+      Mesh <$> newForeignPtr c_WrappedUnloadMesh meshPtr
 
 foreign import ccall unsafe "models.h WrappedDrawModel" c_WrappedDrawModel :: Ptr Model -> Ptr Vector3 -> CFloat -> Ptr Color -> IO ()
 drawModel :: Model -> Vector3 -> Float -> Color -> IO ()
