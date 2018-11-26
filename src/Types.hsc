@@ -616,9 +616,12 @@ foreign import ccall unsafe "types.h ModelSetMesh" c_ModelSetMesh :: Ptr Model -
 modelSetMesh :: Model -> Mesh -> IO ()
 modelSetMesh model@(Model _ modelMesh _) mesh =
   withModel model $ \modelPtr ->
-    withMesh mesh $ \meshPtr -> do
+    withMesh mesh $ \_shouldUnloadMesh meshPtr -> do
       c_ModelSetMesh modelPtr meshPtr
-      atomicModifyIORef' modelMesh (\_ -> (mesh, ()))
+      currentModelMesh <- readIORef modelMesh
+      withMesh currentModelMesh $ \_ _ -> pure (True, ())
+      result <- atomicModifyIORef' modelMesh (\_ -> (mesh, ()))
+      pure (False, result)
 
 foreign import ccall unsafe "types.h ModelSetMaterial" c_ModelSetMaterial :: Ptr Model -> Ptr Material -> IO ()
 modelSetMaterial :: Model -> Material -> IO ()
@@ -637,7 +640,13 @@ modelSetMaterialMap model@(Model _ _ modelMaterialIORef) mapType materialMap =
       modelMaterial <- readIORef modelMaterialIORef
       materialSetMap modelMaterial mapType materialMap
 
-data Mesh = Mesh (ForeignPtr Mesh) deriving (Show)
+data Mesh = Mesh (ForeignPtr CBool) (ForeignPtr Mesh) deriving (Show)
 
-withMesh :: Mesh -> (Ptr Mesh -> IO a) -> IO a
-withMesh (Mesh meshForeignPtr) f = withForeignPtr meshForeignPtr f
+withMesh :: Mesh -> (Bool -> Ptr Mesh -> IO (Bool, a)) -> IO a
+withMesh (Mesh shouldUnloadForeignPtr meshForeignPtr) f = do
+  withForeignPtr shouldUnloadForeignPtr $ \shouldUnloadPtr ->
+    withForeignPtr meshForeignPtr $ \meshPtr -> do
+      shouldUnload <- toBool <$> peek shouldUnloadPtr
+      (shouldUnload', result) <- f shouldUnload meshPtr
+      poke shouldUnloadPtr (fromBool shouldUnload')
+      pure result

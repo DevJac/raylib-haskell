@@ -5,7 +5,7 @@ Material *WrappedLoadMaterial(const char *fileName);
 Material *WrappedLoadMaterialDefault(void);
 void WrappedUnloadMaterial(Material *material);
 void WrappedUnloadModel(Model *model);
-void WrappedUnloadMesh(Mesh *mesh);
+void WrappedUnloadMesh(bool *shouldUnload, Mesh *mesh);
 Model *WrappedLoadModelFromMesh(Mesh *mesh);
 Mesh *WrappedGenMeshCube(float width, float height, float length);
 Mesh *WrappedGenMeshCubicmap(Image *cubicmap, Vector3 *cubeSize);

@@ -35,8 +35,10 @@ void WrappedUnloadModel(Model *model) {
   free(model);
 }
 
-void WrappedUnloadMesh(Mesh *mesh) {
-  UnloadMesh(mesh);
+void WrappedUnloadMesh(bool *shouldUnload, Mesh *mesh) {
+  if (*shouldUnload) {
+    UnloadMesh(mesh);
+  }
   free(mesh);
 }
 
