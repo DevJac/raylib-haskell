@@ -146,6 +146,7 @@ genMeshCube width height length_ = do
   meshPtr <- c_WrappedGenMeshCube (realToFrac width) (realToFrac height) (realToFrac length_)
   shouldUnload <- mallocForeignPtr
   withForeignPtr shouldUnload $ \p -> poke p (fromBool True)
+  -- Using unsafeForeignPtrToPtr is unsafe. It is possible that the env Ptr is finalized before the mesh is finalized.
   meshForeignPtr <- newForeignPtrEnv c_WrappedUnloadMesh (unsafeForeignPtrToPtr shouldUnload) meshPtr
   pure $ Mesh shouldUnload meshForeignPtr
 
@@ -157,6 +158,7 @@ genMeshCubicmap cubicmap cubeSize =
       meshPtr <- c_WrappedGenMeshCubicmap cubicmapPtr cubeSizePtr
       shouldUnload <- mallocForeignPtr
       withForeignPtr shouldUnload $ \p -> poke p (fromBool True)
+      -- Using unsafeForeignPtrToPtr is unsafe. It is possible that the env Ptr is finalized before the mesh is finalized.
       meshForeignPtr <- newForeignPtrEnv c_WrappedUnloadMesh (unsafeForeignPtrToPtr shouldUnload) meshPtr
       pure $ Mesh shouldUnload meshForeignPtr
 
