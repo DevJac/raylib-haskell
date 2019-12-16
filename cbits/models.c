@@ -30,7 +30,7 @@ void WrappedUnloadModel(Model *model) {
 }
 
 void WrappedUnloadMesh(Mesh *mesh) {
-  UnloadMesh(mesh);
+  UnloadMesh(*mesh);
   free(mesh);
 }
 
