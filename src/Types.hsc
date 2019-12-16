@@ -3,7 +3,6 @@ module Types (
 
   -- * Enum types
   ConfigFlag (
-      ShowLogo,
       FullscreenMode,
       WindowResizable,
       WindowUndecorated,
@@ -59,50 +58,62 @@ import Foreign.Storable
 #include "raylib.h"
 #include "types.h"
 
-data LogType = Info
+data LogType = All
+             | Trace
+             | Debug
+             | Info
              | Warning
              | Error
-             | Debug
-             | Other
+             | Fatal
+             | None
              deriving (Show, Eq)
 
 instance Enum LogType where
+  fromEnum All     = #{const LOG_ALL}
+  fromEnum Trace   = #{const LOG_TRACE}
+  fromEnum Debug   = #{const LOG_DEBUG}
   fromEnum Info    = #{const LOG_INFO}
   fromEnum Warning = #{const LOG_WARNING}
   fromEnum Error   = #{const LOG_ERROR}
-  fromEnum Debug   = #{const LOG_DEBUG}
-  fromEnum Other   = #{const LOG_OTHER}
+  fromEnum Fatal   = #{const LOG_FATAL}
+  fromEnum None    = #{const LOG_NONE}
   -- I don't think raylib ever returns LogType from a function, thus we probably wont ever use toEnum.
+  toEnum #{const LOG_ALL}     = All
+  toEnum #{const LOG_TRACE}   = Trace
+  toEnum #{const LOG_DEBUG}   = Debug
   toEnum #{const LOG_INFO}    = Info
   toEnum #{const LOG_WARNING} = Warning
   toEnum #{const LOG_ERROR}   = Error
-  toEnum #{const LOG_DEBUG}   = Debug
-  toEnum #{const LOG_OTHER}   = Other
+  toEnum #{const LOG_FATAL}   = Fatal
+  toEnum #{const LOG_NONE}    = None
   toEnum unknown              = error $ "Received an unknown LogType value from raylib: " ++ (show unknown)
 
-data ConfigFlag = ShowLogo
-                | FullscreenMode
+data ConfigFlag = FullscreenMode
                 | WindowResizable
                 | WindowUndecorated
                 | WindowTransparent
+                | WindowHidden
+                | WindowAlwaysRun
                 | Msaa4x
                 | Vsync
                 deriving (Show, Eq)
 
 instance Enum ConfigFlag where
-  fromEnum ShowLogo          = #{const FLAG_SHOW_LOGO}
   fromEnum FullscreenMode    = #{const FLAG_FULLSCREEN_MODE}
   fromEnum WindowResizable   = #{const FLAG_WINDOW_RESIZABLE}
   fromEnum WindowUndecorated = #{const FLAG_WINDOW_UNDECORATED}
   fromEnum WindowTransparent = #{const FLAG_WINDOW_TRANSPARENT}
+  fromEnum WindowHidden      = #{const FLAG_WINDOW_HIDDEN}
+  fromEnum WindowAlwaysRun   = #{const FLAG_WINDOW_ALWAYS_RUN}
   fromEnum Msaa4x            = #{const FLAG_MSAA_4X_HINT}
   fromEnum Vsync             = #{const FLAG_VSYNC_HINT}
   -- I don't think raylib ever returns ConfigFlags from a function, thus we probably wont ever use toEnum.
-  toEnum #{const FLAG_SHOW_LOGO}          = ShowLogo
   toEnum #{const FLAG_FULLSCREEN_MODE}    = FullscreenMode
   toEnum #{const FLAG_WINDOW_RESIZABLE}   = WindowResizable
   toEnum #{const FLAG_WINDOW_UNDECORATED} = WindowUndecorated
   toEnum #{const FLAG_WINDOW_TRANSPARENT} = WindowTransparent
+  toEnum #{const FLAG_WINDOW_HIDDEN}      = WindowHidden
+  toEnum #{const FLAG_WINDOW_ALWAYS_RUN}  = WindowAlwaysRun
   toEnum #{const FLAG_MSAA_4X_HINT}       = Msaa4x
   toEnum #{const FLAG_VSYNC_HINT}         = Vsync
   toEnum unknown                          = error $ "Received an unknown ConfigFlag value from raylib: " ++ (show unknown)
