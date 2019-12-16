@@ -43,7 +43,7 @@ module Models (
   genMeshCubicmap,
 
   -- * Material loading functions
-  loadMaterial,
+  loadMaterials,
   loadMaterialDefault,
 
   -- * Model drawing functions
@@ -105,14 +105,15 @@ drawBillboard camera texture center size tint =
         with tint $ \tintPtr ->
           c_WrappedDrawBillboard cameraPtr texturePtr centerPtr (realToFrac size) tintPtr
 
-foreign import ccall unsafe "models.h WrappedLoadMaterial" c_WrappedLoadMaterial :: CString -> IO (Ptr Material)
-loadMaterial :: String -> IO Material
-loadMaterial filename =
-  withCString filename $ \cFilename -> do
-    materialPtr <- c_WrappedLoadMaterial cFilename
-    materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
-    materialMaps <- newIORef []
-    pure $ Material materialForeignPtr materialMaps
+foreign import ccall unsafe "models.h LoadMaterials" c_LoadMaterials :: CString -> Ptr CInt -> IO (Ptr Material)
+loadMaterials :: String -> Int -> IO Material
+loadMaterials filename materialCount =
+  withCString filename $ \cFilename ->
+    with (fromIntegral materialCount) $ \materialCountPtr -> do
+      materialPtr <- c_LoadMaterials cFilename materialCountPtr
+      materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
+      materialMaps <- newIORef []
+      pure $ Material materialForeignPtr materialMaps
 
 foreign import ccall unsafe "models.h WrappedLoadMaterialDefault" c_WrappedLoadMaterialDefault :: IO (Ptr Material)
 loadMaterialDefault :: IO Material

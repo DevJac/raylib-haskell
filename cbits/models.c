@@ -13,12 +13,6 @@ void WrappedDrawBillboard(Camera3D *camera, Texture2D *texture, Vector3 *center,
   DrawBillboard(*camera, *texture, *center, size, *tint);
 }
 
-Material *WrappedLoadMaterial(const char *fileName) {
-  Material *result = malloc(sizeof *result);
-  *result = LoadMaterial(fileName);
-  return result;
-}
-
 Material *WrappedLoadMaterialDefault(void) {
   Material *result = malloc(sizeof *result);
   *result = LoadMaterialDefault();
