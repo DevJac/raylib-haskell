@@ -23,10 +23,6 @@ void WrappedGetMousePosition(Vector2 *result) {
   *result = GetMousePosition();
 }
 
-void WrappedSetMousePosition(Vector2 *position) {
-  SetMousePosition(*position);
-}
-
 void WrappedBeginMode3D(Camera3D *camera) {
   BeginMode3D(*camera);
 }

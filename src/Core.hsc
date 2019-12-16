@@ -338,11 +338,9 @@ getMousePosition =
     c_WrappedGetMousePosition vector2ResultPtr
     peek vector2ResultPtr
 
-foreign import ccall "core.h WrappedSetMousePosition" c_WrappedSetMousePosition :: Ptr Vector2 -> IO ()
-setMousePosition :: Vector2 -> IO ()
-setMousePosition position =
-  with position $ \positionPtr ->
-    c_WrappedSetMousePosition positionPtr
+foreign import ccall "core.h WrappedSetMousePosition" c_SetMousePosition :: CInt -> CInt -> IO ()
+setMousePosition :: Int -> Int -> IO ()
+setMousePosition x y = c_SetMousePosition (fromIntegral x) (fromIntegral y)
 
 foreign import ccall "raylib.h GetMouseWheelMove" c_GetMouseWheelMove :: IO CInt
 getMouseWheelMove :: IO Int
