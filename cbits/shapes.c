@@ -88,11 +88,3 @@ void WrappedDrawTriangleLines(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *colo
 void WrappedDrawPoly(Vector2 *center, int sides, float radius, float rotation, Color *color) {
   DrawPoly(*center, sides, radius, rotation, *color);
 }
-
-void WrappedDrawPolyEx(Vector2 *points, int numPoints, Color *color) {
-  DrawPolyEx(points, numPoints, *color);
-}
-
-void WrappedDrawPolyExLines(Vector2 *points, int numPoints, Color *color) {
-  DrawPolyExLines(points, numPoints, *color);
-}
