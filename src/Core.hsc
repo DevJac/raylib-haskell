@@ -49,7 +49,7 @@ module Core (
   -- * Misc. functions
   showLogo,
   setConfigFlags,
-  setTraceLog,
+  setTraceLogLevel,
   traceLog,
   takeScreenshot,
 
@@ -165,9 +165,9 @@ foreign import ccall unsafe "raylib.h EndMode3D" c_EndMode3D :: IO ()
 endMode3D :: IO ()
 endMode3D = c_EndMode3D
 
-foreign import ccall unsafe "raylib.h SetTraceLog" c_SetTraceLog :: CUChar -> IO ()
-setTraceLog :: [LogType] -> IO ()
-setTraceLog logTypes = c_SetTraceLog (combineBitflags logTypes)
+foreign import ccall unsafe "raylib.h SetTraceLogLevel" c_SetTraceLogLevel :: CInt -> IO ()
+setTraceLogLevel :: LogType -> IO ()
+setTraceLogLevel logType = c_SetTraceLogLevel (fromIntegral (fromEnum logType))
 
 foreign import ccall unsafe "raylib.h TraceLog" c_TraceLog :: CInt -> CString -> IO ()
 traceLog :: LogType -> String -> IO ()
