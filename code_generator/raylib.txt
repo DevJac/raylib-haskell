@@ -1,0 +1,11 @@
+// This text comes from https://www.raylib.com/cheatsheet/cheatsheet.html .
+// It is parsed to generate the Haskell bindings.
+// It can also serve as an API reference.
+
+
+// MODULE: Core
+
+// Window-related functions
+void InitWindow(int width, int height, const char *title);              // Initialize window and OpenGL context
+bool WindowShouldClose(void);                                           // Check if KEY_ESCAPE pressed or Close icon pressed
+void CloseWindow(void);                                                 // Close window and unload OpenGL context
