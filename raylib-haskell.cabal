@@ -20,9 +20,7 @@ library
                         cbits/text.c
                         cbits/textures.c
                         cbits/types.c
-                        raylib/src/external/mini_al.c
-                        raylib/src/external/stb_vorbis.c
-                        raylib/src/audio.c
+                        raylib/src/raudio.c
                         raylib/src/models.c
                         raylib/src/rglfw.c
                         raylib/src/shapes.c
@@ -32,7 +30,6 @@ library
                         raylib/src/core.c
   include-dirs:         cbits
                         raylib/src
-                        raylib/src/external
                         raylib/src/external/glfw/include
   exposed-modules:      Colors
                         Core
