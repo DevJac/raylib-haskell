@@ -112,16 +112,14 @@ loadMaterials filename materialCount =
     with (fromIntegral materialCount) $ \materialCountPtr -> do
       materialPtr <- c_LoadMaterials cFilename materialCountPtr
       materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
-      materialMaps <- newIORef []
-      pure $ Material materialForeignPtr materialMaps
+      pure $ Material materialForeignPtr
 
 foreign import ccall unsafe "models.h WrappedLoadMaterialDefault" c_WrappedLoadMaterialDefault :: IO (Ptr Material)
 loadMaterialDefault :: IO Material
 loadMaterialDefault = do
   materialPtr <- c_WrappedLoadMaterialDefault
   materialForeignPtr <- newForeignPtr c_WrappedUnloadMaterial materialPtr
-  materialMaps <- newIORef []
-  pure $ Material materialForeignPtr materialMaps
+  pure $ Material materialForeignPtr
 
 foreign import ccall unsafe "models.h &WrappedUnloadMaterial" c_WrappedUnloadMaterial :: FunPtr (Ptr Material -> IO ())
 
@@ -135,9 +133,7 @@ loadModelFromMesh mesh =
   withMesh mesh $ \meshPtr -> do
     modelPtr <- c_WrappedLoadModelFromMesh meshPtr
     modelForeignPtr <- newForeignPtr c_WrappedUnloadModel modelPtr
-    meshIORef <- newIORef mesh
-    materialIORef <- (newIORef =<< loadMaterialDefault)
-    pure $ Model modelForeignPtr meshIORef materialIORef
+    pure $ Model modelForeignPtr
 
 foreign import ccall unsafe "models.h WrappedGenMeshCube" c_WrappedGenMeshCube :: CFloat -> CFloat -> CFloat -> IO (Ptr Mesh)
 genMeshCube :: Float -> Float -> Float -> IO Mesh

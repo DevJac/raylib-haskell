@@ -41,11 +41,12 @@ module Types (
   Mesh (Mesh), withMesh,
   MaterialMap (MaterialMap),
   Material (Material), withMaterial, materialSetMap,
-  Model (Model), withModel, modelSetMesh, modelSetMaterial, modelSetMaterialMap,
+  Model (Model), withModel, modelSetMeshes, modelSetMaterials,
 
   -- * Other types
 
 ) where
+import Data.Foldable
 import Data.IORef
 import Data.Word
 import Foreign.C.Types
@@ -347,7 +348,7 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_LEFT_ALT}      = LeftAlt
   toEnum #{const KEY_RIGHT_SHIFT}   = RightShift
   toEnum #{const KEY_RIGHT_CONTROL} = RightControl
-  toEnum #{const KEY_RIGHT_ALT}      = RightAlt
+  toEnum #{const KEY_RIGHT_ALT}     = RightAlt
   toEnum #{const KEY_GRAVE}         = Grave
   toEnum #{const KEY_SLASH}         = Slash
   toEnum #{const KEY_BACKSLASH}     = Backslash
@@ -534,13 +535,7 @@ instance Storable Camera3D where
     #{poke Camera3D, fovy}     p fovy
     #{poke Camera3D, type}     p (fromEnum type_)
 
-data MaterialMap = MaterialMap !Texture2D !Color !Float deriving (Show)
-
-withMaterialMap :: MaterialMap -> (Ptr MaterialMap -> IO a) -> IO a
-withMaterialMap materialMap f =
-  allocaBytes (pokableSizeOf materialMap) $ \materialMapPtr -> do
-    pokablePoke materialMapPtr materialMap
-    f materialMapPtr
+data MaterialMap = MaterialMap !Texture2D !Color !Float deriving Show
 
 instance Pokable MaterialMap where
   pokableSizeOf _ = #{size MaterialMap}
@@ -552,7 +547,13 @@ instance Pokable MaterialMap where
     poke colorPtr color
     poke valuePtr value
 
-newtype Font = Font (ForeignPtr Font) deriving (Show)
+withMaterialMap :: MaterialMap -> (Ptr MaterialMap -> IO a) -> IO a
+withMaterialMap materialMap f =
+  allocaBytes (pokableSizeOf materialMap) $ \materialMapPtr -> do
+    pokablePoke materialMapPtr materialMap
+    f materialMapPtr
+
+newtype Font = Font (ForeignPtr Font) deriving Show
 
 withFont :: Font -> (Ptr Font -> IO a) -> IO a
 withFont (Font fontForeignPtr) f = withForeignPtr fontForeignPtr f
@@ -567,7 +568,7 @@ fontCharsCount font =
   withFont font $ \fontPtr ->
     fromIntegral <$> (#{peek Font, charsCount} fontPtr :: IO CInt)
 
-newtype Image = Image (ForeignPtr Image) deriving (Show)
+newtype Image = Image (ForeignPtr Image) deriving Show
 
 withImage :: Image -> (Ptr Image -> IO a) -> IO a
 withImage (Image imageForeignPtr) f = withForeignPtr imageForeignPtr f
@@ -582,7 +583,7 @@ imageHeight image =
   withImage image $ \imagePtr ->
     fromIntegral <$> (#{peek Image, height} imagePtr :: IO CInt)
 
-newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving (Show)
+newtype Texture2D = Texture2D (ForeignPtr Texture2D) deriving Show
 
 instance Pokable Texture2D where
   pokableSizeOf _ = #{size Texture2D}
@@ -603,52 +604,56 @@ texture2DHeight texture =
   withTexture2D texture $ \texturePtr ->
     fromIntegral <$> (#{peek Texture2D, height} texturePtr :: IO CInt)
 
-data Material = Material (ForeignPtr Material) (IORef [(MaterialMapType, MaterialMap)])
+data Material = Material (ForeignPtr Material)
+
+instance Pokable Material where
+  pokableSizeOf _ = #{size Material}
+  pokablePoke p material =
+    withMaterial material $ \materialPtr ->
+      copyBytes p materialPtr (pokableSizeOf material)
 
 withMaterial :: Material -> (Ptr Material -> IO a) -> IO a
-withMaterial (Material materialForeignPtr _) f = withForeignPtr materialForeignPtr f
+withMaterial (Material materialForeignPtr) f = withForeignPtr materialForeignPtr f
 
 foreign import ccall unsafe "types.h MaterialSetMap" c_MaterialSetMap :: Ptr Material -> CInt -> Ptr MaterialMap -> IO ()
 materialSetMap :: Material -> MaterialMapType -> MaterialMap -> IO ()
-materialSetMap material@(Material _ mapsIORef) mapType materialMap =
+materialSetMap material mapType materialMap =
   withMaterial material $ \materialPtr ->
     withMaterialMap materialMap $ \materialMapPtr -> do
       c_MaterialSetMap materialPtr (fromIntegral (fromEnum mapType)) materialMapPtr
-      atomicModifyIORef' mapsIORef $ \maps ->
-        let filteredMaps = filter (\(type_, _map) -> type_ /= mapType) maps
-        in  ((mapType, materialMap) : filteredMaps, ())
 
-data Model = Model (ForeignPtr Model) (IORef Mesh) (IORef Material)
+newtype Model = Model (ForeignPtr Model)
 
 withModel :: Model -> (Ptr Model -> IO a) -> IO a
-withModel (Model modelForeignPtr _ _) f = withForeignPtr modelForeignPtr f
+withModel (Model modelForeignPtr) f = withForeignPtr modelForeignPtr f
 
-foreign import ccall unsafe "types.h ModelSetMesh" c_ModelSetMesh :: Ptr Model -> Ptr Mesh -> IO ()
-modelSetMesh :: Model -> Mesh -> IO ()
-modelSetMesh model@(Model _ modelMesh _) mesh =
+foreign import ccall unsafe "types.h ModelSetMeshes" c_ModelSetMeshes :: Ptr Model -> Ptr Mesh -> CInt -> IO ()
+modelSetMeshes :: Model -> [Mesh] -> IO ()
+modelSetMeshes model meshes =
   withModel model $ \modelPtr ->
-    withMesh mesh $ \meshPtr -> do
-      c_ModelSetMesh modelPtr meshPtr
-      atomicModifyIORef' modelMesh (\_ -> (mesh, ()))
+    allocaBytes (length meshes * #{size Mesh}) $ \meshesArrayPtr -> do
+      for_ (zip [0..] meshes) $ \(i, mesh) -> do
+        let p = meshesArrayPtr `plusPtr` (i * pokableSizeOf mesh)
+        pokablePoke p mesh
+      c_ModelSetMeshes modelPtr meshesArrayPtr (fromIntegral (length meshes))
 
-foreign import ccall unsafe "types.h ModelSetMaterial" c_ModelSetMaterial :: Ptr Model -> Ptr Material -> IO ()
-modelSetMaterial :: Model -> Material -> IO ()
-modelSetMaterial model@(Model _ _ modelMaterialIORef) material =
+foreign import ccall unsafe "types.h ModelSetMaterials" c_ModelSetMaterials :: Ptr Model -> Ptr Material -> CInt -> IO ()
+modelSetMaterials :: Model -> [Material] -> IO ()
+modelSetMaterials model materials =
   withModel model $ \modelPtr ->
-    withMaterial material $ \materialPtr -> do
-      c_ModelSetMaterial modelPtr materialPtr
-      atomicModifyIORef' modelMaterialIORef (\_ -> (material, ()))
+    allocaBytes (length materials * #{size Material}) $ \materialsArrayPtr -> do
+      for_ (zip [0..] materials) $ \(i, material) -> do
+        let p = materialsArrayPtr `plusPtr` (i * pokableSizeOf material)
+        pokablePoke p material
+      c_ModelSetMaterials modelPtr materialsArrayPtr (fromIntegral (length materials))
 
-foreign import ccall unsafe "types.h ModelSetMaterialMap" c_ModelSetMaterialMap :: Ptr Model -> CInt -> Ptr MaterialMap -> IO ()
-modelSetMaterialMap :: Model -> MaterialMapType -> MaterialMap -> IO ()
-modelSetMaterialMap model@(Model _ _ modelMaterialIORef) mapType materialMap =
-  withModel model $ \modelPtr ->
-    withMaterialMap materialMap $ \materialMapPtr -> do
-      c_ModelSetMaterialMap modelPtr (fromIntegral (fromEnum mapType)) materialMapPtr
-      modelMaterial <- readIORef modelMaterialIORef
-      materialSetMap modelMaterial mapType materialMap
+newtype Mesh = Mesh (ForeignPtr Mesh)
 
-data Mesh = Mesh (ForeignPtr Mesh) deriving (Show)
+instance Pokable Mesh where
+  pokableSizeOf _ = #{size Mesh}
+  pokablePoke p mesh =
+    withMesh mesh $ \meshPtr ->
+      copyBytes p meshPtr (pokableSizeOf mesh)
 
 withMesh :: Mesh -> (Ptr Mesh -> IO a) -> IO a
 withMesh (Mesh meshForeignPtr) f = withForeignPtr meshForeignPtr f

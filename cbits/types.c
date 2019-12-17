@@ -5,14 +5,12 @@ void MaterialSetMap(Material *material, int mapType, MaterialMap *map) {
   material->maps[mapType] = *map;
 }
 
-void ModelSetMesh(Model *model, Mesh *mesh) {
-  model->mesh = *mesh;
+void ModelSetMeshes(Model *model, Mesh *meshes, int meshCount) {
+  model->meshCount = meshCount;
+  model->meshes = meshes;
 }
 
-void ModelSetMaterial(Model *model, Material *material) {
-  model->material = *material;
-}
-
-void ModelSetMaterialMap(Model *model, int mapType, MaterialMap *map) {
-  model->material.maps[mapType] = *map;
+void ModelSetMaterials(Model *model, Material *materials, int materialCount) {
+  model->materialCount = materialCount;
+  model->materials = materials;
 }
