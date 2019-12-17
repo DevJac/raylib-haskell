@@ -123,8 +123,6 @@ testDrawTriangle tr = do
 testDrawPoly :: Double -> IO ()
 testDrawPoly tr = do
   drawPoly (Vector2 100 100) (ceiling (20 * tr)) 90 0 white
-  drawPolyEx [(Vector2 350 50), (Vector2 250 50), (Vector2 300 300), (Vector2 250 390), (Vector2 350 380)] yellow
-  drawPolyExLines [(Vector2 50 210), (Vector2 60 380), (Vector2 150 250)] red
 
 
 

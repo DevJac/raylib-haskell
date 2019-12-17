@@ -25,7 +25,6 @@ loop n = do
   height <- getScreenHeight
   clearBackground (Color 0 0 0 255)
   beginDrawing
-  drawPolyEx (reverse [Vector2 200 50, Vector2 250 75, Vector2 250 275, Vector2 200 300]) red
   drawText (show (width, height)) 100 200 20 (Color 255 0 0 255)
   drawFPS 100 50
   let x = realToFrac $ n `div` 100 `mod` 400

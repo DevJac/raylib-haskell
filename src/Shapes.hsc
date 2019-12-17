@@ -24,8 +24,6 @@ module Shapes (
   drawTriangle,
   drawTriangleLines,
   drawPoly,
-  drawPolyEx,
-  drawPolyExLines,
 
   -- * Collision detection
   -- TODO checkCollisionRecs,
@@ -205,17 +203,3 @@ drawPoly center sides radius rotation color =
   with center $ \centerPtr ->
     with color $ \colorPtr ->
       c_WrappedDrawPoly centerPtr (fromIntegral sides) (realToFrac radius) (realToFrac rotation) colorPtr
-
-foreign import ccall unsafe "shapes.h WrappedDrawPolyEx" c_WrappedDrawPolyEx :: Ptr Vector2 -> CInt -> Ptr Color -> IO ()
-drawPolyEx :: [Vector2] -> Color -> IO ()
-drawPolyEx points color =
-  withArray points $ \pointsPtr ->
-    with color $ \colorPtr ->
-      c_WrappedDrawPolyEx pointsPtr (fromIntegral (length points)) colorPtr
-
-foreign import ccall unsafe "shapes.h WrappedDrawPolyExLines" c_WrappedDrawPolyExLines :: Ptr Vector2 -> CInt -> Ptr Color -> IO ()
-drawPolyExLines :: [Vector2] -> Color -> IO ()
-drawPolyExLines points color =
-  withArray points $ \pointsPtr ->
-    with color $ \colorPtr ->
-      c_WrappedDrawPolyExLines pointsPtr (fromIntegral (length points)) colorPtr
