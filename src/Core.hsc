@@ -114,6 +114,7 @@ module Core (
   -- TODO setCameraMoveControls,
 
 ) where
+import Keys
 import Foreign.C.String
 import Foreign.C.Types
 import Foreign.Marshal.Alloc
