@@ -15,7 +15,7 @@ data KeyboardKey = Apostrophe
                  | Four
                  | Five
                  | Six
-                 | Sevel
+                 | Seven
                  | Eight
                  | Nine
                  | Semicolon
@@ -98,7 +98,7 @@ data KeyboardKey = Apostrophe
                  | KeyPadFour
                  | KeyPadFive
                  | KeyPadSix
-                 | KeyPadSevel
+                 | KeyPadSeven
                  | KeyPadEight
                  | KeyPadNine
                  | KeyPadDecimal
@@ -124,7 +124,7 @@ instance Enum KeyboardKey where
   fromEnum Four           = #{const KEY_FOUR}
   fromEnum Five           = #{const KEY_FIVE}
   fromEnum Six            = #{const KEY_SIX}
-  fromEnum Sevel          = #{const KEY_SEVEN}
+  fromEnum Seven          = #{const KEY_SEVEN}
   fromEnum Eight          = #{const KEY_EIGHT}
   fromEnum Nine           = #{const KEY_NINE}
   fromEnum Semicolon      = #{const KEY_SEMICOLON}
@@ -207,7 +207,7 @@ instance Enum KeyboardKey where
   fromEnum KeyPadFour     = #{const KEY_KP_4}
   fromEnum KeyPadFive     = #{const KEY_KP_5}
   fromEnum KeyPadSix      = #{const KEY_KP_6}
-  fromEnum KeyPadSevel    = #{const KEY_KP_7}
+  fromEnum KeyPadSeven    = #{const KEY_KP_7}
   fromEnum KeyPadEight    = #{const KEY_KP_8}
   fromEnum KeyPadNine     = #{const KEY_KP_9}
   fromEnum KeyPadDecimal  = #{const KEY_KP_DECIMAL}
@@ -230,7 +230,7 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_FOUR}          = Four
   toEnum #{const KEY_FIVE}          = Five
   toEnum #{const KEY_SIX}           = Six
-  toEnum #{const KEY_SEVEN}         = Sevel
+  toEnum #{const KEY_SEVEN}         = Seven
   toEnum #{const KEY_EIGHT}         = Eight
   toEnum #{const KEY_NINE}          = Nine
   toEnum #{const KEY_SEMICOLON}     = Semicolon
@@ -313,7 +313,7 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_KP_4}          = KeyPadFour
   toEnum #{const KEY_KP_5}          = KeyPadFive
   toEnum #{const KEY_KP_6}          = KeyPadSix
-  toEnum #{const KEY_KP_7}          = KeyPadSevel
+  toEnum #{const KEY_KP_7}          = KeyPadSeven
   toEnum #{const KEY_KP_8}          = KeyPadEight
   toEnum #{const KEY_KP_9}          = KeyPadNine
   toEnum #{const KEY_KP_DECIMAL}    = KeyPadDecimal
@@ -324,3 +324,6 @@ instance Enum KeyboardKey where
   toEnum #{const KEY_KP_ENTER}      = KeyPadEnter
   toEnum #{const KEY_KP_EQUAL}      = KeyPadEqual
   toEnum i                          = OtherKey i
+
+noKey :: KeyboardKey
+noKey = OtherKey 0

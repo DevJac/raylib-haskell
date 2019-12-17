@@ -1,6 +1,7 @@
 import GHC.Clock
 import Colors
 import Core
+import Keys
 import Shapes
 import Text
 import Textures
@@ -28,7 +29,7 @@ main :: IO ()
 main = do
   let windowWidth = 400
       windowHeight = 400
-  setTraceLog [Warning, Error]
+  setTraceLogLevel Warning
   setConfigFlags [Msaa4x, Vsync]
   initWindow windowWidth windowHeight "Tests"
   setWindowIcon =<< loadImage "test_data/raylib_16x16.png"
@@ -72,7 +73,7 @@ testInput = do
       currentTime <- getMonotonicTime
       drawText (show (ceiling (20 - (currentTime - startTime)) :: Int)) 50 50 20 grey
       endDrawing
-      if currentTime - startTime > 20 then pure () else loop startTime (if lastKeyPressed /= NoKey then lastKeyPressed else lastKey)
+      if currentTime - startTime > 20 then pure () else loop startTime (if lastKeyPressed /= noKey then lastKeyPressed else lastKey)
 
 
 testDrawSuccessMessage :: Double -> IO ()
@@ -122,4 +123,4 @@ testDrawTriangle tr = do
 
 testDrawPoly :: Double -> IO ()
 testDrawPoly tr = do
-  drawPoly (Vector2 100 100) (ceiling (20 * tr)) 90 0 white
+  drawPoly (Vector2 200 200) (ceiling (20 * tr)) 150 0 white
