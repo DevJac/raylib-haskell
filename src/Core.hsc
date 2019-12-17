@@ -334,7 +334,7 @@ getMousePosition =
     c_WrappedGetMousePosition vector2ResultPtr
     peek vector2ResultPtr
 
-foreign import ccall "core.h WrappedSetMousePosition" c_SetMousePosition :: CInt -> CInt -> IO ()
+foreign import ccall "core.h SetMousePosition" c_SetMousePosition :: CInt -> CInt -> IO ()
 setMousePosition :: Int -> Int -> IO ()
 setMousePosition x y = c_SetMousePosition (fromIntegral x) (fromIntegral y)
 
