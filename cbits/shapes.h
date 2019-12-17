@@ -20,5 +20,3 @@ void WrappedDrawRectangleLinesEx(Rectangle *rec, int lineThick, Color *color);
 void WrappedDrawTriangle(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color);
 void WrappedDrawTriangleLines(Vector2 *v1, Vector2 *v2, Vector2 *v3, Color *color);
 void WrappedDrawPoly(Vector2 *center, int sides, float radius, float rotation, Color *color);
-void WrappedDrawPolyEx(Vector2 *points, int numPoints, Color *color);
-void WrappedDrawPolyExLines(Vector2 *points, int numPoints, Color *color);
