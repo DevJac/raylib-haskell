@@ -29,7 +29,7 @@ main = do
   let windowWidth = 400
       windowHeight = 400
   setTraceLog [Warning, Error]
-  setConfigFlags [ShowLogo, Msaa4x, Vsync]
+  setConfigFlags [Msaa4x, Vsync]
   initWindow windowWidth windowHeight "Tests"
   setWindowIcon =<< loadImage "test_data/raylib_16x16.png"
   sleep 2
