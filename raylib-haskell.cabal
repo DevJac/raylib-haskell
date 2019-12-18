@@ -71,6 +71,7 @@ executable codegen
                         -fdefer-typed-holes
   build-depends:        base
                       , megaparsec
+                      , text
 
 executable raylib-haskell
   default-language:     Haskell2010
